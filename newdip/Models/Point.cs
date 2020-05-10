@@ -16,5 +16,15 @@ namespace newdip.Models
 		public Room Room { get; set; }
 		public List<Edge>Edges { get; set; }
 
+		public Point()
+		{
+			Edges = new List<Edge>();
+		}
+		public Point(bool value=false) 
+		{
+			Edges = new List<Edge>();
+			if(!value)IsMt = false;
+		}
+
 	}
 }

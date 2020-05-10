@@ -1,13 +1,12 @@
 ﻿@model newdip.Models.Building
 
 @{
-    ViewBag.Title = "Plan";
+    ViewBag.Title = "MapRedactor";
 }
 
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Canvas Paint - Example 5</title>
 
     <style>
         #container {
@@ -28,27 +27,48 @@
 </head>
 <body>
     <br>
-    <label>
-        Drawing tool:
-        <select id="dtool">
-            <option value="line">Line</option>
-            <option value="rect">Rectangle</option>
-            <option value="moveimg">Move</option>
-        </select>
-    </label>
+    <div style="padding-left:15px;">
 
-    <label id="centerx"></label><label>,</label><label id="centery"></label>
-    <input type="range" height="1" max=@Model.Floors.Count min="0">
+        <label>
+            Drawing tool:
+            <select id="dtool">
+                <option value="line">Line</option>
+                <option value="rect">Rectangle</option>
+                <option value="moveimg">Move</option>
+            </select>
+        </label>
+        <label id="centerx"></label><label>,</label><label id="centery"></label>
+<label style="visibility:hidden" id="BuildingId">@Model.Id</label>
+    </div>
+    @*<input type="range" height="1" max="100" min="0">*@
+    <div>
+        <div class="col-md-1">
+            <p>
 
-    <div id="container" width="900" height="600">
+                <select size="33" style="width:120px;" id="spisok">
+                    @foreach (var element in Model.Floors)
+                    {
+                        <option selected="selected" title="@Model.Name">
+                            @element.Level Этаж
+                        </option>
+                    }
+                </select>
+            </p>
+        </div>
+        <div class="col-md-7">
+            <div id="container" width="900" height="600">
 
-        <canvas id="imageView" width="900" height="600">
-            @*<p>Unfortunately, your browser is currently unsupported by our web application. We are sorry for the inconvenience. Please use one of the supported browsers listed below, or draw the image you want using an offline tool.</p>*@
-            @* <p>Supported browsers: <a href="http://www.opera.com">Opera</a>, <a href="http://www.mozilla.com">Firefox</a>, <a href="http://www.apple.com/safari">Safari</a>, and <a href="http://www.konqueror.org">Konqueror</a>.</p>*@
-        </canvas>
-        <canvas id="imageTemp" on width="900" height="600"></canvas>
+                <canvas id="imageView" width="900" height="600">
+                    @*<p>Unfortunately, your browser is currently unsupported by our web application. We are sorry for the inconvenience. Please use one of the supported browsers listed below, or draw the image you want using an offline tool.</p>*@
+                    @* <p>Supported browsers: <a href="http://www.opera.com">Opera</a>, <a href="http://www.mozilla.com">Firefox</a>, <a href="http://www.apple.com/safari">Safari</a>, and <a href="http://www.konqueror.org">Konqueror</a>.</p>*@
+                </canvas>
+                <canvas id="imageTemp" on width="900" height="600"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
     </div>
     <script type="text/javascript" src="~/Scripts/myscript.js"></script>
 </body>
 </html>
+
 

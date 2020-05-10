@@ -101,8 +101,8 @@ namespace newdip.Controllers
                 return HttpNotFound();
             }
             //building.Floors = db.Floors.Where(x=>x.BuildingId==id).Include(x => x.Points);
-            return RedirectToAction("AddLevel", new { id = id }); ;
-            return RedirectToAction("Index");
+            //return RedirectToAction("AddLevel", new { id = id }); ;
+            //return RedirectToAction("Index");
             return View(
                 building
                 );

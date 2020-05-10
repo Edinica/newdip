@@ -22,21 +22,46 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Информация", "About", "Home")</li>
-                    <li>@Html.ActionLink("Здания", "index", "Buildings")</li>
-                    <li>@Html.ActionLink("Работники", "Index", "Workers")</li>
-                    <li>@Html.ActionLink("Связаться", "Contact", "Home")</li>
+                    @if (User.IsInRole("User"))
+                    {
+                        <li>@Html.ActionLink("Информация", "About", "Home")</li>
+                        <li>@Html.ActionLink("Связаться", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Здания", "Index", "Buildings")</li>
+                        <li>@Html.ActionLink("Этажи", "Index", "Floors")</li>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Редактор карт", "MapRedactor", "MapRedactor")</li>
+                    }
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - мое приложение ASP.NET</p>
-        </footer>
+    <div>
+        <div @*   class="container body-content"*@>
+            @RenderBody()
+        </div><br><br>
+        <br><br>
+        <br><br><br><br>
+        <br><br>
+        <br><br><br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+
+        <div class="container body-content">
+            <hr>
+            <footer style="text-align:center">
+                <p>&copy; ГеоИнформационная Система - @DateTime.Now.Year </p>
+            </footer>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

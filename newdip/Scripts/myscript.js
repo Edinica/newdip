@@ -21,8 +21,11 @@ if (window.addEventListener) {
         var cx, cy;
         var mdx, mdy;
         var centerx, centery;
+        var lvl, id;
 
         function init() {
+            id = document.getElementById("BuildingId");
+            lvl = document.getElementById("spisok");
             canvas = document.getElementById("imageTemp");
             staticpaper = document.getElementById("imageView");
             centerx = document.getElementById("centerx");
@@ -214,11 +217,14 @@ if (window.addEventListener) {
                         //$.get(,)
                         //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
                         $.ajax({
-                            url: '/Points/Addpoint',
+                            url: '/Points/Line',
                             type: "POST",
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
-                            data: JSON.stringify({ firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy }),
+                            data: JSON.stringify({
+                                secondx: ev._x - cx, secondy: cy - ev._y, firstx: mdx - cx, firsty: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                                id: id.innerHTML
+                            }),
                             success: function () {
 
                             }
