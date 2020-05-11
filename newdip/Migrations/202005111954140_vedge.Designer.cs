@@ -7,13 +7,13 @@ namespace newdip.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class v2 : IMigrationMetadata
+    public sealed partial class vedge : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(v2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(vedge));
         
         string IMigrationMetadata.Id
         {
-            get { return "202005071127242_v2"; }
+            get { return "202005111954140_vedge"; }
         }
         
         string IMigrationMetadata.Source

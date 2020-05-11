@@ -3,7 +3,7 @@ namespace newdip.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class v2 : DbMigration
+    public partial class vedge : DbMigration
     {
         public override void Up()
         {
@@ -48,21 +48,24 @@ namespace newdip.Migrations
                 .ForeignKey("dbo.Rooms", t => t.RoomId)
                 .Index(t => t.FloorId)
                 .Index(t => t.RoomId);
-
+            
             CreateTable(
                 "dbo.Edges",
                 c => new
-                {
-                    Id = c.Int(nullable: false, identity: true),
-                    Weight = c.Int(nullable: false),
-                    PointId = c.Int(),
-                    SPointId = c.Int(),
-                })
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Weight = c.Double(nullable: false),
+                        PointId = c.Int(),
+                        SPointId = c.Int(),
+                        Point_Id = c.Int(),
+                    })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Points", t => t.PointId)
                 .ForeignKey("dbo.Points", t => t.SPointId)
+                .ForeignKey("dbo.Points", t => t.Point_Id)
                 .Index(t => t.PointId)
-                .Index(t => t.SPointId);
+                .Index(t => t.SPointId)
+                .Index(t => t.Point_Id);
             
             CreateTable(
                 "dbo.Rooms",
@@ -222,6 +225,7 @@ namespace newdip.Migrations
             DropForeignKey("dbo.FRooms", "ClientId", "dbo.Clients");
             DropForeignKey("dbo.Rooms", "FloorId", "dbo.Floors");
             DropForeignKey("dbo.Points", "FloorId", "dbo.Floors");
+            DropForeignKey("dbo.Edges", "Point_Id", "dbo.Points");
             DropForeignKey("dbo.Edges", "SPointId", "dbo.Points");
             DropForeignKey("dbo.Edges", "PointId", "dbo.Points");
             DropForeignKey("dbo.Floors", "BuildingId", "dbo.Buildings");
@@ -236,6 +240,7 @@ namespace newdip.Migrations
             DropIndex("dbo.Notes", new[] { "ClientId" });
             DropIndex("dbo.Notes", new[] { "RoomId" });
             DropIndex("dbo.Rooms", new[] { "FloorId" });
+            DropIndex("dbo.Edges", new[] { "Point_Id" });
             DropIndex("dbo.Edges", new[] { "SPointId" });
             DropIndex("dbo.Edges", new[] { "PointId" });
             DropIndex("dbo.Points", new[] { "RoomId" });
