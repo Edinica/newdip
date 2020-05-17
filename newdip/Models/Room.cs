@@ -9,7 +9,7 @@ namespace newdip.Models
 		public int Id { get; set; }
 		public int? FloorId { get; set; }
 		public Floor Floor { get; set; }
-		public List<Point>Points { get; set; }
+		public List<PointM>Points { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public string Timetable { get; set; }

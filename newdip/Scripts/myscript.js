@@ -222,7 +222,7 @@ if (window.addEventListener) {
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             data: JSON.stringify({
-                                secondx: ev._x - cx, secondy: cy - ev._y, firstx: mdx - cx, firsty: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                                firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
                                 id: id.innerHTML
                             }),
                             success: function () {

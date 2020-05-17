@@ -38,7 +38,8 @@
             </select>
         </label>
         <label id="centerx"></label><label>,</label><label id="centery"></label>
-<label style="visibility:hidden" id="BuildingId">@Model.Id</label>
+        <label style="visibility:hidden" id="BuildingId">@Model.Id</label>
+        <label style="visibility:hidden" id="Floorlevel"></label>
     </div>
     @*<input type="range" height="1" max="100" min="0">*@
     <div>
@@ -48,7 +49,7 @@
                 <select size="33" style="width:120px;" id="spisok">
                     @foreach (var element in Model.Floors)
                     {
-                        <option selected="selected" title="@Model.Name">
+                        <option title="@Model.Name">
                             @element.Level Этаж
                         </option>
                     }
@@ -56,6 +57,8 @@
             </p>
         </div>
         <div class="col-md-7">
+            @*@{Html.RenderAction("RenderList",new {Id = Model.Id,level = Model.Floors[0]}); }*@
+            @*   @{Html.RenderPartial("PartialListPoints");}*@
             <div id="container" width="900" height="600">
 
                 <canvas id="imageView" width="900" height="600">
@@ -68,6 +71,7 @@
         <div class="col-md-4"></div>
     </div>
     <script type="text/javascript" src="~/Scripts/myscript.js"></script>
+    <script type="text/javascript" src="~/Scripts/onchange.js"></script>
 </body>
 </html>
 

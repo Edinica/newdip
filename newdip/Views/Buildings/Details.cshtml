@@ -49,10 +49,34 @@
         <dd>
             @Html.DisplayFor(model => model.TimeTable)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Floors)
+        </dt>
+
+        
+        @foreach (var element in Model.Floors)
+        {
+            <tr>
+        
+                <td>
+                    @Html.DisplayFor(modelItem => element.Id)
+                </td>
+                <td>
+                     @Html.DisplayFor(modelItem => element.Level)
+                </td>
+                <td>
+            @Html.ActionLink("Edit", "Edit", new { id = element.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = element.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = element.Id }) |
+            @Html.ActionLink("Plan", "Plan", new { id = element.Id })
+                </td>
+            </tr>
+        }
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit building", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Add Floor to building", "Create","Floors", new { id = Model.Id }, null) |
     @Html.ActionLink("Back to List", "Index")
 </p>

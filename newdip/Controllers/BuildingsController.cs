@@ -20,6 +20,15 @@ namespace newdip.Controllers
             return View(db.Buildings.ToList());
         }
 
+        [ChildActionOnly]
+        public PartialViewResult RenderList(int Id,int level) 
+        {
+            var floor = db.Floors.Include(x => x.Points).FirstOrDefault(x => x.Level == level && x.BuildingId == Id);
+            var points = floor.Points.ToList();
+            return PartialView("PartialListPoints",points);
+
+        }
+
         // GET: Buildings/Details/5
         public ActionResult Details(int? id)
         {
@@ -27,7 +36,7 @@ namespace newdip.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Building building = db.Buildings.Find(id);
+            Building building = db.Buildings.Include(x=>x.Floors).FirstOrDefault(x=>x.Id==id);
             if (building == null)
             {
                 return HttpNotFound();

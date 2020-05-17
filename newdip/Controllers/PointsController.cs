@@ -25,7 +25,7 @@ namespace newdip.Controllers
             public string level { get; set; }
             public string id { get; set; }
         }
-        public Point Similar(int x, int y)
+        public PointM Similar(int x, int y)
         {
             var points = db.Points.ToList();
             foreach (var element in points)
@@ -44,6 +44,7 @@ namespace newdip.Controllers
             return Convert.ToInt32(income.Substring(0, income.Length - 5));
         }
 
+
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public void Line([FromBody] Segment po)
         {
@@ -52,27 +53,27 @@ namespace newdip.Controllers
            // Building building = db.Buildings.Where(x => x.Id == k).Include(x => x.Floors).FirstOrDefault();//получаем нужно здание
             int id = Convert.ToInt32(po.id);
             int level = Etazh(po.level);
-            Edge edge = new Edge();
+            EdgeM edge = new EdgeM();
             Floor floor1 = db.Floors.Where(x => x.Level == level&&x.BuildingId==id).Include(x => x.Points).FirstOrDefault();//этаж просмотр
             ///создание и добавление первой точки
-            Point point = new Point();
+            PointM point = new PointM();
             point.X = Convert.ToInt32(po.firstx);
             point.Y = Convert.ToInt32(po.firsty);
-            point.IsMt = false;
+            point.IsWaypoint = false;
             point.FloorId = floor1.Id;
             db.Points.Add(point);
             db.SaveChanges();
-            edge.PointId = db.Points.ToList().Last().Id;//Id первой вершины
+            edge.PointFromId = db.Points.ToList().Last().Id;//Id первой вершины
             ///создание и добавление первой точки
-            Point point2 = new Point();
+            PointM point2 = new PointM();
             point2.X = Convert.ToInt32(po.secondx);
             point2.Y = Convert.ToInt32(po.secondy);
-            point2.IsMt = false;
+            point2.IsWaypoint = false;
             point2.FloorId = floor1.Id;
             db.Points.Add(point2);
             db.SaveChanges();
             ///сохранение ребра
-            edge.SPointId = db.Points.ToList().Last().Id;//Id первой вершины
+            edge.PointToId = db.Points.ToList().Last().Id;//Id первой вершины
             edge.Weight = Math.Sqrt(Math.Pow(Convert.ToDouble(po.secondx) - Convert.ToDouble(po.firstx), 2) +
                 Math.Pow(Convert.ToDouble(po.secondy) - Convert.ToDouble(po.firsty), 2))/10;
             db.Edges.Add(edge);
