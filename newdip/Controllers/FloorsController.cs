@@ -39,7 +39,7 @@ namespace newdip.Controllers
         // GET: Floors/Create
         public ActionResult Create(int id)
         {
-            ViewBag.BuildingId = db.Buildings.FirstOrDefault(x=>x.Id==id).Id;
+            ViewBag.BuildingId = db.Buildings.FirstOrDefault(x=>x.BuildingId==id).BuildingId;
             return View();
         }
 
@@ -48,12 +48,12 @@ namespace newdip.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Level,BuildingId")] Floor floor)
+        public ActionResult Create([Bind(Include = "FloorId,Level,BuildingId")] Floor floor)
         {
             if (ModelState.IsValid)
             {
                 //int xxx=ViewBag.BuildingId;
-                Building building = db.Buildings.Include(x => x.Floors).FirstOrDefault(x => x.Id == floor.BuildingId);
+                Building building = db.Buildings.Include(x => x.Floors).FirstOrDefault(x => x.BuildingId == floor.BuildingId);
                 bool isexist = false; bool alone = true;
                 foreach (var element in building.Floors)
                 {
@@ -63,6 +63,15 @@ namespace newdip.Controllers
                 {
                     if (element.Level == floor.Level + 1 ||
                         element.Level == floor.Level - 1) { alone = false; break; }
+                }
+                if (building.Floors.Count == 0) 
+                {
+                    Floor newfloor = new Floor();
+                    newfloor.BuildingId = floor.BuildingId;
+                    newfloor.Level = floor.Level;
+                    db.Floors.Add(newfloor);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
                 if (!isexist && !alone)
                 {
@@ -106,7 +115,7 @@ namespace newdip.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Level,BuildingId")] Floor floor)
+        public ActionResult Edit([Bind(Include = "FloorId,Level,BuildingId")] Floor floor)
         {
             if (ModelState.IsValid)
             {

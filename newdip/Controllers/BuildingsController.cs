@@ -36,7 +36,7 @@ namespace newdip.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Building building = db.Buildings.Include(x=>x.Floors).FirstOrDefault(x=>x.Id==id);
+            Building building = db.Buildings.Include(x=>x.Floors).FirstOrDefault(x=>x.BuildingId==id);
             if (building == null)
             {
                 return HttpNotFound();
@@ -55,7 +55,7 @@ namespace newdip.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Addrees,Description,Email,TimeTable")] Building building)
+        public ActionResult Create([Bind(Include = "BuildingId,Name,Addrees,Description,Site,TimeTable")] Building building)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace newdip.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Addrees,Description,Email,TimeTable")] Building building)
+        public ActionResult Edit([Bind(Include = "BuildingId,Name,Addrees,Description,Site,TimeTable")] Building building)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace newdip.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Building building = db.Buildings.Where(x => x.Id == id).Include(x => x.Floors).FirstOrDefault();
+            Building building = db.Buildings.Where(x => x.BuildingId == id).Include(x => x.Floors).FirstOrDefault();
             if (building == null)
             {
                 return HttpNotFound();
@@ -124,9 +124,9 @@ namespace newdip.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            db.Floors.Add(new Floor(db.Buildings.Include(x => x.Floors).FirstOrDefault(x=>x.Id==id).Floors.Count+1,id, db.Buildings.FirstOrDefault(x => x.Id == id)));
+            db.Floors.Add(new Floor(db.Buildings.Include(x => x.Floors).FirstOrDefault(x=>x.BuildingId==id).Floors.Count+1,id, db.Buildings.FirstOrDefault(x => x.BuildingId == id)));
             db.SaveChanges();
-            Building building = db.Buildings.Where(x => x.Id == id).Include(x => x.Floors).FirstOrDefault();
+            Building building = db.Buildings.Where(x => x.BuildingId == id).Include(x => x.Floors).FirstOrDefault();
 
             //db.Buildings.Where(x => x.Id == id).FirstOrDefault().Floors.Add(db.Floors.LastOrDefault(x=>x.BuildingId==id));
             //db.SaveChanges();

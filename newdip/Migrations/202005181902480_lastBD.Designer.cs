@@ -7,13 +7,13 @@ namespace newdip.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class newpoint : IMigrationMetadata
+    public sealed partial class lastBD : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(newpoint));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(lastBD));
         
         string IMigrationMetadata.Id
         {
-            get { return "202005132005285_newpoint"; }
+            get { return "202005181902480_lastBD"; }
         }
         
         string IMigrationMetadata.Source

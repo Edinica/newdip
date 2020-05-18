@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Site)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TimeTable)
@@ -41,16 +41,16 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Email)
+            @Html.DisplayFor(modelItem => item.Site)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TimeTable)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-            @Html.ActionLink("Plan", "Plan", new { id = item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.BuildingId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.BuildingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.BuildingId }) |
+            @Html.ActionLink("Plan", "Plan", new { id = item.BuildingId })
         </td>
     </tr>
 }

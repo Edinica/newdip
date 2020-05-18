@@ -151,6 +151,37 @@ if (window.addEventListener) {
                     //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
                     tool.started = false;
                     img_update();
+                    mdx = tool.x0;
+                    mdy = tool.y0;
+                    $('#imageTemp').mouseup
+                    {
+                        new function () {
+                            //$.get(,)
+                            //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
+                            let n = document.getElementById("dtool").options.selectedIndex;
+                            
+                                if (n == 1)
+                                    $.ajax({
+                                        url: '/Points/AddRectangle',
+                                        type: "POST",
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        data: JSON.stringify({
+                                            firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - ev._y,
+                                            thirdx: mdx - cx, thirdy: cy - mdy, fourthx: ev._x - cx, fourthy: cy - mdy,
+                                            level: lvl.options[lvl.selectedIndex].text,
+                                            id: id.innerHTML
+                                        }),
+                                        success: function () {
+
+                                        }
+                                    });
+                            
+
+
+                        }
+
+                    }
                 }
 
             };
@@ -216,28 +247,41 @@ if (window.addEventListener) {
                     new function () {
                         //$.get(,)
                         //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
-                        $.ajax({
-                            url: '/Points/Line',
-                            type: "POST",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            data: JSON.stringify({
-                                firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
-                                id: id.innerHTML
-                            }),
-                            success: function () {
+                        let n = document.getElementById("dtool").options.selectedIndex;
+                        if (n == 0) {
+                            $.ajax({
+                                url: '/Points/Line',
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                                    id: id.innerHTML
+                                }),
+                                success: function () {
 
-                            }
-                        });
-                        //$.ajax({
-                        //    url: '/Points/Addpoint', // также '@Url.Action("Addpoint", "PointsController")'
-                        //    type: "GET",
-                        //    dataType: "json",
-                        //    data: JSON.stringify({ firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }),
-                        //    success: function () {
-                        //        alert();
-                        //    }
-                        //});
+                                }
+                            });
+                        }
+                        else
+                        {if(n==1)
+                            $.ajax({
+                                url: '/Points/AddRectangle',
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - ev._y,
+                                    thirdx: mdx - cx, thirdy: cy - mdy, fourthx: ev._x - cx, fourthy: cy - mdy,
+                                    level: lvl.options[lvl.selectedIndex].text,
+                                    id: id.innerHTML
+                                }),
+                                success: function () {
+
+                                }
+                            });
+                        }
+
 
                     }
 

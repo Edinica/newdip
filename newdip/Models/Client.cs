@@ -11,7 +11,7 @@ namespace newdip.Models
 		public string Name { get; set; }
 		public string Password { get; set; }
 		public List<Note> Notes { get; set; }
-		public List<FRoom> FRooms { get; set; }
+		public List<FavoriteRoom> FRooms { get; set; }
 
 		public Client(string login, string name, string password):this()
 		{
@@ -24,7 +24,7 @@ namespace newdip.Models
 		{
 			Notes=new List<Note>();
 
-			FRooms = new List<FRoom>();
+			FRooms = new List<FavoriteRoom>();
 
 		}
 	}

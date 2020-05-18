@@ -38,7 +38,7 @@
             </select>
         </label>
         <label id="centerx"></label><label>,</label><label id="centery"></label>
-        <label style="visibility:hidden" id="BuildingId">@Model.Id</label>
+        <label style="visibility:hidden" id="BuildingId">@Model.BuildingId</label>
         <label style="visibility:hidden" id="Floorlevel"></label>
     </div>
     @*<input type="range" height="1" max="100" min="0">*@
@@ -46,7 +46,7 @@
         <div class="col-md-1">
             <p>
 
-                <select size="33" style="width:120px;" id="spisok">
+                <select size="33" style="width:120px; height:603px;" id="spisok">
                     @foreach (var element in Model.Floors)
                     {
                         <option title="@Model.Name">
@@ -68,7 +68,80 @@
                 <canvas id="imageTemp" on width="900" height="600"></canvas>
             </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="room" style="border:1px solid #000; margin-left:40px; height:603px; top:4px;">
+                <div class="form-horizontal">
+                    <h4>Room</h4>
+                    <hr />
+                    @*@Html.HiddenFor(model => model.RoomId)*@
+    <p>
+                    <div class="form-group">
+                        <label>Идентификатор этажа:</label>
+                        <label id="FloorId"></label>
+                            @*(model => model.FloorId, "FloorId", htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            @*@Html.DropDownList("FloorId", null, htmlAttributes: new { @class = "form-control" })*@
+                            @*@Html.ValidationMessageFor(model => model.FloorId, "", new { @class = "text-danger" })*@
+                    </div>
+                    <p>
+                    <div class="form-group">
+                        <label>Имя помещения:</label>
+                        <input type="text" name="Name" placeholder="Введите имя " size="18" />                     
+ @*@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>*@
+                    </div>
+<p>
+    <div class="form-group">
+        <label>Описание:</label>
+        <input type="text" name="Name" placeholder="Введите имя помещения" size="18" />
+        @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>*@
+    </div>
+    
+    
+    
+    Раскоментить потом низ
+    
+    
+    
+    @*<div class="form-group">
+                        @Html.LabelFor(model => model.Timetable, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Timetable, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Timetable, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Site, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Site, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Site, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
     <script type="text/javascript" src="~/Scripts/myscript.js"></script>
     <script type="text/javascript" src="~/Scripts/onchange.js"></script>

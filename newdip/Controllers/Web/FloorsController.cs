@@ -40,7 +40,7 @@ namespace newdip.Controllers.Web
                 FirstOrDefault(x => x.BuildingId == id && x.Level == level).
                 Points;
             if (points == null) { return null; }
-            List<PointM> floor = points.ToList();
+            List<Point> floor = points.ToList();
             if (floor == null)
             {
                 return NotFound();
@@ -48,16 +48,16 @@ namespace newdip.Controllers.Web
             wwww el = new wwww();
             el.a = 1;el.b = 2;el.c = 3;el.chislo = 123;
             var ww = JsonConvert.SerializeObject(el);
-            List<EdgeM> edgeMs = new List<EdgeM>();
+            List<Edge> edgeMs = new List<Edge>();
             foreach (var elem in floor) 
             {
-                var edge = new EdgeM();
+                var edge = new Edge();
                 for (int i = 0; i < elem.EdgesOut.Count(); i++)
                 {
-                    edge.PointFrom = new PointM();
+                    edge.PointFrom = new Point();
                     edge.PointFrom.X = elem.X;
                     edge.PointFrom.Y = elem.Y;
-                    edge.PointTo = new PointM();
+                    edge.PointTo = new Point();
                     edge.PointTo.X = elem.EdgesOut[i].PointTo.X;
                     edge.PointTo.Y = elem.EdgesOut[i].PointTo.Y;
                     edgeMs.Add(edge); 
@@ -77,7 +77,7 @@ namespace newdip.Controllers.Web
                 return BadRequest(ModelState);
             }
 
-            if (id != floor.Id)
+            if (id != floor.FloorId)
             {
                 return BadRequest();
             }
@@ -115,7 +115,7 @@ namespace newdip.Controllers.Web
             db.Floors.Add(floor);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = floor.Id }, floor);
+            return CreatedAtRoute("DefaultApi", new { id = floor.FloorId }, floor);
         }
 
         // DELETE: api/Floors/5
@@ -145,7 +145,7 @@ namespace newdip.Controllers.Web
 
         private bool FloorExists(int id)
         {
-            return db.Floors.Count(e => e.Id == id) > 0;
+            return db.Floors.Count(e => e.FloorId == id) > 0;
         }
     }
 }

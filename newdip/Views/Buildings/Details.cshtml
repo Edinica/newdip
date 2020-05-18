@@ -35,11 +35,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Site)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Site)
         </dd>
 
         <dt>
@@ -56,27 +56,27 @@
         
         @foreach (var element in Model.Floors)
         {
-            <tr>
+            
         
                 <td>
-                    @Html.DisplayFor(modelItem => element.Id)
+                    @Html.DisplayFor(modelItem => element.BuildingId)
                 </td>
                 <td>
                      @Html.DisplayFor(modelItem => element.Level)
                 </td>
                 <td>
-            @Html.ActionLink("Edit", "Edit", new { id = element.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = element.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = element.Id }) |
-            @Html.ActionLink("Plan", "Plan", new { id = element.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = element.BuildingId }) |
+            @Html.ActionLink("Details", "Details", new { id = element.BuildingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = element.BuildingId }) |
+            @Html.ActionLink("Plan", "Plan", new { id = element.BuildingId })
                 </td>
-            </tr>
+            
         }
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit building", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Add Floor to building", "Create","Floors", new { id = Model.Id }, null) |
+    @Html.ActionLink("Edit building", "Edit", new { id = Model.BuildingId }) |
+    @Html.ActionLink("Add Floor to building", "Create","Floors", new { id = Model.BuildingId }, null) |
     @Html.ActionLink("Back to List", "Index")
 </p>

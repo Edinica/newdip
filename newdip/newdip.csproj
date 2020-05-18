@@ -329,28 +329,30 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PointsController.cs" />
+    <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\Web\ClientsController.cs" />
     <Compile Include="Controllers\Web\FloorsController.cs" />
+    <Compile Include="Controllers\Web\PointsController.cs" />
     <Compile Include="Controllers\Web\WebApi.cs" />
     <Compile Include="Controllers\WorkersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202005132005285_newpoint.cs" />
-    <Compile Include="Migrations\202005132005285_newpoint.Designer.cs">
-      <DependentUpon>202005132005285_newpoint.cs</DependentUpon>
+    <Compile Include="Migrations\202005181902480_lastBD.cs" />
+    <Compile Include="Migrations\202005181902480_lastBD.Designer.cs">
+      <DependentUpon>202005181902480_lastBD.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\FRoom.cs" />
+    <Compile Include="Models\FavoriteRoom.cs" />
     <Compile Include="Models\Building.cs" />
     <Compile Include="Models\Client.cs" />
-    <Compile Include="Models\EdgeM.cs" />
+    <Compile Include="Models\Edge.cs" />
     <Compile Include="Models\Floor.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Note.cs" />
-    <Compile Include="Models\PointM.cs" />
+    <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Worker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -434,6 +436,12 @@
     <Content Include="Views\Floors\WrongFloor.cshtml" />
     <Content Include="Views\Floors\Alone.cshtml" />
     <Content Include="Views\Buildings\PartialListPoints.cshtml" />
+    <Content Include="Views\Rooms\EditRoom.cshtml" />
+    <Content Include="Views\Rooms\Create.cshtml" />
+    <Content Include="Views\Rooms\Delete.cshtml" />
+    <Content Include="Views\Rooms\Details.cshtml" />
+    <Content Include="Views\Rooms\Edit.cshtml" />
+    <Content Include="Views\Rooms\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -454,8 +462,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005132005285_newpoint.resx">
-      <DependentUpon>202005132005285_newpoint.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005181902480_lastBD.resx">
+      <DependentUpon>202005181902480_lastBD.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

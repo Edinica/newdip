@@ -5,11 +5,11 @@ using System.Web;
 
 namespace newdip.Models
 {
-	public class FRoom
+	public class FavoriteRoom
 	{
 		[Key]
-		public int Id { get; set; }
-
+		public int FavoriteRoomId { get; set; }
+		public string Building { get; set; }
 		public string Name { get; set; }
 
 		public string Details { get; set; }
