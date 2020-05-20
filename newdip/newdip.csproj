@@ -331,6 +331,7 @@
     <Compile Include="Controllers\PointsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\Web\ClientsController.cs" />
+    <Compile Include="Controllers\Web\FavoriteRoomsController.cs" />
     <Compile Include="Controllers\Web\FloorsController.cs" />
     <Compile Include="Controllers\Web\NotesController.cs" />
     <Compile Include="Controllers\Web\PointsController.cs" />

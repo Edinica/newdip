@@ -287,25 +287,32 @@ if (window.addEventListener) {
                     async function GetRooms() {
                         let response = await fetch(url);
                         console.log(response);
-                        let floor = await response.json();
-                        console.log(floor);
+                        let room = await response.json();
+                        console.log(room);
                         staticpaper = document.getElementById("imageView");
                         context = staticpaper.getContext('2d');
                         let cx = staticpaper.width / 2;
                         let cy = staticpaper.height / 2;
+                        document.getElementById("FloorId").value = room.FloorId;
+                        document.getElementById("RoomId").value = room.RoomId;
+                        document.getElementById("Name").value = room.Name;
+                        document.getElementById("Description").value = room.Description;
+                        document.getElementById("Timetable").value = room.Timetable;
+                        document.getElementById("Phone").value = room.Phone;
+                        document.getElementById("Mail").value = room.Site;
                         //context.clearRect(0, 0, cx*2, cy*2);
-                        floor.forEach(function (item, i, floor) {
-                            context.beginPath();
-                            let xx = item.PointFrom.X + cx;
-                            let yy = cy - item.PointFrom.Y;
-                            let xxx = item.PointTo.X + cx;
-                            let yyy = cy - item.PointTo.Y;
-                            context.moveTo(xx, yy);
-                            context.lineTo(xxx, yyy);
-                            context.stroke();
+                        //room.forEach(function (item, i, floor) {
+                        //    context.beginPath();
+                        //    let xx = item.PointFrom.X + cx;
+                        //    let yy = cy - item.PointFrom.Y;
+                        //    let xxx = item.PointTo.X + cx;
+                        //    let yyy = cy - item.PointTo.Y;
+                        //    context.moveTo(xx, yy);
+                        //    context.lineTo(xxx, yyy);
+                        //    context.stroke();
 
-                        }
-                        );
+                        //}
+                        //);
                     };
                     GetRooms();
                     //new function () {

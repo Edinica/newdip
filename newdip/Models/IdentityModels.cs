@@ -54,5 +54,7 @@ namespace newdip.Models
         public System.Data.Entity.DbSet<newdip.Models.Room> Rooms { get; set; }
         public System.Data.Entity.DbSet<newdip.Models.Worker> Workers { get; set; }
         public System.Data.Entity.DbSet<newdip.Models.Client> Clients { get; set; }
+
+        public System.Data.Entity.DbSet<newdip.Models.FavoriteRoom> FavoriteRooms { get; set; }
     }
 }
