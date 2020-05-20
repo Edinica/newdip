@@ -35,6 +35,7 @@
                 <option value="line">Line</option>
                 <option value="rect">Rectangle</option>
                 <option value="moveimg">Move</option>
+                <option value="info">RoomInfo</option>
             </select>
         </label>
         <label id="centerx"></label><label>,</label><label id="centery"></label>
@@ -74,70 +75,73 @@
                     <h4>Room</h4>
                     <hr />
                     @*@Html.HiddenFor(model => model.RoomId)*@
-    <p>
-                    <div class="form-group">
-                        <label>Идентификатор этажа:</label>
-                        <label id="FloorId"></label>
+                    <p>
+                        <div class="form-group" style="margin-left:40px">
+                            <label>Номер этажа:</label>
+                            <label id="FloorId"></label>
                             @*(model => model.FloorId, "FloorId", htmlAttributes: new { @class = "control-label col-md-2" })*@
                             @*@Html.DropDownList("FloorId", null, htmlAttributes: new { @class = "form-control" })*@
                             @*@Html.ValidationMessageFor(model => model.FloorId, "", new { @class = "text-danger" })*@
-                    </div>
+                        </div>
                     <p>
-                    <div class="form-group">
-                        <label>Имя помещения:</label>
-                        <input type="text" name="Name" placeholder="Введите имя " size="18" />                     
- @*@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                        </div>*@
-                    </div>
-<p>
-    <div class="form-group">
-        <label>Описание:</label>
-        <input type="text" name="Name" placeholder="Введите имя помещения" size="18" />
-        @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>*@
-    </div>
-    
-    
-    
-    Раскоментить потом низ
-    
-    
-    
-    @*<div class="form-group">
-                        @Html.LabelFor(model => model.Timetable, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Timetable, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Timetable, "", new { @class = "text-danger" })
+                        <div class="form-group"style="margin-left:40px">
+                            <label>Имя помещения:</label>
+                            <input type="text" name="Name" placeholder="Введите имя " size="18" style="width:234px;"/>
+                            @*@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>*@
                         </div>
-                    </div>
+                    <p>
+                        <div class="form-group" style="margin-left:40px">
+                            <label>Описание:</label>
+                            <textarea type="text" name="Name" placeholder="Введите имя помещения" size="18" rows="5" cols="40"></textarea>
+                            @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>*@
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                    <p>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Site, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Site, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Site, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-default" />
+                        <div class="form-group"style="margin-left:40px">
+                            <label>Расписание:</label>
+                            <textarea type="text" name="Name" placeholder="Введите расписание" size="18"rows="7" cols="34"></textarea>
+                            @*@Html.LabelFor(model => model.Timetable, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Timetable, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Timetable, "", new { @class = "text-danger" })
+                </div>*@
                         </div>
-                    </div>
+                    <p>
+                        <div class="form-group"style="margin-left:40px">
+                            <label>Телефон:</label>
+                            <input type="text" name="Name" placeholder="Введите телефон" size="18" />
+                            @*@Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>*@
+                        </div>
+                    <p>
+                        <div class="form-group"style="margin-left:40px">
+                            <label>Почта:</label>
+                            <input type="text" name="Name" placeholder="Почту" size="18" />
+                            @*@Html.LabelFor(model => model.Site, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Site, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Site, "", new { @class = "text-danger" })
+                </div>*@
+                        </div>
+
+                        <div class="form-group" style="text-align:center">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
                 </div>
 
             </div>

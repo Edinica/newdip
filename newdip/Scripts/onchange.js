@@ -9,6 +9,8 @@
     }
     let id = document.getElementById("BuildingId").innerHTML;
     x = Number(x.substring(0, x.indexOf(' ')));
+    document.getElementById("FloorId").innerHTML = x;
+    document.getElementById("Floorlevel").innerHTML = x;
     console.log(x);
     let url = "https://localhost:44336/api/Floors?level=" + x + '&&id=' + id;
     console.log(url);

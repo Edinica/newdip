@@ -103,6 +103,88 @@ if (window.addEventListener) {
         }
         var tools = {};
 
+        tools.line = function () {
+            var tool = this;
+            tool.started = false;
+            tool.perenos = false;
+
+            this.mousedown = function (ev) {
+
+                if (ev.button == 0) {
+                    tool.started = true;
+                    tool.x0 = ev._x;
+                    tool.y0 = ev._y;
+                }
+                if (ev.button == 2) {
+                    tool.perenos = true
+                }
+
+            };
+
+            this.mousemove = function (ev) {
+                if (!tool.started) {
+                    if (!tool.perenos) { return; }
+                    else {
+
+                    }
+                    return;
+                }
+
+                contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                mdx = tool.x0;
+                mdy = tool.y0;
+                contextdraw.beginPath();
+                contextdraw.moveTo(tool.x0, tool.y0);
+                contextdraw.lineTo(ev._x, ev._y);
+                contextdraw.stroke(); contextdraw.closePath();
+                contextdraw.beginPath();
+                contextdraw.moveTo(tool.x0 + 3, tool.y0);
+                contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
+                contextdraw.moveTo(ev._x + 3, ev._y);
+                contextdraw.arc(ev._x, ev._y, 4, 0, Math.PI * 2, true);
+                contextdraw.stroke();
+                contextdraw.closePath();
+
+            };
+
+            this.mouseup = function (ev) {
+                if (tool.started) {
+                    tool.mousemove(ev);
+                    //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
+                    tool.started = false;
+                    img_update();
+                }
+                if (tool.perenos) {
+                    tool.perenos = false;
+                }
+                $('#imageTemp').mouseup
+                {
+                    new function () {
+                        //$.get(,)
+                        //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
+                        let n = document.getElementById("dtool").options.selectedIndex;
+                        alert();
+                        if (n == 0) {
+                            $.ajax({
+                                url: '/Points/Line',
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                                    id: id.innerHTML
+                                }),
+                                complete: function () {
+                                    alert('Load was performed.');
+                                }
+                            });
+                        }
+                    }
+
+                }
+            };
+        };
+
         tools.rect = function () {
             var tool = this;
             this.started = false;
@@ -188,107 +270,117 @@ if (window.addEventListener) {
 
         };
 
-        tools.line = function () {
+        tools.info = function () {
             var tool = this;
-            tool.started = false;
-            tool.perenos = false;
+            this.started = false;
 
             this.mousedown = function (ev) {
-
-                if (ev.button == 0) {
-                    tool.started = true;
-                    tool.x0 = ev._x;
-                    tool.y0 = ev._y;
-                }
-                if (ev.button == 2) {
-                    tool.perenos = true
-                }
-
-            };
-
-            this.mousemove = function (ev) {
-                if (!tool.started) {
-                    if (!tool.perenos) { return; }
-                    else {
-
-                    }
-                    return;
-                }
-
-                contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-                mdx = tool.x0;
-                mdy = tool.y0;
-                contextdraw.beginPath();
-                contextdraw.moveTo(tool.x0, tool.y0);
-                contextdraw.lineTo(ev._x, ev._y);
-                contextdraw.stroke(); contextdraw.closePath();
-                contextdraw.beginPath();
-                contextdraw.moveTo(tool.x0 + 3, tool.y0);
-                contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
-                contextdraw.moveTo(ev._x + 3, ev._y);
-                contextdraw.arc(ev._x, ev._y, 4, 0, Math.PI * 2, true);
-                contextdraw.stroke();
-                contextdraw.closePath();
-
-            };
-
-            this.mouseup = function (ev) {
-                if (tool.started) {
-                    tool.mousemove(ev);
-                    //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
-                    tool.started = false;
-                    img_update();
-                }
-                if (tool.perenos) {
-                    tool.perenos = false;
-                }
+                tool.started = true;
+                tool.x0 = ev._x;
+                tool.y0 = ev._y;
                 $('#imageTemp').mouseup
                 {
-                    new function () {
-                        //$.get(,)
-                        //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
-                        let n = document.getElementById("dtool").options.selectedIndex;
-                        if (n == 0) {
-                            $.ajax({
-                                url: '/Points/Line',
-                                type: "POST",
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                data: JSON.stringify({
-                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
-                                    id: id.innerHTML
-                                }),
-                                success: function () {
+                    let x = document.getElementById("Floorlevel").innerHTML;
+                    let id = document.getElementById("BuildingId").innerHTML;
+                    let url = "https://localhost:44336/api/Rooms?level=" + x + '&&id=' + id + '&&x=' + (ev._x - cx) + '&&y=' + (cy - ev._y);
+                    console.log(url);
+                    async function GetRooms() {
+                        let response = await fetch(url);
+                        console.log(response);
+                        let floor = await response.json();
+                        console.log(floor);
+                        staticpaper = document.getElementById("imageView");
+                        context = staticpaper.getContext('2d');
+                        let cx = staticpaper.width / 2;
+                        let cy = staticpaper.height / 2;
+                        //context.clearRect(0, 0, cx*2, cy*2);
+                        floor.forEach(function (item, i, floor) {
+                            context.beginPath();
+                            let xx = item.PointFrom.X + cx;
+                            let yy = cy - item.PointFrom.Y;
+                            let xxx = item.PointTo.X + cx;
+                            let yyy = cy - item.PointTo.Y;
+                            context.moveTo(xx, yy);
+                            context.lineTo(xxx, yyy);
+                            context.stroke();
 
-                                }
-                            });
                         }
-                        else
-                        {if(n==1)
-                            $.ajax({
-                                url: '/Points/AddRectangle',
-                                type: "POST",
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                data: JSON.stringify({
-                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - ev._y,
-                                    thirdx: mdx - cx, thirdy: cy - mdy, fourthx: ev._x - cx, fourthy: cy - mdy,
-                                    level: lvl.options[lvl.selectedIndex].text,
-                                    id: id.innerHTML
-                                }),
-                                success: function () {
+                        );
+                    };
+                    GetRooms();
+                    //new function () {
+                    //    //$.get(,)
+                    //    //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
+                    //    //let n = document.getElementById("dtool").options.selectedIndex;
 
-                                }
-                            });
-                        }
+                    //        $.ajax({
+                    //            url: '/Points/Room',
+                    //            type: "POST",
+                    //            contentType: "application/json; charset=utf-8",
+                    //            dataType: "json",
+                    //            data: JSON.stringify({
+                    //                firstx: ev._x - cx, firsty: cy - ev._y,
+                    //                level: lvl.options[lvl.selectedIndex].text,
+                    //                id: id.innerHTML
+                    //            }),
+                    //            complete: function (data) {
+                    //                alert();
+                    //                console.log(data);
+                    //                let response = data.json();
+                    //                console.log(response);
+                    //            }
+                    //        });
 
 
-                    }
+
+                    //}
 
                 }
             };
-        };
 
+           
+            //this.mouseup = function (ev) {
+            //    if (tool.started) {
+            //        tool.mousemove(ev);
+            //        //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
+            //        tool.started = false;
+            //        img_update();
+            //        mdx = tool.x0;
+            //        mdy = tool.y0;
+            //        $('#imageTemp').mouseup
+            //        {
+            //            new function () {
+            //                //$.get(,)
+            //                //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
+            //                let n = document.getElementById("dtool").options.selectedIndex;
+
+            //                if (n == 1)
+            //                    $.ajax({
+            //                        url: '/Points/AddRectangle',
+            //                        type: "POST",
+            //                        contentType: "application/json; charset=utf-8",
+            //                        dataType: "json",
+            //                        data: JSON.stringify({
+            //                            firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - ev._y,
+            //                            thirdx: mdx - cx, thirdy: cy - mdy, fourthx: ev._x - cx, fourthy: cy - mdy,
+            //                            level: lvl.options[lvl.selectedIndex].text,
+            //                            id: id.innerHTML
+            //                        }),
+            //                        success: function () {
+
+            //                        }
+            //                    });
+
+
+
+            //            }
+
+            //        }
+            //    }
+
+            //};
+
+        };
         //$("imageTemp").mouseup(function () {
 
         //})

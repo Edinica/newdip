@@ -23,5 +23,14 @@ namespace newdip.Models
 			Notes = new List<Note>();
 			Workers = new List<Worker>();
 		}
+
+		public Room(string name, string description, string timetable, string phone, string site):this()
+		{
+			Name = name;
+			Description = description;
+			Timetable = timetable;
+			Phone = phone;
+			Site = site;
+		}
 	}
 }

@@ -16,6 +16,13 @@ namespace newdip.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public class P 
+        {
+            public string firstx { get; set; }
+            public string firsty { get; set; }
+            public string level { get; set; }
+            public string id { get; set; }
+        }
         public class Segment
         {
             public string firstx { get; set; }
@@ -58,42 +65,107 @@ namespace newdip.Controllers
             return Convert.ToInt32(income.Substring(0, income.Length - 5));
         }
 
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public Room Room([FromBody] P point)
+        {
+            //var pointslist = db.Points.ToList();
+            //var res = Similar(Convert.ToInt32(po.firstx), Convert.ToInt32(po.firsty));
+            // Building building = db.Buildings.Where(x => x.Id == k).Include(x => x.Floors).FirstOrDefault();//получаем нужно здание
+
+            int id = Convert.ToInt32(point.id);
+            int level = Etazh(point.level);
+            Edge edge = new Edge();
+            List<Point> points = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault().Points.ToList();//этаж просмотр
+            ///создание и добавление первой точки
+            Room result = new Room();
+            foreach(var element in points)
+            { for (int i = -2; i < 3; i++)
+                for (int j = -2; j < 3; j++)
+                {
+                        if (element.IsWaypoint  && element.X == Convert.ToInt32(point.firstx)+i && element.Y  == Convert.ToInt32(point.firsty)+j) //если нашли такую точку на этаже
+                        {
+                            var room = db.Rooms.Include(x => x.Points).ToList();
+                            foreach (var vroom in room) //ищем комнату
+                            {
+                                for (int k = 0; k < vroom.Points.Count; k++) 
+                                {
+                                    if (vroom.Points[k].IsWaypoint && 
+                                        vroom.Points[k].X == element.X && 
+                                        vroom.Points[k].Y == element.Y) 
+                                    {
+                                    result = new Room(vroom.Name,vroom.Description,vroom.Timetable,vroom.Phone,vroom.Site);
+                                    }
+                                }
+                            }
+                            
+                        }
+                } 
+            }
+                    //Point point = new Point();
+                    //point.X = Convert.ToInt32(point.firstx);
+                    //point.Y = Convert.ToInt32(point.firsty);
+                    //point.IsWaypoint = false;
+                    //point.FloorId = floor1.FloorId;
+                    //db.Points.Add(point);
+                    //db.SaveChanges();
+                    //edge.PointFromId = db.Points.ToList().Last().Id;//Id первой вершины
+                    /////создание и добавление первой точки
+                    //Point point2 = new Point();
+                    //point2.X = Convert.ToInt32(point.secondx);
+                    //point2.Y = Convert.ToInt32(point.secondy);
+                    //point2.IsWaypoint = false;
+                    //point2.FloorId = floor1.FloorId;
+                    //db.Points.Add(point2);
+                    //db.SaveChanges();
+                    /////сохранение ребра
+                    //edge.PointToId = db.Points.ToList().Last().Id;//Id первой вершины
+                    //edge.Weight = Math.Sqrt(Math.Pow(Convert.ToDouble(point.secondx) - Convert.ToDouble(point.firstx), 2) +
+                    //    Math.Pow(Convert.ToDouble(point.secondy) - Convert.ToDouble(point.firsty), 2)) / 75.9;
+                    //db.Edges.Add(edge);
+                    //db.SaveChanges();
+                    //var list = db.Edges.ToList();
+                    return result;
+           
+        }
+
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public void Line([FromBody] Segment po)
         {
             //var pointslist = db.Points.ToList();
             //var res = Similar(Convert.ToInt32(po.firstx), Convert.ToInt32(po.firsty));
-           // Building building = db.Buildings.Where(x => x.Id == k).Include(x => x.Floors).FirstOrDefault();//получаем нужно здание
-            int id = Convert.ToInt32(po.id);
-            int level = Etazh(po.level);
-            Edge edge = new Edge();
-            Floor floor1 = db.Floors.Where(x => x.Level == level&&x.BuildingId==id).Include(x => x.Points).FirstOrDefault();//этаж просмотр
-            ///создание и добавление первой точки
-            Point point = new Point();
-            point.X = Convert.ToInt32(po.firstx);
-            point.Y = Convert.ToInt32(po.firsty);
-            point.IsWaypoint = false;
-            point.FloorId = floor1.FloorId;
-            db.Points.Add(point);
-            db.SaveChanges();
-            edge.PointFromId = db.Points.ToList().Last().Id;//Id первой вершины
-            ///создание и добавление первой точки
-            Point point2 = new Point();
-            point2.X = Convert.ToInt32(po.secondx);
-            point2.Y = Convert.ToInt32(po.secondy);
-            point2.IsWaypoint = false;
-            point2.FloorId = floor1.FloorId;
-            db.Points.Add(point2);
-            db.SaveChanges();
-            ///сохранение ребра
-            edge.PointToId = db.Points.ToList().Last().Id;//Id первой вершины
-            edge.Weight = Math.Sqrt(Math.Pow(Convert.ToDouble(po.secondx) - Convert.ToDouble(po.firstx), 2) +
-                Math.Pow(Convert.ToDouble(po.secondy) - Convert.ToDouble(po.firsty), 2))/75.9;
-            db.Edges.Add(edge);
-            db.SaveChanges();
-            var list = db.Edges.ToList();
-
+            // Building building = db.Buildings.Where(x => x.Id == k).Include(x => x.Floors).FirstOrDefault();//получаем нужно здание
+            if (po.secondx != null)
+            {
+                int id = Convert.ToInt32(po.id);
+                int level = Etazh(po.level);
+                Edge edge = new Edge();
+                Floor floor1 = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault();//этаж просмотр
+                ///создание и добавление первой точки
+                Point point = new Point();
+                point.X = Convert.ToInt32(po.firstx);
+                point.Y = Convert.ToInt32(po.firsty);
+                point.IsWaypoint = false;
+                point.FloorId = floor1.FloorId;
+                db.Points.Add(point);
+                db.SaveChanges();
+                edge.PointFromId = db.Points.ToList().Last().Id;//Id первой вершины
+                ///создание и добавление первой точки
+                Point point2 = new Point();
+                point2.X = Convert.ToInt32(po.secondx);
+                point2.Y = Convert.ToInt32(po.secondy);
+                point2.IsWaypoint = false;
+                point2.FloorId = floor1.FloorId;
+                db.Points.Add(point2);
+                db.SaveChanges();
+                ///сохранение ребра
+                edge.PointToId = db.Points.ToList().Last().Id;//Id первой вершины
+                edge.Weight = Math.Sqrt(Math.Pow(Convert.ToDouble(po.secondx) - Convert.ToDouble(po.firstx), 2) +
+                    Math.Pow(Convert.ToDouble(po.secondy) - Convert.ToDouble(po.firsty), 2)) / 75.9;
+                db.Edges.Add(edge);
+                db.SaveChanges();
+                var list = db.Edges.ToList();
+            }
             //Point newp = new Point();
             //newp.X = Convert.ToInt32(po.firstx);
             //newp.Y = Convert.ToInt32(po.firsty);

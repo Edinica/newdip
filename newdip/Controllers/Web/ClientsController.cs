@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using newdip.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace newdip.Controllers.Web
 {
@@ -35,73 +37,54 @@ namespace newdip.Controllers.Web
             return Ok(client);
         }
 
-        // PUT: api/Clients/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutClient(int id, Client client)
+
+        [Route("api/Clients/PostAuthorization")]
+        public IHttpActionResult PostAuthorization(JObject element)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            if (id != client.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(client).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClientExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Clients
-        [HttpPost]
-        [ResponseType(typeof(Client))]
-        public IHttpActionResult PostClient(string name,string login, string password)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            var x = element.ToObject<Dictionary<string,string>>();
+            string login = x["Login"];
+            string pass = x["Pass"];
+            Client client = db.Clients.FirstOrDefault(obj => obj.Login == login && obj.Password == pass);
             //db.Clients.Add(client);
-            db.SaveChanges();
-            return Ok();
-           //return CreatedAtRoute("DefaultApi"
-           //    , new { id = 18 }
-           //    , client);
+            Dictionary<string, string> user = new Dictionary<string, string>();
+            user.Add("Id", client.Id.ToString());
+            user.Add("Login", client.Login);
+            user.Add("Name", client.Name);
+            //user.Add("Password", client.Password);
+            return Ok(user);
+            //return CreatedAtRoute("DefaultApi"
+            //    , new { id = 18 }
+            //    , client);
         }
-
-        // DELETE: api/Clients/5
-        [ResponseType(typeof(Client))]
-        public IHttpActionResult DeleteClient(int id)
+        [Route("api/Clients/PostRegister")]
+        public IHttpActionResult PostRegister(JObject element)
         {
-            Client client = db.Clients.Find(id);
-            if (client == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
-
-            db.Clients.Remove(client);
+            var x = element.ToObject<Dictionary<string, string>>();//слышно?
+            //совсем?
+            string login = x["Login"];
+            string pass = x["Pass"];
+            string name = x["Name"];
+            Client client = new Client(login, name, pass);
+            //Client client = db.Clients.FirstOrDefault(obj => obj.Login == login && obj.Password == pass);
+            db.Clients.Add(client);
             db.SaveChanges();
-
-            return Ok(client);
+            Dictionary<string, string> user = new Dictionary<string, string>();
+            user.Add("Id", client.Id.ToString());
+            user.Add("Login", client.Login);
+            user.Add("Name", client.Name);
+            //user.Add("Password", client.Password);
+            return Ok(user);
+            //return CreatedAtRoute("DefaultApi"
+            //    , new { id = 18 }
+            //    , client);
         }
 
         protected override void Dispose(bool disposing)
