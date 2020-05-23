@@ -32,40 +32,41 @@ namespace newdip.Controllers.Web
 
         // GET: api/Floors/5
         [ResponseType(typeof(Floor))]
-        public IHttpActionResult GetFloor(int level, int id)
+        public IHttpActionResult GetFloor(int id)
         {
-            var xxx = db.Floors.FirstOrDefault(x => x.BuildingId == id && x.Level == level);
-            var points = db.Floors.
-                Include(x => x.Points).
-                FirstOrDefault(x => x.BuildingId == id && x.Level == level).
-                Points;
-            if (points == null) { return null; }
-            List<Point> floor = points.ToList();
-            if (floor == null)
-            {
-                return NotFound();
-            }
-            wwww el = new wwww();
-            el.a = 1;el.b = 2;el.c = 3;el.chislo = 123;
-            var ww = JsonConvert.SerializeObject(el);
-            List<Edge> edgeMs = new List<Edge>();
-            foreach (var elem in floor) 
-            {
-                var edge = new Edge();
-                for (int i = 0; i < elem.EdgesOut.Count(); i++)
-                {
-                    edge.PointFrom = new Point();
-                    edge.PointFrom.X = elem.X;
-                    edge.PointFrom.Y = elem.Y;
-                    edge.PointTo = new Point();
-                    edge.PointTo.X = elem.EdgesOut[i].PointTo.X;
-                    edge.PointTo.Y = elem.EdgesOut[i].PointTo.Y;
-                    edgeMs.Add(edge); 
-                }
-            }
-             var json = JsonConvert.SerializeObject(edgeMs);
-            
-            return Ok(edgeMs);
+
+            //var xxx = db.Floors.FirstOrDefault(x => x.BuildingId == id && x.Level == level);
+            //var points = db.Floors.
+            //    Include(x => x.Points).
+            //    FirstOrDefault(x => x.BuildingId == id && x.Level == level).
+            //    Points;
+            //if (points == null) { return null; }
+            //List<PointM> floor = points.ToList();
+            //if (floor == null)
+            //{
+            //    return NotFound();
+            //}
+            //wwww el = new wwww();
+            //el.a = 1;el.b = 2;el.c = 3;el.chislo = 123;
+            //var ww = JsonConvert.SerializeObject(el);
+            //List<EdgeM> edgeMs = new List<EdgeM>();
+            //foreach (var elem in floor) 
+            //{
+            //    var edge = new EdgeM();
+            //    for (int i = 0; i < elem.EdgesOut.Count(); i++)
+            //    {
+            //        edge.PointFrom = new PointM();
+            //        edge.PointFrom.X = elem.X;
+            //        edge.PointFrom.Y = elem.Y;
+            //        edge.PointTo = new PointM();
+            //        edge.PointTo.X = elem.EdgesOut[i].PointTo.X;
+            //        edge.PointTo.Y = elem.EdgesOut[i].PointTo.Y;
+            //        edgeMs.Add(edge); 
+            //    }
+            //}
+            // var json = JsonConvert.SerializeObject(edgeMs);
+            List<Floor> xxx = db.Floors.Where(x => x.BuildingId == id).ToList();
+            return Ok(xxx);
         }
 
         // PUT: api/Floors/5

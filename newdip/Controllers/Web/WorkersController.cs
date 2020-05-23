@@ -9,25 +9,23 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using newdip.Models;
-using Newtonsoft.Json.Linq;
 
 namespace newdip.Controllers.Web
 {
-    public class NotesController : ApiController
+    public class WorkersController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Notes
-        public IQueryable<Note> GetNotes()
+        // GET: api/Workers
+        public IQueryable<Worker> GetWorkers()
         {
-            return db.Notes;
+            return db.Workers;
         }
 
-        // GET: api/Notes/5++
-        [ResponseType(typeof(Note))]
-        public IHttpActionResult GetNote(int id)
+        // GET: api/Workers/5
+        [ResponseType(typeof(Worker))]
+        public IHttpActionResult GetWorker(int id)
         {
-            //получаем все этажи здания
             List<Floor> Floor = db.Floors.Where(xx => xx.BuildingId == id).ToList();
             List<Room> rooms = new List<Room>();
             //получаем все комнаты этажей
@@ -37,35 +35,34 @@ namespace newdip.Controllers.Web
                 foreach (var pum in temp)
                     rooms.Add(pum);
             }
-            List<Note> notes = new List<Note>();
+            List<Worker> workers = new List<Worker>();
             //получаем все public заметки помещений
             foreach (var element in rooms)
             {
-                List<Note> temp = db.Notes.Where(x => x.RoomId == element.RoomId&&x.isPublic==true).ToList();
+                List<Worker> temp = db.Workers.Where(x => x.RoomId == element.RoomId).ToList();
                 foreach (var pum in temp)
-                    notes.Add(pum);
+                    workers.Add(pum);
             }
-            foreach (var pum in notes)
+            foreach (var pum in workers)
                 pum.Room = null;
-            return Ok(notes);
-
+            return Ok(workers);
         }
 
-        // PUT: api/Notes/5
+        // PUT: api/Workers/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutNote(int id, Note note)
+        public IHttpActionResult PutWorker(int id, Worker worker)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != note.NoteId)
+            if (id != worker.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(note).State = EntityState.Modified;
+            db.Entry(worker).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +70,7 @@ namespace newdip.Controllers.Web
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!NoteExists(id))
+                if (!WorkerExists(id))
                 {
                     return NotFound();
                 }
@@ -83,34 +80,38 @@ namespace newdip.Controllers.Web
                 }
             }
 
-            return Ok(note);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Notes
-        [Route("api/Notes/PostClientNote")]
-        public IHttpActionResult PostClientNote(JObject element)
+        // POST: api/Workers
+        [ResponseType(typeof(Worker))]
+        public IHttpActionResult PostWorker(Worker worker)
         {
-            var temp = element.ToObject<Dictionary<string, int>>();
-            int id = temp["id"];
-            List<Note> notes = db.Notes
-                .Where(x => x.ClientId == id&&x.isPublic==false).ToList();
-            return Ok(notes);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Workers.Add(worker);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = worker.Id }, worker);
         }
 
-        // DELETE: api/Notes/5
-        [ResponseType(typeof(Note))]
-        public IHttpActionResult DeleteNote(int id)
+        // DELETE: api/Workers/5
+        [ResponseType(typeof(Worker))]
+        public IHttpActionResult DeleteWorker(int id)
         {
-            Note note = db.Notes.Find(id);
-            if (note == null)
+            Worker worker = db.Workers.Find(id);
+            if (worker == null)
             {
                 return NotFound();
             }
 
-            db.Notes.Remove(note);
+            db.Workers.Remove(worker);
             db.SaveChanges();
 
-            return Ok(note);
+            return Ok(worker);
         }
 
         protected override void Dispose(bool disposing)
@@ -122,9 +123,9 @@ namespace newdip.Controllers.Web
             base.Dispose(disposing);
         }
 
-        private bool NoteExists(int id)
+        private bool WorkerExists(int id)
         {
-            return db.Notes.Count(e => e.NoteId == id) > 0;
+            return db.Workers.Count(e => e.Id == id) > 0;
         }
     }
 }

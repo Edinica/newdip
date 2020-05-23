@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace newdip.Models
 {
-	public class Point
+	public class PointM
 	{
 		[Key]
 		public int Id { get; set; }
@@ -14,15 +14,15 @@ namespace newdip.Models
 		public Floor Floor { get; set; }
 		public int? RoomId { get; set; }
 		public Room Room { get; set; }
-		public virtual List<Edge> EdgesIn { get; set; }
-		public virtual List<Edge> EdgesOut { get; set; }
+		public virtual List<EdgeM> EdgesIn { get; set; }
+		public virtual List<EdgeM> EdgesOut { get; set; }
 
-		public Point()
+		public PointM()
 		{
-			EdgesIn = new List<Edge>();
-			EdgesOut = new List<Edge>();
+			EdgesIn = new List<EdgeM>();
+			EdgesOut = new List<EdgeM>();
 		}
-		public Point(double x, double y,
+		public PointM(double x, double y,
 					  bool isWaypoint = false, int pointId = 0,
 					  int? floorId = null, int? roomId = null)
 		{

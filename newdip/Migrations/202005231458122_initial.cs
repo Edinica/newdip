@@ -3,7 +3,7 @@ namespace newdip.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class lastBD : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -33,7 +33,7 @@ namespace newdip.Migrations
                 .Index(t => t.BuildingId);
             
             CreateTable(
-                "dbo.Points",
+                "dbo.PointMs",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -50,7 +50,7 @@ namespace newdip.Migrations
                 .Index(t => t.RoomId);
             
             CreateTable(
-                "dbo.Edges",
+                "dbo.EdgeMs",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -59,8 +59,8 @@ namespace newdip.Migrations
                         PointToId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Points", t => t.PointToId)
-                .ForeignKey("dbo.Points", t => t.PointFromId)
+                .ForeignKey("dbo.PointMs", t => t.PointToId)
+                .ForeignKey("dbo.PointMs", t => t.PointFromId)
                 .Index(t => t.PointFromId)
                 .Index(t => t.PointToId);
             
@@ -89,10 +89,10 @@ namespace newdip.Migrations
                         Date = c.String(),
                         RoomName = c.String(),
                         Building = c.String(),
-                        UserName = c.String(),
+                        ClientName = c.String(),
                         RoomId = c.Int(),
                         ClientId = c.Int(),
-                        IsPublic = c.Boolean(nullable: false),
+                        isPublic = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.NoteId)
                 .ForeignKey("dbo.Clients", t => t.ClientId)
@@ -136,6 +136,7 @@ namespace newdip.Migrations
                         Status = c.String(),
                         Details = c.String(),
                         Email = c.String(),
+                        Site = c.String(),
                         Phone = c.String(),
                         RoomId = c.Int(),
                     })
@@ -220,14 +221,14 @@ namespace newdip.Migrations
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Workers", "RoomId", "dbo.Rooms");
-            DropForeignKey("dbo.Points", "RoomId", "dbo.Rooms");
+            DropForeignKey("dbo.PointMs", "RoomId", "dbo.Rooms");
             DropForeignKey("dbo.Notes", "RoomId", "dbo.Rooms");
             DropForeignKey("dbo.Notes", "ClientId", "dbo.Clients");
             DropForeignKey("dbo.FavoriteRooms", "ClientId", "dbo.Clients");
             DropForeignKey("dbo.Rooms", "FloorId", "dbo.Floors");
-            DropForeignKey("dbo.Points", "FloorId", "dbo.Floors");
-            DropForeignKey("dbo.Edges", "PointFromId", "dbo.Points");
-            DropForeignKey("dbo.Edges", "PointToId", "dbo.Points");
+            DropForeignKey("dbo.PointMs", "FloorId", "dbo.Floors");
+            DropForeignKey("dbo.EdgeMs", "PointFromId", "dbo.PointMs");
+            DropForeignKey("dbo.EdgeMs", "PointToId", "dbo.PointMs");
             DropForeignKey("dbo.Floors", "BuildingId", "dbo.Buildings");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -240,10 +241,10 @@ namespace newdip.Migrations
             DropIndex("dbo.Notes", new[] { "ClientId" });
             DropIndex("dbo.Notes", new[] { "RoomId" });
             DropIndex("dbo.Rooms", new[] { "FloorId" });
-            DropIndex("dbo.Edges", new[] { "PointToId" });
-            DropIndex("dbo.Edges", new[] { "PointFromId" });
-            DropIndex("dbo.Points", new[] { "RoomId" });
-            DropIndex("dbo.Points", new[] { "FloorId" });
+            DropIndex("dbo.EdgeMs", new[] { "PointToId" });
+            DropIndex("dbo.EdgeMs", new[] { "PointFromId" });
+            DropIndex("dbo.PointMs", new[] { "RoomId" });
+            DropIndex("dbo.PointMs", new[] { "FloorId" });
             DropIndex("dbo.Floors", new[] { "BuildingId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
@@ -255,8 +256,8 @@ namespace newdip.Migrations
             DropTable("dbo.Clients");
             DropTable("dbo.Notes");
             DropTable("dbo.Rooms");
-            DropTable("dbo.Edges");
-            DropTable("dbo.Points");
+            DropTable("dbo.EdgeMs");
+            DropTable("dbo.PointMs");
             DropTable("dbo.Floors");
             DropTable("dbo.Buildings");
         }

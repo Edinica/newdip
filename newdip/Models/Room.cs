@@ -9,7 +9,7 @@ namespace newdip.Models
 		public int RoomId { get; set; }
 		public int? FloorId { get; set; }
 		public Floor Floor { get; set; }
-		public List<Point>Points { get; set; }
+		public List<PointM>Points { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public string Timetable { get; set; }
@@ -19,7 +19,7 @@ namespace newdip.Models
 		public List<Worker> Workers { get; set; }
 		public Room() 
 		{
-			Points = new List<Point>();
+			Points = new List<PointM>();
 			Notes = new List<Note>();
 			Workers = new List<Worker>();
 		}
@@ -28,6 +28,21 @@ namespace newdip.Models
 		{
 			Name = name;
 			Description = description;
+			Timetable = timetable;
+			Phone = phone;
+			Site = site;
+		}
+		public Room(string name, string description = null,
+				   string timetable = null,
+				   string phone = null, string site = null,
+				   int floorid = 0, int roomid = 0) : this()
+		{
+			RoomId = roomid;
+
+			Name = name;
+			FloorId = floorid;
+			Description = description;
+
 			Timetable = timetable;
 			Phone = phone;
 			Site = site;

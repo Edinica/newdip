@@ -18,61 +18,49 @@ namespace newdip.Controllers.Web
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Points
-        public IQueryable<Point> GetPoints()
+        public IQueryable<PointM> GetPoints()
         {
             return db.Points;
         }
 
         // GET: api/Points?level&id
-        [ResponseType(typeof(Point))]
-        public IHttpActionResult GetPoint(int level, int id)
+        [ResponseType(typeof(PointM))]
+        public IHttpActionResult GetPoint(
+            //int level, 
+            int id)
         {
-            var points = db.Floors.
-                Include(x => x.Points).
-                FirstOrDefault(x => x.BuildingId == id && x.Level == level).
-                Points.ToList();
-            List<Point> listpoints = new List<Point>();
-            foreach (var element in points) 
+            //var points = db.Floors.
+            //    Include(x => x.Points).
+            //    FirstOrDefault(x => x.BuildingId == id && x.Level == level).
+            //    Points.ToList();
+            //List<PointM> listpoints = new List<PointM>();
+            //foreach (var element in points) 
+            //{
+            //        PointM point = new PointM();
+            //        point.X = element.X;
+            //        point.Y = element.Y;
+            //        point.IsWaypoint = element.IsWaypoint;
+            //    listpoints.Add(point);
+            // 
+            //}
+            //
+            //if (listpoints == null) { return null; }
+            List<Floor> Floor = db.Floors.Where(xx => xx.BuildingId == id).ToList();
+            List<PointM> points = new List<PointM>();
+            foreach (var element in Floor)
             {
-                    Point point = new Point();
-                    point.X = element.X;
-                    point.Y = element.Y;
-                    point.IsWaypoint = element.IsWaypoint;
-                listpoints.Add(point);
-             
+                List<PointM> temp = db.Points.Where(x => x.FloorId == element.FloorId).ToList();
+                foreach (var pum in temp)
+                    points.Add(pum);
             }
-
-            if (listpoints == null) { return null; }
-            //List<Point> floor = points.ToList();
-            //if (floor == null)
-            //{
-            //    return NotFound();
-            //}
-            //wwww el = new wwww();
-            //el.a = 1; el.b = 2; el.c = 3; el.chislo = 123;
-            //var ww = JsonConvert.SerializeObject(el);
-            //List<Edge> edgeMs = new List<Edge>();
-            //foreach (var elem in floor)
-            //{
-            //    var edge = new Edge();
-            //    for (int i = 0; i < elem.EdgesOut.Count(); i++)
-            //    {
-            //        edge.PointFrom = new Point();
-            //        edge.PointFrom.X = elem.X;
-            //        edge.PointFrom.Y = elem.Y;
-            //        edge.PointTo = new Point();
-            //        edge.PointTo.X = elem.EdgesOut[i].PointTo.X;
-            //        edge.PointTo.Y = elem.EdgesOut[i].PointTo.Y;
-            //        edgeMs.Add(edge);
-            //    }
-            //}
-
-            return Ok(listpoints);
+            foreach (var pum in points)
+                pum.Floor = null;
+            return Ok(points);
         }
 
         // PUT: api/Points/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPoint(int id, Point point)
+        public IHttpActionResult PutPoint(int id, PointM point)
         {
             if (!ModelState.IsValid)
             {
@@ -106,8 +94,8 @@ namespace newdip.Controllers.Web
         }
 
         // POST: api/Points
-        [ResponseType(typeof(Point))]
-        public IHttpActionResult PostPoint(Point point)
+        [ResponseType(typeof(PointM))]
+        public IHttpActionResult PostPoint(PointM point)
         {
             if (!ModelState.IsValid)
             {
@@ -121,10 +109,10 @@ namespace newdip.Controllers.Web
         }
 
         // DELETE: api/Points/5
-        [ResponseType(typeof(Point))]
+        [ResponseType(typeof(PointM))]
         public IHttpActionResult DeletePoint(int id)
         {
-            Point point = db.Points.Find(id);
+            PointM point = db.Points.Find(id);
             if (point == null)
             {
                 return NotFound();

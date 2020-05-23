@@ -12,6 +12,7 @@ namespace newdip.Models
 		public string Status { get; set; }
 		public string Details { get; set; }
 		public string Email { get; set; }
+		public string Site { get; set; }
 		public string Phone { get; set; }
 		public int? RoomId { get; set; }
 		public Room Room { get; set; }

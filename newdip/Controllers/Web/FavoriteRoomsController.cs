@@ -26,7 +26,7 @@ namespace newdip.Controllers.Web
         [ResponseType(typeof(FavoriteRoom))]
         public IHttpActionResult GetFavoriteRoom(int id)
         {
-            List<FavoriteRoom> favoriteRooms = db.Clients.Include(x => x.FRooms).FirstOrDefault(x => x.Id == id).FRooms.ToList();
+            List<FavoriteRoom> favoriteRooms = db.FavoriteRooms.Where(x => x.ClientId == id).ToList();
 
             if (favoriteRooms == null)
             {
@@ -36,40 +36,6 @@ namespace newdip.Controllers.Web
             return Ok(favoriteRooms);
         }
 
-        // PUT: api/FavoriteRooms/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutFavoriteRoom(int id, FavoriteRoom favoriteRoom)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != favoriteRoom.FavoriteRoomId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(favoriteRoom).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FavoriteRoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
 
         // POST: api/FavoriteRooms
         [ResponseType(typeof(FavoriteRoom))]
@@ -111,9 +77,5 @@ namespace newdip.Controllers.Web
             base.Dispose(disposing);
         }
 
-        private bool FavoriteRoomExists(int id)
-        {
-            return db.FavoriteRooms.Count(e => e.FavoriteRoomId == id) > 0;
-        }
     }
 }

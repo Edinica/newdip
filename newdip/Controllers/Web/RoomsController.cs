@@ -24,38 +24,53 @@ namespace newdip.Controllers.Web
 
         // GET: api/Rooms/5
         [ResponseType(typeof(Room))]
-        public IHttpActionResult GetRoom(int level, int id, int x, int y)
+        public IHttpActionResult GetRoom(
+            //int level,
+            int id
+            //, int x, int y
+            )
         {
-            Edge edge = new Edge();
-            List<Point> points = db.Floors.Where(obj => obj.Level == level && obj.BuildingId == id).Include(obj => obj.Points).FirstOrDefault().Points.ToList();//этаж просмотр
-            ///создание и добавление первой точки
-            Room result = new Room();
-            foreach (var element in points)
-            {
-                for (int i = -2; i < 3; i++)
-                    for (int j = -2; j < 3; j++)
-                    {
-                        if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку на этаже
-                        {
-                            var room = db.Rooms.Include(obj => obj.Points).ToList();
-                            foreach (var vroom in room) //ищем комнату
-                            {
-                                for (int k = 0; k < vroom.Points.Count; k++)
-                                {
-                                    if (vroom.Points[k].IsWaypoint &&
-                                        vroom.Points[k].X == element.X &&
-                                        vroom.Points[k].Y == element.Y)
-                                    {
-                                        result = new Room(vroom.Name, vroom.Description, vroom.Timetable, vroom.Phone, vroom.Site);
-                                        result.Name = "NAme";
-                                    }
-                                }
-                            }
+            //EdgeM edge = new EdgeM();
+            //List<PointM> points = db.Floors.Where(obj => obj.Level == level && obj.BuildingId == id).Include(obj => obj.Points).FirstOrDefault().Points.ToList();//этаж просмотр
+            /////создание и добавление первой точки
+            //Room result = new Room();
+            //foreach (var element in points)
+            //{
+            //    for (int i = -2; i < 3; i++)
+            //        for (int j = -2; j < 3; j++)
+            //        {
+            //            if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку на этаже
+            //            {
+            //                var room = db.Rooms.Include(obj => obj.Points).ToList();
+            //                foreach (var vroom in room) //ищем комнату
+            //                {
+            //                    for (int k = 0; k < vroom.Points.Count; k++)
+            //                    {
+            //                        if (vroom.Points[k].IsWaypoint &&
+            //                            vroom.Points[k].X == element.X &&
+            //                            vroom.Points[k].Y == element.Y)
+            //                        {
+            //                            result = new Room(vroom.Name, vroom.Description, vroom.Timetable, vroom.Phone, vroom.Site);
+            //                            result.Name = "NAme";
+            //                        }
+            //                    }
+            //                }
 
-                        }
-                    }
+            //            }
+            //        }
+            //}
+            List<Floor> Floor = db.Floors.Where(xx => xx.BuildingId == id).ToList();
+            List<Room> rooms = new List<Room>();
+            //получаем все комнаты этажей
+            foreach (var element in Floor)
+            {
+                List<Room> temp = db.Rooms.Where(x => x.FloorId == element.FloorId).ToList();
+                foreach (var pum in temp)
+                    rooms.Add(pum);
             }
-            return Ok(result);
+            foreach (var pum in rooms)
+                pum.Floor = null ;
+            return Ok(rooms);
         }
 
         // PUT: api/Rooms/5

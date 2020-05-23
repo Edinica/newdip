@@ -46,7 +46,7 @@ namespace newdip.Controllers
             public string level { get; set; }
             public string id { get; set; }
         }
-        public Point Similar(int x, int y)
+        public PointM Similar(int x, int y)
         {
             var points = db.Points.ToList();
             foreach (var element in points)
@@ -74,8 +74,8 @@ namespace newdip.Controllers
 
             int id = Convert.ToInt32(point.id);
             int level = Etazh(point.level);
-            Edge edge = new Edge();
-            List<Point> points = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault().Points.ToList();//этаж просмотр
+            EdgeM edge = new EdgeM();
+            List<PointM> points = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault().Points.ToList();//этаж просмотр
             ///создание и добавление первой точки
             Room result = new Room();
             foreach(var element in points)
@@ -139,10 +139,10 @@ namespace newdip.Controllers
             {
                 int id = Convert.ToInt32(po.id);
                 int level = Etazh(po.level);
-                Edge edge = new Edge();
+                EdgeM edge = new EdgeM();
                 Floor floor1 = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault();//этаж просмотр
                 ///создание и добавление первой точки
-                Point point = new Point();
+                PointM point = new PointM();
                 point.X = Convert.ToInt32(po.firstx);
                 point.Y = Convert.ToInt32(po.firsty);
                 point.IsWaypoint = false;
@@ -151,7 +151,7 @@ namespace newdip.Controllers
                 db.SaveChanges();
                 edge.PointFromId = db.Points.ToList().Last().Id;//Id первой вершины
                 ///создание и добавление первой точки
-                Point point2 = new Point();
+                PointM point2 = new PointM();
                 point2.X = Convert.ToInt32(po.secondx);
                 point2.Y = Convert.ToInt32(po.secondy);
                 point2.IsWaypoint = false;
@@ -176,8 +176,8 @@ namespace newdip.Controllers
         }
         public void Operation(string x1, string y1,string x2,string y2, Floor floor) 
         {
-            Point point = new Point();
-            Edge edge = new Edge();
+            PointM point = new PointM();
+            EdgeM edge = new EdgeM();
             bool isexist = false;
             int X1 = Convert.ToInt32(x1);
             int Y1 = Convert.ToInt32(y1);
@@ -203,7 +203,7 @@ namespace newdip.Controllers
             isexist = false;
             if (db.Points.FirstOrDefault(x => x.X == X2 && x.Y == Y2 && x.FloorId == floor.FloorId) != null) isexist = true;
             ///2 вершина
-            Point point2 = new Point();
+            PointM point2 = new PointM();
             if (!isexist)
             {
                 
@@ -253,10 +253,10 @@ namespace newdip.Controllers
             int py4 = Convert.ToInt32(po.fourthy);
             db.Rooms.Add(room);
             db.SaveChanges();
-            Point point = db.Points.FirstOrDefault(x => x.X == px1 && x.Y == py1 && x.FloorId == floor1.FloorId);
-            Point point2 = db.Points.FirstOrDefault(x => x.X == px2 && x.Y == py2 && x.FloorId == floor1.FloorId);
-            Point point3 = db.Points.FirstOrDefault(x => x.X == px3 && x.Y == py3 && x.FloorId == floor1.FloorId);
-            Point point4 = db.Points.FirstOrDefault(x => x.X == px4 && x.Y == py4 && x.FloorId == floor1.FloorId);
+            PointM point = db.Points.FirstOrDefault(x => x.X == px1 && x.Y == py1 && x.FloorId == floor1.FloorId);
+            PointM point2 = db.Points.FirstOrDefault(x => x.X == px2 && x.Y == py2 && x.FloorId == floor1.FloorId);
+            PointM point3 = db.Points.FirstOrDefault(x => x.X == px3 && x.Y == py3 && x.FloorId == floor1.FloorId);
+            PointM point4 = db.Points.FirstOrDefault(x => x.X == px4 && x.Y == py4 && x.FloorId == floor1.FloorId);
             point.RoomId = db.Rooms.ToList().Last().RoomId;
             point2.RoomId = db.Rooms.ToList().Last().RoomId;
             point3.RoomId = db.Rooms.ToList().Last().RoomId;
@@ -265,7 +265,7 @@ namespace newdip.Controllers
             //room.Points.Add(point2);
             //room.Points.Add(point3);
             //room.Points.Add(point4);
-            Point middle = new Point();
+            PointM middle = new PointM();
             middle.IsWaypoint = true;
             middle.X = (Convert.ToInt32(po.firstx) + Convert.ToInt32(po.thirdx)) / 2;
             middle.Y = (Convert.ToInt32(po.firsty) + Convert.ToInt32(po.thirdy)) / 2;

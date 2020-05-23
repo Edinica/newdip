@@ -2,18 +2,18 @@
 
 namespace newdip.Models
 {
-	public class Edge 
+	public class EdgeM 
 	{
 		[Key]
 		public int Id { get; set; }
 		public double Weight { get;  set; }
 		public int? PointFromId { get; set; }
 		public int? PointToId { get; set; }
-		public Point PointFrom { get; set; }
-		public Point PointTo { get; set; }
-		public Edge() { }
+		public PointM PointFrom { get; set; }
+		public PointM PointTo { get; set; }
+		public EdgeM() { }
 
-		public Edge(double weight, int? pointFirId = null, int? pointSecId = null, int edgeId = 0)
+		public EdgeM(double weight, int? pointFirId = null, int? pointSecId = null, int edgeId = 0)
 		{
 			Id = edgeId;
 			Weight = weight;

@@ -58,11 +58,11 @@ namespace newdip
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+           /* app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+                ClientId = "547464627368-ptf8klc86tmgbhonn1n8iqrip4bsij0d.apps.googleusercontent.com",
+                ClientSecret = "RtDbSRwlI4ZmGTuF4xU0hfMF"
+            //});*/
         }
     }
 }
