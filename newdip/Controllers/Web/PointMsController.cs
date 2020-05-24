@@ -69,9 +69,7 @@ namespace newdip.Controllers.Web
                 if (pum.EdgesIn.Count != 0) pum.EdgesIn.Clear();
                 if (pum.EdgesOut.Count != 0) pum.EdgesOut.Clear();
                 if (pum.Floor != null) pum.Floor = null ;
-                if (pum.FloorId != null) pum.FloorId = null;
                 if (pum.Room != null) pum.Room = null;
-                if (pum.RoomId != null) pum.RoomId = null;
             }
 
             return Ok(points);
