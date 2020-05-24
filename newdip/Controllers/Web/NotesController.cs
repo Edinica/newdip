@@ -97,7 +97,7 @@ namespace newdip.Controllers.Web
             return Ok(notes);
         }
         // POST: api/Notes
-        [Route("api/Notes/PostAddtNote")]
+        [Route("api/Notes/PostAddNote")]
         public IHttpActionResult PostAddNote([FromBody]Note element)
         {
            // element.NoteId = db.Notes.Last().NoteId+1;
