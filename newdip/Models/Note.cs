@@ -36,5 +36,9 @@ namespace newdip.Models
 		RoomName = roomname;
 		ClientName = clientname;
 	}
+
+		public Note()
+		{
+		}
 	}
 }

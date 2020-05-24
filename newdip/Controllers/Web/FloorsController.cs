@@ -25,9 +25,9 @@ namespace newdip.Controllers.Web
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Floors
-        public IQueryable<Floor> GetFloors()
+        public List<Floor> GetFloors()
         {
-            return db.Floors;
+            return db.Floors.ToList() ;
         }
 
         // GET: api/Floors/5

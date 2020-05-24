@@ -18,9 +18,9 @@ namespace newdip.Controllers.Web
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Notes
-        public IQueryable<Note> GetNotes()
+        public List<Note> GetNotes()
         {
-            return db.Notes;
+            return db.Notes.ToList() ;
         }
 
         // GET: api/Notes/5++
@@ -93,8 +93,19 @@ namespace newdip.Controllers.Web
             var temp = element.ToObject<Dictionary<string, int>>();
             int id = temp["id"];
             List<Note> notes = db.Notes
-                .Where(x => x.ClientId == id&&x.isPublic==false).ToList();
+                .Where(x => x.ClientId == id).ToList();
             return Ok(notes);
+        }
+        // POST: api/Notes
+        [Route("api/Notes/PostAddtNote")]
+        public IHttpActionResult PostAddNote([FromBody]Note element)
+        {
+           // element.NoteId = db.Notes.Last().NoteId+1;
+            db.Notes.Add(element);
+            db.SaveChanges();
+            return Ok(
+                element
+                ) ;
         }
 
         // DELETE: api/Notes/5

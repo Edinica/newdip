@@ -19,9 +19,9 @@ namespace newdip.Controllers.Web
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Clients
-        public IQueryable<Client> GetClients()
+        public List<Client> GetClients()
         {
-            return db.Clients;
+            return db.Clients.ToList();
         }
 
         // GET: api/Clients/5

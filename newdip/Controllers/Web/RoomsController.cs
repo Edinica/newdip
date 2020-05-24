@@ -17,9 +17,9 @@ namespace newdip.Controllers.Web
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Rooms
-        public IQueryable<Room> GetRooms()
+        public List<Room> GetRooms()
         {
-            return db.Rooms;
+            return db.Rooms.ToList();
         }
 
         // GET: api/Rooms/5

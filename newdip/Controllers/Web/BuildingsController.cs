@@ -17,9 +17,9 @@ namespace newdip.Controllers.Web
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Buildings
-        public IQueryable<Building> GetBuildings()
+        public List<Building> GetBuildings()
         {
-            return db.Buildings;
+            return db.Buildings.ToList();
         }
 
         // GET: api/Buildings/5

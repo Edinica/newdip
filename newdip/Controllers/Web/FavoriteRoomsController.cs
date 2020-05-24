@@ -17,9 +17,9 @@ namespace newdip.Controllers.Web
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/FavoriteRooms
-        public IQueryable<FavoriteRoom> GetFavoriteRooms()
+        public List<FavoriteRoom> GetFavoriteRooms()
         {
-            return db.FavoriteRooms;
+            return db.FavoriteRooms.ToList() ;
         }
 
         // GET: api/FavoriteRooms/5

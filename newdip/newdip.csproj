@@ -332,11 +332,11 @@
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\Web\BuildingsController.cs" />
     <Compile Include="Controllers\Web\ClientsController.cs" />
-    <Compile Include="Controllers\Web\EdgesController.cs" />
+    <Compile Include="Controllers\Web\EdgeMsController.cs" />
     <Compile Include="Controllers\Web\FavoriteRoomsController.cs" />
     <Compile Include="Controllers\Web\FloorsController.cs" />
     <Compile Include="Controllers\Web\NotesController.cs" />
-    <Compile Include="Controllers\Web\PointsController.cs" />
+    <Compile Include="Controllers\Web\PointMsController.cs" />
     <Compile Include="Controllers\Web\RoomsController.cs" />
     <Compile Include="Controllers\Web\WebApi.cs" />
     <Compile Include="Controllers\Web\WorkersController.cs" />

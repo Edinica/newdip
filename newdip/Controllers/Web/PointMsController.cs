@@ -9,25 +9,36 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using newdip.Models;
-using Newtonsoft.Json;
 
 namespace newdip.Controllers.Web
 {
-    public class PointsController : ApiController
+    public class PointMsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Points
-        public IQueryable<PointM> GetPoints()
+        // GET: api/PointMs
+        public List<PointM> GetPoints()
         {
-            return db.Points;
+
+            //var list = db.Points.ToList();
+            //for (int i = 0; i < list.Count(); i++)
+            //{
+            //    if(list[i].EdgesIn!=null) list[i].EdgesIn.Clear();
+            //    if (list[i].EdgesOut != null) list[i].EdgesOut.Clear();
+            //    if (list[i].Floor != null) list[i].Floor = null;
+            //    if (list[i].Room != null) list[i].Room = null;
+            //}
+            //foreach (var pum in list)
+            //{
+            //    pum.EdgesOut = null;
+            //    pum.EdgesIn = null; 
+            //}
+            return db.Points.ToList();
         }
 
-        // GET: api/Points?level&id
+        // GET: api/PointMs/5
         [ResponseType(typeof(PointM))]
-        public IHttpActionResult GetPoint(
-            //int level, 
-            int id)
+        public IHttpActionResult GetPointM(int id)
         {
             //var points = db.Floors.
             //    Include(x => x.Points).
@@ -54,25 +65,33 @@ namespace newdip.Controllers.Web
                     points.Add(pum);
             }
             foreach (var pum in points)
-                pum.Floor = null;
+            {
+                if (pum.EdgesIn.Count != 0) pum.EdgesIn.Clear();
+                if (pum.EdgesOut.Count != 0) pum.EdgesOut.Clear();
+                if (pum.Floor != null) pum.Floor = null ;
+                if (pum.FloorId != null) pum.FloorId = null;
+                if (pum.Room != null) pum.Room = null;
+                if (pum.RoomId != null) pum.RoomId = null;
+            }
+
             return Ok(points);
         }
 
-        // PUT: api/Points/5
+        // PUT: api/PointMs/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPoint(int id, PointM point)
+        public IHttpActionResult PutPointM(int id, PointM pointM)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != point.Id)
+            if (id != pointM.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(point).State = EntityState.Modified;
+            db.Entry(pointM).State = EntityState.Modified;
 
             try
             {
@@ -80,7 +99,7 @@ namespace newdip.Controllers.Web
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PointExists(id))
+                if (!PointMExists(id))
                 {
                     return NotFound();
                 }
@@ -93,35 +112,35 @@ namespace newdip.Controllers.Web
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Points
+        // POST: api/PointMs
         [ResponseType(typeof(PointM))]
-        public IHttpActionResult PostPoint(PointM point)
+        public IHttpActionResult PostPointM(PointM pointM)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Points.Add(point);
+            db.Points.Add(pointM);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = point.Id }, point);
+            return CreatedAtRoute("DefaultApi", new { id = pointM.Id }, pointM);
         }
 
-        // DELETE: api/Points/5
+        // DELETE: api/PointMs/5
         [ResponseType(typeof(PointM))]
-        public IHttpActionResult DeletePoint(int id)
+        public IHttpActionResult DeletePointM(int id)
         {
-            PointM point = db.Points.Find(id);
-            if (point == null)
+            PointM pointM = db.Points.Find(id);
+            if (pointM == null)
             {
                 return NotFound();
             }
 
-            db.Points.Remove(point);
+            db.Points.Remove(pointM);
             db.SaveChanges();
 
-            return Ok(point);
+            return Ok(pointM);
         }
 
         protected override void Dispose(bool disposing)
@@ -133,7 +152,7 @@ namespace newdip.Controllers.Web
             base.Dispose(disposing);
         }
 
-        private bool PointExists(int id)
+        private bool PointMExists(int id)
         {
             return db.Points.Count(e => e.Id == id) > 0;
         }
