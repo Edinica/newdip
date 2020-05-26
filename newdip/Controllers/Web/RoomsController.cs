@@ -72,6 +72,44 @@ namespace newdip.Controllers.Web
                 pum.Floor = null ;
             return Ok(rooms);
         }
+        [HttpGet]
+        [ResponseType(typeof(Room))]
+        [Route("api/Rooms/Room")]
+        public IHttpActionResult Room(int level,int id,int x, int y)
+        {
+            List<Room> rooms = db.Floors.Include(obj=>obj.Rooms).Where(obj => obj.Level == level && obj.BuildingId == id).FirstOrDefault().Rooms.ToList();
+            List<PointM> points = db.Floors.Where(obj => obj.Level == level && obj.BuildingId == id).Include(obj => obj.Points).FirstOrDefault().Points.ToList();//этаж просмотр
+            ///создание и добавление первой точки
+            Room result = new Room();
+            foreach (var element in points)
+            {
+                for (int i = -2; i < 3; i++)
+                    for (int j = -2; j < 3; j++)
+                    {
+                        if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку на этаже
+                        {
+                            //var room = db.Rooms.Include(obj => obj.Points).ToList();
+                            foreach (var vroom in rooms) //ищем комнату
+                            {
+                                
+                                    if (vroom.Points[0].IsWaypoint &&
+                                        vroom.Points[0].X == element.X &&
+                                        vroom.Points[0].Y == element.Y)
+                                    {
+                                        result = new Room(vroom.Name, vroom.Description, vroom.Timetable, vroom.Phone, vroom.Site);
+                                        result.RoomId=vroom.RoomId;
+                                        result.FloorId = vroom.FloorId;
+                                        //result.Name = "NAme";
+                                    }
+                                
+                            }
+
+                        }
+                    }
+            }
+            
+            return Ok(result);
+        }
 
         // PUT: api/Rooms/5
         [ResponseType(typeof(void))]

@@ -10,15 +10,20 @@
 //ctx.closePath()
 //ctx.stroke();
 //alert('Добрый день');
+var points, floor; var cx, cy;
+var selectedx, selectedy;
+let pressed = false;
+var room;
+var canvas; var contextdraw;//temp
+var staticpaper; var context;//view
 if (window.addEventListener) {
     window.addEventListener('load', function () {
-        var canvas; var contextdraw;
-        var staticpaper; var context;
+        
 
 
         var tool;
         var tool_default = 'line';
-        var cx, cy;
+        
         var mdx, mdy;
         var centerx, centery;
         var lvl, id;
@@ -34,10 +39,11 @@ if (window.addEventListener) {
                 contextdraw = canvas.getContext('2d');
                 context = staticpaper.getContext('2d');
                 contextdraw.beginPath();
-                contextdraw.strokeStyle = 'red';
+                contextdraw.strokeStyle = 'orange';
                 cx = canvas.width / 2;
                 cy = canvas.height / 2;
                 contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                contextdraw.arc(cx, cy, 400, 0, Math.PI * 2, true); //центр
                 contextdraw.stroke();
                 //context.drawImage(canvas, 10, 10);
                 //contextdraw.drawImage(canvas, -10, -10);
@@ -282,111 +288,173 @@ if (window.addEventListener) {
                 {
                     let x = document.getElementById("Floorlevel").innerHTML;
                     let id = document.getElementById("BuildingId").innerHTML;
-                    let url = "https://localhost:44336/api/Rooms?level=" + x + '&&id=' + id + '&&x=' + (ev._x - cx) + '&&y=' + (cy - ev._y);
+                    let url = "https://localhost:44336/api/Rooms/Room?level=" + x + '&&id=' + id + '&&x=' + (ev._x - cx) + '&&y=' + (cy - ev._y);
                     console.log(url);
                     async function GetRooms() {
                         let response = await fetch(url);
                         console.log(response);
-                        let room = await response.json();
+                        room = await response.json();
                         console.log(room);
                         staticpaper = document.getElementById("imageView");
                         context = staticpaper.getContext('2d');
-                        let cx = staticpaper.width / 2;
-                        let cy = staticpaper.height / 2;
-                        document.getElementById("FloorId").value = room.FloorId;
-                        document.getElementById("RoomId").value = room.RoomId;
-                        document.getElementById("Name").value = room.Name;
-                        document.getElementById("Description").value = room.Description;
-                        document.getElementById("Timetable").value = room.Timetable;
-                        document.getElementById("Phone").value = room.Phone;
-                        document.getElementById("Mail").value = room.Site;
-                        //context.clearRect(0, 0, cx*2, cy*2);
-                        //room.forEach(function (item, i, floor) {
-                        //    context.beginPath();
-                        //    let xx = item.PointFrom.X + cx;
-                        //    let yy = cy - item.PointFrom.Y;
-                        //    let xxx = item.PointTo.X + cx;
-                        //    let yyy = cy - item.PointTo.Y;
-                        //    context.moveTo(xx, yy);
-                        //    context.lineTo(xxx, yyy);
-                        //    context.stroke();
-
-                        //}
-                        //);
+                        //cx = staticpaper.width / 2;
+                        //cy = staticpaper.height / 2;
+                        if (room.RoomId != 0) {
+                            context.closePath();
+                            context.beginPath();
+                            context.strokeStyle = 'red';
+                            context.arc(ev._x, ev._y, 9, 0, Math.PI * 2, true); //центр
+                            context.stroke();
+                            context.closePath();
+                            document.getElementById("FloorId").value = room.FloorId;
+                            document.getElementById("RoomId").value = room.RoomId;
+                            document.getElementById("Name").value = room.Name;
+                            document.getElementById("Description").value = room.Description;
+                            document.getElementById("Timetable").value = room.Timetable;
+                            document.getElementById("Phone").value = room.Phone;
+                            document.getElementById("Mail").value = room.Site;
+                            selectedx = ev._x - cx;
+                            selectedy = cy-ev._y;
+                        }
+                        else
+                        {
+                            document.getElementById("FloorId").value = null;
+                            document.getElementById("RoomId").value = null;
+                            document.getElementById("Name").value = null;
+                            document.getElementById("Description").value = null;
+                            document.getElementById("Timetable").value = null;
+                            document.getElementById("Phone").value = null;
+                            document.getElementById("Mail").value = null;
+                            selectedx = null;
+                            selectedy = null;
+                        }
+                        
                     };
                     GetRooms();
-                    //new function () {
-                    //    //$.get(,)
-                    //    //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
-                    //    //let n = document.getElementById("dtool").options.selectedIndex;
-
-                    //        $.ajax({
-                    //            url: '/Points/Room',
-                    //            type: "POST",
-                    //            contentType: "application/json; charset=utf-8",
-                    //            dataType: "json",
-                    //            data: JSON.stringify({
-                    //                firstx: ev._x - cx, firsty: cy - ev._y,
-                    //                level: lvl.options[lvl.selectedIndex].text,
-                    //                id: id.innerHTML
-                    //            }),
-                    //            complete: function (data) {
-                    //                alert();
-                    //                console.log(data);
-                    //                let response = data.json();
-                    //                console.log(response);
-                    //            }
-                    //        });
-
-
-
-                    //}
 
                 }
             };
 
            
-            //this.mouseup = function (ev) {
-            //    if (tool.started) {
-            //        tool.mousemove(ev);
-            //        //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
-            //        tool.started = false;
-            //        img_update();
-            //        mdx = tool.x0;
-            //        mdy = tool.y0;
-            //        $('#imageTemp').mouseup
-            //        {
-            //            new function () {
-            //                //$.get(,)
-            //                //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
-            //                let n = document.getElementById("dtool").options.selectedIndex;
+          
 
-            //                if (n == 1)
-            //                    $.ajax({
-            //                        url: '/Points/AddRectangle',
-            //                        type: "POST",
-            //                        contentType: "application/json; charset=utf-8",
-            //                        dataType: "json",
-            //                        data: JSON.stringify({
-            //                            firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - ev._y,
-            //                            thirdx: mdx - cx, thirdy: cy - mdy, fourthx: ev._x - cx, fourthy: cy - mdy,
-            //                            level: lvl.options[lvl.selectedIndex].text,
-            //                            id: id.innerHTML
-            //                        }),
-            //                        success: function () {
+        };
+        tools.moveimg = function () {
+            var tool = this;
+            tool.started = false;
+            tool.perenos = false;
 
-            //                        }
-            //                    });
+            this.mousedown = function (ev) {
+                    tool.x0 = ev._x;
+                tool.y0 = ev._y;
+                tool.started = true;
+           };
 
+            this.mousemove = function (ev) {
+                if (tool.started) {
+                    cx += ev._x - tool.x0;
+                    cy += ev._y - tool.y0;
+                    contextdraw.clearRect(0, 0, canvas.width, canvas.height);
 
+                    //contextdraw.drawImage(staticpaper, ev._x - tool.x0, ev._y - tool.y0);
+                    //context.clearRect(0, 0, canvas.width, canvas.height);
+                    //context.drawImage(canvas, 0, 0);
+                    //contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    floor.forEach(function (item, i, floor) {
+                        if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
+                        else contextdraw.strokeStyle = 'black';
+                        contextdraw.beginPath();
+                        let xx = item.PointFrom.X + cx;
+                        let yy = cy - item.PointFrom.Y;
+                        let xxx = item.PointTo.X + cx;
+                        let yyy = cy - item.PointTo.Y;
+                        contextdraw.moveTo(xx, yy);
+                        contextdraw.lineTo(xxx, yyy);
+                        contextdraw.stroke();
 
-            //            }
+                    });
+                    points.forEach(function (item, i, points) {
+                        contextdraw.beginPath();
+                        if (item.IsWaypoint) {
+                            contextdraw.strokeStyle = 'orange';
+                            contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                            contextdraw.stroke();
+                        }
+                        else {
+                            contextdraw.strokeStyle = 'black';
+                            contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                            contextdraw.stroke();
+                        }
+                    });
+                    tool.x0 = ev._x;
+                    tool.y0 = ev._y;
+                    contextdraw.beginPath();
+                    contextdraw.strokeStyle = 'orange';
+                    contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                    contextdraw.stroke();
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.drawImage(canvas, 0, 0);
+                    contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                    if (room.RoomId != 0)
+                    {
+                        context.closePath();
+                        context.beginPath();
+                        context.strokeStyle = 'red';
+                        context.arc(selectedx + cx, cy - selectedy, 9, 0, Math.PI * 2, true); //центр
+                        context.stroke();
+                        context.closePath();
+                    }
+                }
+                //this.mousedown();
+                //mdx = tool.x0;
+                //mdy = tool.y0;
+                //
+                //contextdraw.moveTo(tool.x0, tool.y0);
+                //contextdraw.lineTo(ev._x, ev._y);
+                //contextdraw.stroke(); contextdraw.closePath();
+                //contextdraw.beginPath();
+                //contextdraw.moveTo(tool.x0 + 3, tool.y0);
+                //contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
+                //contextdraw.moveTo(ev._x + 3, ev._y);
+                //contextdraw.arc(ev._x, ev._y, 4, 0, Math.PI * 2, true);
+                //contextdraw.stroke();
+                //contextdraw.closePath();
 
-            //        }
-            //    }
+            };
 
-            //};
+            this.mouseup = function (ev) {
+                if (tool.started) {
+                    //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
+                    tool.started = false;
+                    //img_update();
+                }
+                //$('#imageTemp').mouseup
+                //{
+                //    new function () {
+                //        //$.get(,)
+                //        //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
+                //        let n = document.getElementById("dtool").options.selectedIndex;
+                //        alert();
+                //        if (n == 0) {
+                //            $.ajax({
+                //                url: '/Points/Line',
+                //                type: "POST",
+                //                contentType: "application/json; charset=utf-8",
+                //                dataType: "json",
+                //                data: JSON.stringify({
+                //                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                //                    id: id.innerHTML
+                //                }),
+                //                complete: function () {
+                //                    alert('Load was performed.');
+                //                }
+                //            });
+                //        }
+                //    }
 
+                //}
+            };
         };
         //$("imageTemp").mouseup(function () {
 
@@ -394,4 +462,130 @@ if (window.addEventListener) {
         init();
 
     }, false);
+}
+
+document.body.querySelector('#spisok').addEventListener('change', event => {
+    let x;
+    for (opt of event.target.children) {
+        if (opt.selected) {
+            x = opt.value
+            //console.log(opt.value);
+            break;
+        }
+    }
+    let id = document.getElementById("BuildingId").innerHTML;
+    x = Number(x.substring(0, x.indexOf(' ')));
+    document.getElementById("FloorId").innerHTML = x;
+    document.getElementById("Floorlevel").innerHTML = x;
+    console.log(x);
+    let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
+    console.log(url);
+    async function f() {
+        let response = await fetch(url);
+        console.log(response);
+        floor = await response.json();
+        console.log(floor);
+        staticpaper = document.getElementById("imageView");
+        context = staticpaper.getContext('2d');
+
+        //let cx = staticpaper.width / 2;
+        //let cy = staticpaper.height / 2;
+        //context.clearRect(0, 0, cx*2, cy*2);
+        floor.forEach(function (item, i, floor) {
+            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
+            else context.strokeStyle = 'black';
+            context.beginPath();
+            let xx = item.PointFrom.X + cx;
+            let yy = cy - item.PointFrom.Y;
+            let xxx = item.PointTo.X + cx;
+            let yyy = cy - item.PointTo.Y;
+            context.moveTo(xx, yy);
+            context.lineTo(xxx, yyy);
+            context.stroke();
+
+        }
+        );
+    }
+    f();
+    url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
+    async function func() {
+        let response = await fetch(url);
+        console.log(response);
+        points = await response.json();
+        console.log(points);
+        staticpaper = document.getElementById("imageView");
+        context = staticpaper.getContext('2d');
+        //let cx = staticpaper.width / 2;
+        //let cy = staticpaper.height / 2;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        points.forEach(function (item, i, points) {
+            context.beginPath();
+            if (item.IsWaypoint) {
+                context.strokeStyle = 'orange';
+                context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                context.stroke();
+            }
+            else {
+                context.strokeStyle = 'black';
+                context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                context.stroke();
+            }
+            //let xx = item.PointFrom.X + cx;
+            //let yy = cy - item.PointFrom.Y;
+            //let xxx = item.PointTo.X + cx;
+            //let yyy = cy - item.PointTo.Y;
+            //context.moveTo(xx, yy);
+            //context.lineTo(xxx, yyy);
+            //context.stroke();
+
+        }
+        );
+        context.strokeStyle = 'black';
+    }
+
+
+    func();
+
+}, false);
+addEventListener("keydown", function () {
+    //console.log(this.event.keyCode);
+    if (this.event.keyCode == 17 && !pressed)
+    {
+        console.log("CTRL");
+        pressed = true;
+    }
+    if (this.event.keyCode == 46)
+    {
+        console.log("DEL");
+    }
+});
+addEventListener("keyup", function () {
+    //console.log(this.event.keyCode);
+    pressed = false;
+    console.log("otpusk");
+});
+function Button() {
+    if (document.getElementById("RoomId").value != null) {
+        //room.FloorId = document.getElementById("FloorId").value
+        room.Name = document.getElementById("Name").value;
+        room.Description = document.getElementById("Description").value;
+        room.Timetable = document.getElementById("Timetable").value;
+        room.Phone = document.getElementById("Phone").value;
+        room.Site = document.getElementById("Mail").value;
+        $.ajax({
+            url: '/Rooms/Edit',
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(room),
+            complete: function () {
+                alert('Load was performed.');
+            }
+        });
+         alert("ne pusto");
+    }
+    else alert("pusto");
+    //document.getElementById("zona").innerHTML = "Молодец! Ты прошел испытание на смелость! ";
+    //document.getElementById("zona").style.color = 'red';
+   // document.getElementById("zona").style.fontSize = '32px';
 }

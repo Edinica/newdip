@@ -19,23 +19,34 @@ namespace newdip.Controllers.Web
         // GET: api/PointMs
         public List<PointM> GetPoints()
         {
-
-            //var list = db.Points.ToList();
-            //for (int i = 0; i < list.Count(); i++)
-            //{
-            //    if(list[i].EdgesIn!=null) list[i].EdgesIn.Clear();
-            //    if (list[i].EdgesOut != null) list[i].EdgesOut.Clear();
-            //    if (list[i].Floor != null) list[i].Floor = null;
-            //    if (list[i].Room != null) list[i].Room = null;
-            //}
-            //foreach (var pum in list)
-            //{
-            //    pum.EdgesOut = null;
-            //    pum.EdgesIn = null; 
-            //}
             return db.Points.ToList();
         }
-
+        [HttpGet]
+        [Route("api/PointMs/FloorPoints")]
+        public IHttpActionResult FloorPoints(int level, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+           var points = db.Floors.
+               Include(x => x.Points).
+               FirstOrDefault(x => x.BuildingId == id && x.Level == level).
+               Points.ToList();
+           List<PointM> listpoints = new List<PointM>();
+           foreach (var element in points) 
+           {
+                   PointM point = new PointM();
+                   point.X = element.X;
+                   point.Y = element.Y;
+                   point.IsWaypoint = element.IsWaypoint;
+               listpoints.Add(point);
+            
+           }
+           
+           if (listpoints == null) { return null; }
+            return Ok(listpoints);
+        }
         // GET: api/PointMs/5
         [ResponseType(typeof(PointM))]
         public IHttpActionResult GetPointM(int id)

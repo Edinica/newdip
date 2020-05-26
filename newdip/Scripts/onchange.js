@@ -12,7 +12,7 @@
     document.getElementById("FloorId").innerHTML = x;
     document.getElementById("Floorlevel").innerHTML = x;
     console.log(x);
-    let url = "https://localhost:44336/api/Floors?level=" + x + '&&id=' + id;
+    let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
     console.log(url);
     async function f() {
         let response = await fetch(url);
@@ -39,7 +39,7 @@
         );
     }
     f();
-    url = "https://localhost:44336/api/Points?level=" + x + '&&id=' + id;
+    url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
     async function func() {
         let response = await fetch(url);
         console.log(response);

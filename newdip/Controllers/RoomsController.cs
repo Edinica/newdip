@@ -81,17 +81,18 @@ namespace newdip.Controllers
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RoomId,FloorId,Name,Description,Timetable,Phone,Site")] Room room)
+        
+        public void Edit([Bind(Include = "RoomId,FloorId,Name,Description,Timetable,Phone,Site")] Room room)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(room).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var xxx = db.Rooms.Where(xx => xx.RoomId == room.RoomId).FirstOrDefault();
+                //return RedirectToAction("Index");
             }
-            ViewBag.FloorId = new SelectList(db.Floors, "FloorId", "FloorId", room.FloorId);
-            return View(room);
+            //ViewBag.FloorId = new SelectList(db.Floors, "FloorId", "FloorId", room.FloorId);
+            //return View(room);
         }
 
         // GET: Rooms/Delete/5
