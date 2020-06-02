@@ -55,10 +55,12 @@ namespace newdip.Controllers.Web
                         edge.PointFrom = new PointM();
                         edge.PointFrom.X = elem.X;
                         edge.PointFrom.Y = elem.Y;
+                        edge.PointFrom.Id = elem.Id;
                         edge.PointFrom.IsWaypoint = elem.IsWaypoint;
                         edge.PointTo = new PointM();
                         edge.PointTo.X = elem.EdgesOut[i].PointTo.X;
                         edge.PointTo.Y = elem.EdgesOut[i].PointTo.Y;
+                        edge.PointTo.Id=elem.EdgesOut[i].PointTo.Id;
                         edge.PointTo.IsWaypoint = elem.EdgesOut[i].PointTo.IsWaypoint;
                         edgeMs.Add(edge);
                     }

@@ -10,16 +10,100 @@
 //ctx.closePath()
 //ctx.stroke();
 //alert('Добрый день');
+function draw(){
+    {///загрузка линий и их рисование
+        async function f() {
+            let response = await fetch(url);
+            console.log(response);
+            floor = null;
+            floor = await response.json();
+            console.log(floor);
+            staticpaper = document.getElementById("imageView");
+            context = staticpaper.getContext('2d');
+            floor.forEach(function (item, i, floor)
+            {
+                if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
+                else context.strokeStyle = 'black';
+                context.beginPath();
+                let xx = item.PointFrom.X + cx;
+                let yy = cy - item.PointFrom.Y;
+                let xxx = item.PointTo.X + cx;
+                let yyy = cy - item.PointTo.Y;
+                context.moveTo(xx, yy);
+                context.lineTo(xxx, yyy);
+                context.stroke();
+            });
+        }
+        ///загрузка точек и их рисование
+        async function func() {
+            let response = await fetch(url);
+            console.log(response);
+            points = null;
+            points = await response.json();
+            console.log(points);
+            staticpaper = document.getElementById("imageView");
+            context = staticpaper.getContext('2d');
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            points.forEach(function (item, i, points) {
+                context.beginPath();
+                if (item.IsWaypoint) {
+                    context.strokeStyle = 'orange';
+                    context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                    context.stroke();
+                }
+                else {
+                    context.strokeStyle = 'black';
+                    context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                    context.stroke();
+                }
+
+            }
+            );
+            context.strokeStyle = 'black';
+        }
+        let id = document.getElementById("BuildingId").innerHTML;
+        let x = document.getElementById("FloorId").innerHTML;
+        console.log(x);
+        let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
+        console.log(url);
+        f();
+        url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
+
+
+        func();
+
+}
 var points, floor; var cx, cy;
 var selectedx, selectedy;
-let pressed = false;
+var selectedpoint;
+var selectedid, number, pointtodel;
+var delx, dely;
+let ctrl = false;
+let shift = false;
 var room;
 var canvas; var contextdraw;//temp
 var staticpaper; var context;//view
 if (window.addEventListener) {
     window.addEventListener('load', function () {
-        
 
+        //if (window.screen.availHeight > 720 &&
+        //    window.screen.availWidth > 1366)
+        //{
+        //    var first = document.getElementById("first");
+        //    var second = document.getElementById("second");
+        //    var third = document.getElementById("third");
+        //    second.classList.remove("col-lg-offset-1");
+        //    second.classList.remove("col-lg-5");
+        //    second.classList.add("col-lg-7");
+        //    third.classList.remove("col-lg-4");
+        //    third.classList.add("col-lg-3");
+        //    document.getElementById("container").width = 900;
+        //    document.getElementById("imageView").width = 900;
+        //    document.getElementById("imageTemp").width = 900;
+
+        //}
 
         var tool;
         var tool_default = 'line';
@@ -345,66 +429,205 @@ if (window.addEventListener) {
             tool.perenos = false;
 
             this.mousedown = function (ev) {
-                    tool.x0 = ev._x;
+                tool.x0 = ev._x;
                 tool.y0 = ev._y;
                 tool.started = true;
+                if (ctrl) {
+                    for (var k = 0; k < points.length; k++)
+                        for (var i = -5; i < 6; i++)
+                            for (var j = -5; j < 6; j++) {
+                                if (points[k].X === tool.x0 - cx + i && points[k].Y === cy - tool.y0 + j) {
+                                    if (!points[k].IsWaypoint) {
+                                        selectedid = points[k].Id;
+                                        number = k;
+                                        selectedpoint = points[k];
+                                        break;
+                                    }
+                                }
+                            }
+                    if (selectedpoint != null) {
+
+                    }
+                }
+                else {
+                    if (shift) {
+                    let perem = false;
+                    for (var k = 0; k < points.length; k++)
+                        for (var i = -5; i < 6; i++)
+                            for (var j = -5; j < 6; j++) {
+                                if (points[k].X === tool.x0 - cx + i && points[k].Y === cy - tool.y0 + j) {
+                                    if (!points[k].IsWaypoint) {
+                                        pointtodel = points[k];
+                                        perem = true;
+                                        break;
+                                    }
+                                }
+                            }
+                    if (perem)
+                    {
+                        delx = ev._x - cx;
+                        dely = cy - ev._y;
+                        context.closePath();
+                        context.beginPath();
+                        context.strokeStyle = 'red';
+                        context.arc(ev._x, ev._y, 9, 0, Math.PI * 2, true); //центр
+                        context.stroke();
+                        context.closePath();
+                        
+                    }   
+                    }
+                }
            };
 
             this.mousemove = function (ev) {
                 if (tool.started) {
-                    cx += ev._x - tool.x0;
-                    cy += ev._y - tool.y0;
-                    contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                    if (!ctrl) {
 
-                    //contextdraw.drawImage(staticpaper, ev._x - tool.x0, ev._y - tool.y0);
-                    //context.clearRect(0, 0, canvas.width, canvas.height);
-                    //context.drawImage(canvas, 0, 0);
-                    //contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-                    
-                    floor.forEach(function (item, i, floor) {
-                        if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
-                        else contextdraw.strokeStyle = 'black';
+                        cx += ev._x - tool.x0;
+                        cy += ev._y - tool.y0;
+                        contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+
+                        //contextdraw.drawImage(staticpaper, ev._x - tool.x0, ev._y - tool.y0);
+                        //context.clearRect(0, 0, canvas.width, canvas.height);
+                        //context.drawImage(canvas, 0, 0);
+                        //contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+
+                        floor.forEach(function (item, i, floor) {
+                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
+                            else contextdraw.strokeStyle = 'black';
+                            contextdraw.beginPath();
+                            let xx = item.PointFrom.X + cx;
+                            let yy = cy - item.PointFrom.Y;
+                            let xxx = item.PointTo.X + cx;
+                            let yyy = cy - item.PointTo.Y;
+                            contextdraw.moveTo(xx, yy);
+                            contextdraw.lineTo(xxx, yyy);
+                            contextdraw.stroke();
+
+                        });
+                        points.forEach(function (item, i, points) {
+                            contextdraw.beginPath();
+                            if (item.IsWaypoint) {
+                                contextdraw.strokeStyle = 'orange';
+                                contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                                contextdraw.stroke();
+                            }
+                            else {
+                                contextdraw.strokeStyle = 'black';
+                                contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                                contextdraw.stroke();
+                            }
+                        });
+                        tool.x0 = ev._x;
+                        tool.y0 = ev._y;
                         contextdraw.beginPath();
-                        let xx = item.PointFrom.X + cx;
-                        let yy = cy - item.PointFrom.Y;
-                        let xxx = item.PointTo.X + cx;
-                        let yyy = cy - item.PointTo.Y;
-                        contextdraw.moveTo(xx, yy);
-                        contextdraw.lineTo(xxx, yyy);
+                        contextdraw.strokeStyle = 'orange';
+                        contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                         contextdraw.stroke();
-
-                    });
-                    points.forEach(function (item, i, points) {
-                        contextdraw.beginPath();
-                        if (item.IsWaypoint) {
-                            contextdraw.strokeStyle = 'orange';
-                            contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
-                            contextdraw.stroke();
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        context.drawImage(canvas, 0, 0);
+                        contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                        if (room != null)
+                        {
+                            context.closePath();
+                            context.beginPath();
+                            context.strokeStyle = 'red';
+                            context.arc(selectedx + cx, cy - selectedy, 9, 0, Math.PI * 2, true); //центр
+                            context.stroke();
+                            context.closePath();
                         }
-                        else {
-                            contextdraw.strokeStyle = 'black';
-                            contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
-                            contextdraw.stroke();
+                        if (pointtodel != null) {
+                            context.closePath();
+                            context.beginPath();
+                            context.strokeStyle = 'red';
+                            context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
+                            context.stroke();
+                            context.closePath();
                         }
-                    });
-                    tool.x0 = ev._x;
-                    tool.y0 = ev._y;
-                    contextdraw.beginPath();
-                    contextdraw.strokeStyle = 'orange';
-                    contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
-                    contextdraw.stroke();
-                    context.clearRect(0, 0, canvas.width, canvas.height);
-                    context.drawImage(canvas, 0, 0);
-                    contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-                    if (room.RoomId != 0)
-                    {
-                        context.closePath();
-                        context.beginPath();
-                        context.strokeStyle = 'red';
-                        context.arc(selectedx + cx, cy - selectedy, 9, 0, Math.PI * 2, true); //центр
-                        context.stroke();
-                        context.closePath();
                     }
+                    else
+                    {
+                        points[number].X = ev.layerX - cx;
+                        points[number].Y = cy - ev.layerY;
+                        floor.forEach(function (item, i, floor) {
+                            if (item.PointFrom.Id == selectedid) {
+                                item.PointFrom.X = points[number].X;
+                                item.PointFrom.Y = points[number].Y;
+                            }
+                            if (item.PointTo.Id == selectedid) {
+                                item.PointTo.X = points[number].X;
+                                item.PointTo.Y = points[number].Y;
+                            }
+                        });
+                            contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+
+                            floor.forEach(function (item, i, floor) {
+                                if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
+                                else contextdraw.strokeStyle = 'black';
+                                contextdraw.beginPath();
+                                let xx = item.PointFrom.X + cx;
+                                let yy = cy - item.PointFrom.Y;
+                                let xxx = item.PointTo.X + cx;
+                                let yyy = cy - item.PointTo.Y;
+                                contextdraw.moveTo(xx, yy);
+                                contextdraw.lineTo(xxx, yyy);
+                                contextdraw.stroke();
+
+                            });
+                            points.forEach(function (item, i, points) {
+                                contextdraw.beginPath();
+                                if (item.IsWaypoint) {
+                                    contextdraw.strokeStyle = 'orange';
+                                    contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                                    contextdraw.stroke();
+                                }
+                                else {
+                                    contextdraw.strokeStyle = 'black';
+                                    contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                                    contextdraw.stroke();
+                                }
+                                if (pointtodel!=null && pointtodel.Id == item.Id) {
+                                    delx = item.X;
+                                    dely = item.Y;
+                                    context.closePath();
+                                    context.beginPath();
+                                    context.strokeStyle = 'red';
+                                    context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
+                                    context.stroke();
+                                    context.closePath();
+                                }
+                            });
+                            tool.x0 = ev._x;
+                            tool.y0 = ev._y;
+                            contextdraw.beginPath();
+                            contextdraw.strokeStyle = 'orange';
+                            contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                            contextdraw.stroke();
+                            context.clearRect(0, 0, canvas.width, canvas.height);
+                            context.drawImage(canvas, 0, 0);
+                            contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                        if (room != null)
+                        {
+                                context.closePath();
+                                context.beginPath();
+                                context.strokeStyle = 'red';
+                                context.arc(selectedx + cx, cy - selectedy, 9, 0, Math.PI * 2, true); //центр
+                                context.stroke();
+                                context.closePath();
+                        }
+                        if (pointtodel != null)
+                        {
+                            context.closePath();
+                            context.beginPath();
+                            context.strokeStyle = 'red';
+                            context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
+                            context.stroke();
+                            context.closePath();
+                        }
+
+                        
+                    }
+                    
                 }
                 //this.mousedown();
                 //mdx = tool.x0;
@@ -427,6 +650,23 @@ if (window.addEventListener) {
                 if (tool.started) {
                     //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
                     tool.started = false;
+                    if (selectedpoint != null) {
+                        $.ajax({
+                            url: '/Points/Move',
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify(
+                                selectedpoint
+                            ),
+                            complete: function () {
+                                alert('Load was performed.');
+                            }
+                        });
+                    }
+                    number = null;
+                    selectedid = null;
+                    selectedpoint = null;
                     //img_update();
                 }
                 //$('#imageTemp').mouseup
@@ -468,6 +708,13 @@ document.body.querySelector('#spisok').addEventListener('change', event => {
     let x;
     for (opt of event.target.children) {
         if (opt.selected) {
+            selectedx = null;
+            selectedy = null;
+            delx = null;
+            dely = null;
+            //let response = await fetch(url);
+            //console.log(response);
+            //points = await response.json();
             x = opt.value
             //console.log(opt.value);
             break;
@@ -530,13 +777,6 @@ document.body.querySelector('#spisok').addEventListener('change', event => {
                 context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
                 context.stroke();
             }
-            //let xx = item.PointFrom.X + cx;
-            //let yy = cy - item.PointFrom.Y;
-            //let xxx = item.PointTo.X + cx;
-            //let yyy = cy - item.PointTo.Y;
-            //context.moveTo(xx, yy);
-            //context.lineTo(xxx, yyy);
-            //context.stroke();
 
         }
         );
@@ -549,19 +789,113 @@ document.body.querySelector('#spisok').addEventListener('change', event => {
 }, false);
 addEventListener("keydown", function () {
     //console.log(this.event.keyCode);
-    if (this.event.keyCode == 17 && !pressed)
-    {
-        console.log("CTRL");
-        pressed = true;
-    }
-    if (this.event.keyCode == 46)
-    {
-        console.log("DEL");
+    switch (this.event.keyCode) {
+        case 17:
+            if (!ctrl) {
+                console.log("ctrl");
+                ctrl = true;
+            }
+            break;
+        case 16:
+            if (!shift)
+            {
+                console.log("shift");
+                shift = true;
+            }
+            break;
+        case 46:
+            if (pointtodel) {
+                console.log("DEL");
+                $.ajax({
+                    url: '/Points/Del',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(
+                        pointtodel
+                    ),
+                    complete: function () {
+                        alert('Load was performed.');
+                    }
+                });
+                pointtodel = null;
+                delx = null;
+                dely = null;
+                {
+                    let id = document.getElementById("BuildingId").innerHTML;
+                    let x = document.getElementById("FloorId").innerHTML;
+                    console.log(x);
+                    let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
+                    console.log(url);
+                    async function f() {
+                        let response = await fetch(url);
+                        console.log(response);
+                        floor = null;
+                        floor = await response.json();
+                        console.log(floor);
+                        staticpaper = document.getElementById("imageView");
+                        context = staticpaper.getContext('2d');
+                        floor.forEach(function (item, i, floor) {
+                            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
+                            else context.strokeStyle = 'black';
+                            context.beginPath();
+                            let xx = item.PointFrom.X + cx;
+                            let yy = cy - item.PointFrom.Y;
+                            let xxx = item.PointTo.X + cx;
+                            let yyy = cy - item.PointTo.Y;
+                            context.moveTo(xx, yy);
+                            context.lineTo(xxx, yyy);
+                            context.stroke();
+
+                        }
+                        );
+                    }
+                    f();
+                    url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
+                    async function func() {
+                        let response = await fetch(url);
+                        console.log(response);
+                        points = null;
+                        points = await response.json();
+                        console.log(points);
+                        staticpaper = document.getElementById("imageView");
+                        context = staticpaper.getContext('2d');
+
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        
+                        points.forEach(function (item, i, points) {
+                            context.beginPath();
+                            if (item.IsWaypoint) {
+                                context.strokeStyle = 'orange';
+                                context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                                context.stroke();
+                            }
+                            else {
+                                context.strokeStyle = 'black';
+                                context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                                context.stroke();
+                            }
+
+                        }
+                        );
+                        context.strokeStyle = 'black';
+                    }
+
+
+                    func();
+
+                }
+                
+            }
+            break;
+        default:
+            
     }
 });
 addEventListener("keyup", function () {
     //console.log(this.event.keyCode);
-    pressed = false;
+    ctrl = false;
+    shift = false;
     console.log("otpusk");
 });
 function Button() {

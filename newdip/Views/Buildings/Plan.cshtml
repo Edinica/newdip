@@ -43,11 +43,10 @@
 
     </div>
     @*<input type="range" height="1" max="100" min="0">*@
-    <div>
-        <div class="col-md-1">
-            <p>
+    <div style="padding-left:10px;">
+        <div id="first" class="col-lg-1">
 
-                <select size="33" style="width:120px; height:603px;" id="spisok">
+                <select size="33" style="width:90px; height:553px;" id="spisok">
                     @foreach (var element in Model.Floors)
                     {
                         <option title="@Model.Name">
@@ -55,28 +54,28 @@
                         </option>
                     }
                 </select>
-            </p>
+
         </div>
-        <div class="col-md-7">
+        <div id="second" class="col-lg-8">
             @*@{Html.RenderAction("RenderList",new {Id = Model.Id,level = Model.Floors[0]}); }*@
             @*   @{Html.RenderPartial("PartialListPoints");}*@
-            <div id="container" width="900" height="600">
+            <div id="container" width="800" height="550">
 
-                <canvas id="imageView" width="900" height="600">
+                <canvas id="imageView" width="800" height="550">
                     @*<p>Unfortunately, your browser is currently unsupported by our web application. We are sorry for the inconvenience. Please use one of the supported browsers listed below, or draw the image you want using an offline tool.</p>*@
                     @* <p>Supported browsers: <a href="http://www.opera.com">Opera</a>, <a href="http://www.mozilla.com">Firefox</a>, <a href="http://www.apple.com/safari">Safari</a>, and <a href="http://www.konqueror.org">Konqueror</a>.</p>*@
                 </canvas>
-                <canvas id="imageTemp" on width="900" height="600"></canvas>
+                <canvas id="imageTemp" on width="800" height="550"></canvas>
             </div>
         </div>
-        <div class="col-md-4">
-            <div id="room" style="border:1px solid #000; margin-left:40px; height:603px; top:4px;">
+        <div id="third" class="col-lg-3">
+            <div id="room" style="border:1px solid #000; margin-left:30px; height:552px; top:4px; ">
                 <div class="form-horizontal">
-                    <h4>Room</h4>
-                    <hr />
+                    <h4 style="text-align:center;">Room</h4>
+                    <hr/>
                     @*@Html.HiddenFor(model => model.RoomId)*@
-                    <p>
-                        <div class="form-group" style="margin-left:40px">
+                    
+                        <div class="form-group" style="margin-left:40px;margin-bottom:3px;" >
                             <label>Номер этажа:</label>
                             <label id="Floorlevel"></label>
                             <label style="visibility:hidden;" id="FloorId"></label>
@@ -85,20 +84,21 @@
                             @*@Html.DropDownList("FloorId", null, htmlAttributes: new { @class = "form-control" })*@
                             @*@Html.ValidationMessageFor(model => model.FloorId, "", new { @class = "text-danger" })*@
                         </div>
-                    <p>
-                        <div class="form-group" style="margin-left:40px">
+                    
+                        <div class="form-group" style="margin-left:40px;">
                             <label>Имя помещения:</label>
-                            <input type="text" id="Name" placeholder="Введите имя " size="18" style="width:234px;" />
+                            <br>
+                            <input type="text" id="Name" placeholder="Введите имя " size="15" style="width:200px;" />
                             @*@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </div>*@
                         </div>
-                    <p>
-                        <div class="form-group" style="margin-left:40px">
+                    
+                        <div class="form-group" style="margin-left:40px;">
                             <label>Описание:</label>
-                            <textarea type="text" id="Description" placeholder="Введите имя помещения" size="18" rows="5" cols="40"></textarea>
+                            <textarea type="text" id="Description" placeholder="Введите описание" size="15" rows="3" cols="27"></textarea>
                             @*@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
@@ -106,32 +106,33 @@
                                 </div>*@
                         </div>
 
-                    <p>
+                    
 
 
-                        <div class="form-group" style="margin-left:40px">
+                        <div class="form-group" style="margin-left:40px;">
                             <label>Расписание:</label>
-                            <textarea type="text" id="Timetable" placeholder="Введите расписание" size="18" rows="7" cols="34"></textarea>
+                            <br>
+                            <textarea type="text" id="Timetable" placeholder="Введите расписание" size="15" rows="5" cols="27"></textarea>
                             @*@Html.LabelFor(model => model.Timetable, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.Timetable, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.Timetable, "", new { @class = "text-danger" })
                                 </div>*@
                         </div>
-                    <p>
-                        <div class="form-group" style="margin-left:40px">
+                    
+                        <div class="form-group" style="margin-left:40px;">
                             <label>Телефон:</label>
-                            <input type="text" id="Phone" placeholder="Введите телефон" size="18" />
+                            <input type="text" id="Phone" placeholder="Введите телефон" size="15" />
                             @*@Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
                                 </div>*@
                         </div>
-                    <p>
-                        <div class="form-group" style="margin-left:40px">
+                    
+                        <div class="form-group" style="margin-left:40px;">
                             <label>Почта:</label>
-                            <input type="text" id="Mail" placeholder="Почту" size="18" />
+                            <input type="text" id="Mail" placeholder="Почту" size="15" style="width:160px;"/>
                             @*@Html.LabelFor(model => model.Site, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.Site, new { htmlAttributes = new { @class = "form-control" } })
@@ -140,7 +141,7 @@
                         </div>
 
                         <div class="form-group" style="text-align:center">
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-12">
                                 <input type="submit" value="Save" id="Change" class="btn btn-default"
                                        onclick="Button()"/>
                             </div>

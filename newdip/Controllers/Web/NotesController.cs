@@ -52,18 +52,15 @@ namespace newdip.Controllers.Web
         }
 
         // PUT: api/Notes/5
+        [HttpPut]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutNote(int id, Note note)
+        public IHttpActionResult PutNote(Note note)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != note.NoteId)
-            {
-                return BadRequest();
-            }
 
             db.Entry(note).State = EntityState.Modified;
 
@@ -73,14 +70,7 @@ namespace newdip.Controllers.Web
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!NoteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return Ok(note);
@@ -109,6 +99,7 @@ namespace newdip.Controllers.Web
         }
 
         // DELETE: api/Notes/5
+        [HttpDelete]
         [ResponseType(typeof(Note))]
         public IHttpActionResult DeleteNote(int id)
         {

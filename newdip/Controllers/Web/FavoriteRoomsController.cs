@@ -19,7 +19,7 @@ namespace newdip.Controllers.Web
         // GET: api/FavoriteRooms
         public List<FavoriteRoom> GetFavoriteRooms()
         {
-            return db.FavoriteRooms.ToList() ;
+            return db.FavoriteRooms.ToList();
         }
 
         // GET: api/FavoriteRooms/5
@@ -52,7 +52,32 @@ namespace newdip.Controllers.Web
             return CreatedAtRoute("DefaultApi", new { id = favoriteRoom.FavoriteRoomId }, favoriteRoom);
         }
 
+        [HttpPut]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutFavoriteRoom(FavoriteRoom favoriteRoom)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            db.Entry(favoriteRoom).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+
+            return Ok(favoriteRoom);
+        }
+
         // DELETE: api/FavoriteRooms/5
+        [HttpDelete]
         [ResponseType(typeof(FavoriteRoom))]
         public IHttpActionResult DeleteFavoriteRoom(int id)
         {

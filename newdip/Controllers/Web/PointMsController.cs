@@ -39,6 +39,7 @@ namespace newdip.Controllers.Web
                    PointM point = new PointM();
                    point.X = element.X;
                    point.Y = element.Y;
+                point.Id = element.Id;
                    point.IsWaypoint = element.IsWaypoint;
                listpoints.Add(point);
             
