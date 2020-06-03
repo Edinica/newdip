@@ -1,143 +1,142 @@
-﻿//let canvas = document.getElementById("imageView");
-
-//let ctx = canvas.getContext('2d');
-//ctx.fillStyle = "blue";
-//ctx.beginPath();
-//ctx.arc(75, 75, 50, 0, Math.PI * 2, true);
-//ctx.fill();
-//ctx.moveTo(110, 75);
-//ctx.arc(75, 75, 35, 0, Math.PI, false);
-//ctx.closePath()
-//ctx.stroke();
-//alert('Добрый день');
-function draw(){
-    {///загрузка линий и их рисование
-        async function f() {
-            let response = await fetch(url);
-            console.log(response);
-            floor = null;
-            floor = await response.json();
-            console.log(floor);
-            staticpaper = document.getElementById("imageView");
-            context = staticpaper.getContext('2d');
-            floor.forEach(function (item, i, floor)
-            {
-                if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
-                else context.strokeStyle = 'black';
-                context.beginPath();
-                let xx = item.PointFrom.X + cx;
-                let yy = cy - item.PointFrom.Y;
-                let xxx = item.PointTo.X + cx;
-                let yyy = cy - item.PointTo.Y;
-                context.moveTo(xx, yy);
-                context.lineTo(xxx, yyy);
+﻿function updatedraw()
+{
+    id = document.getElementById("BuildingId").innerHTML;
+    x = document.getElementById("Floorlevel").innerHTML;
+    let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
+    async function getedges() {
+        let response = await fetch(url);
+        floor = await response.json();
+        floor.forEach(function (item, i, floor) {
+            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
+            else context.strokeStyle = 'black';
+            context.beginPath();
+            let xx = item.PointFrom.X + cx;
+            let yy = cy - item.PointFrom.Y;
+            let xxx = item.PointTo.X + cx;
+            let yyy = cy - item.PointTo.Y;
+            context.moveTo(xx, yy);
+            context.lineTo(xxx, yyy);
+            context.stroke();
+        }
+        );
+    }
+    getedges();
+    url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
+    async function getpoints() {
+        let response = await fetch(url);
+        points = await response.json();
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        points.forEach(function (item, i, points) {
+            context.beginPath();
+            if (item.IsWaypoint) {
+                context.strokeStyle = 'orange';
+                context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
                 context.stroke();
-            });
-        }
-        ///загрузка точек и их рисование
-        async function func() {
-            let response = await fetch(url);
-            console.log(response);
-            points = null;
-            points = await response.json();
-            console.log(points);
-            staticpaper = document.getElementById("imageView");
-            context = staticpaper.getContext('2d');
-
-            context.clearRect(0, 0, canvas.width, canvas.height);
-
-            points.forEach(function (item, i, points) {
-                context.beginPath();
-                if (item.IsWaypoint) {
-                    context.strokeStyle = 'orange';
-                    context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
-                    context.stroke();
-                }
-                else {
-                    context.strokeStyle = 'black';
-                    context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
-                    context.stroke();
-                }
-
             }
-            );
-            context.strokeStyle = 'black';
-        }
-        let id = document.getElementById("BuildingId").innerHTML;
-        let x = document.getElementById("FloorId").innerHTML;
-        console.log(x);
-        let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
-        console.log(url);
-        f();
-        url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
+            else {
+                context.strokeStyle = 'black';
+                context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                context.stroke();
+            }
 
-
-        func();
-
+        });
+        context.strokeStyle = 'black';
+    }
+    getpoints();
 }
+/*function draw()
+{
+    //очистка канвы
+    context.clearRect(0, 0, canvas.width, canvas.height);
+        ///вывод граней
+    floor.forEach(function (item, i, floor)
+    {
+            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
+            else context.strokeStyle = 'black';
+            context.beginPath();
+            let xx = item.PointFrom.X + cx;
+            let yy = cy - item.PointFrom.Y;
+            let xxx = item.PointTo.X + cx;
+            let yyy = cy - item.PointTo.Y;
+            context.moveTo(xx, yy);
+            context.lineTo(xxx, yyy);
+            context.stroke();
+    });
+    points.forEach(function (item, i, points) {
+        context.beginPath();
+        if (item.IsWaypoint) {
+            context.strokeStyle = 'orange';
+            context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+            context.stroke();
+        }
+        else {
+            context.strokeStyle = 'black';
+            context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+            context.stroke();
+        }
+        //если есть точка на удаление то ее тоже рисуем
+        if (pointtodel != null && pointtodel.Id == item.Id) {
+            delx = item.X;
+            dely = item.Y;
+            context.closePath();
+            context.beginPath();
+            context.strokeStyle = 'red';
+            context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
+            context.stroke();
+            context.closePath();
+        }
+
+    });
+    
+    context.strokeStyle = 'black';   
+} //есть очистка*/
+
 var points, floor; var cx, cy;
 var selectedx, selectedy;
 var selectedpoint;
-var selectedid, number, pointtodel;
+var selectedid, number, pointtodel;//выбранная точка, ее номер в списке, точка на удаление
 var delx, dely;
 let ctrl = false;
 let shift = false;
 var room;
 var canvas; var contextdraw;//temp
 var staticpaper; var context;//view
+ //переменные
 if (window.addEventListener) {
     window.addEventListener('load', function () {
-
-        //if (window.screen.availHeight > 720 &&
-        //    window.screen.availWidth > 1366)
-        //{
-        //    var first = document.getElementById("first");
-        //    var second = document.getElementById("second");
-        //    var third = document.getElementById("third");
-        //    second.classList.remove("col-lg-offset-1");
-        //    second.classList.remove("col-lg-5");
-        //    second.classList.add("col-lg-7");
-        //    third.classList.remove("col-lg-4");
-        //    third.classList.add("col-lg-3");
-        //    document.getElementById("container").width = 900;
-        //    document.getElementById("imageView").width = 900;
-        //    document.getElementById("imageTemp").width = 900;
-
-        //}
-
         var tool;
         var tool_default = 'line';
         
         var mdx, mdy;
-        var centerx, centery;
-        var lvl, id;
+        var centerx, centery;//показывает центр
+        var lvl, id;//этажи, здание идентификаторы
 
         function init() {
             id = document.getElementById("BuildingId");
             lvl = document.getElementById("spisok");
+            //
             canvas = document.getElementById("imageTemp");
             staticpaper = document.getElementById("imageView");
-            centerx = document.getElementById("centerx");
-            centery = document.getElementById("centery");
+            centerx = document.getElementById("centerx");//центр по х
+            centery = document.getElementById("centery");//центр по у
+            //
             if (canvas) {
                 contextdraw = canvas.getContext('2d');
                 context = staticpaper.getContext('2d');
+                //--
                 contextdraw.beginPath();
                 contextdraw.strokeStyle = 'orange';
                 cx = canvas.width / 2;
                 cy = canvas.height / 2;
                 contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
-                contextdraw.arc(cx, cy, 400, 0, Math.PI * 2, true); //центр
+                //contextdraw.arc(cx, cy, 400, 0, Math.PI * 2, true); //центр
                 contextdraw.stroke();
                 //context.drawImage(canvas, 10, 10);
                 //contextdraw.drawImage(canvas, -10, -10);
                 //contextdraw.closePath();
-                img_update();
+                //img_update();
                 var toolselect = document.getElementById('dtool');
                 toolselect.addEventListener('change', tool_change, false);
-
-
-
                 //// Attach the mousedown, mousemove and mouseup event listeners.
                 canvas.addEventListener('mousedown', canvasact, false);
                 canvas.addEventListener('mousemove', canvasact, false);
@@ -152,15 +151,13 @@ if (window.addEventListener) {
 
 
         }
-        function center_update() {
-
-        }
-        function img_update() {
-            //context.clearRect(0, 0, canvas.width, canvas.height);
-            center_update();
-            context.drawImage(canvas, 0, 0);
-            contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-        }
+        
+        //function img_update() {
+        //    //context.clearRect(0, 0, canvas.width, canvas.height);
+        //    //context.drawImage(canvas, 0, 0);
+        //    //contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+        //}
+        //действие на канвасе
         function canvasact(ev) {
 
             if (ev.layerX || ev.layerX == 0) { // Firefox
@@ -175,55 +172,41 @@ if (window.addEventListener) {
                 ev._x = ev.offsetX;
                 ev._y = ev.offsetY;
             }
-
             // Call the event handler of the tool.
             var func = tool[ev.type];
             if (func) {
                 func(ev);
             }
-
-
-
         }
 
+            //обработчик смены инструмента
         function tool_change(ev) {
             if (tools[this.value]) {
                 tool = new tools[this.value]();
             }
         }
         var tools = {};
-
+        //линия
         tools.line = function () {
             var tool = this;
             tool.started = false;
             tool.perenos = false;
-
-            this.mousedown = function (ev) {
-
-                if (ev.button == 0) {
+            //нажатие лкм
+            this.mousedown = function (ev)
+            {
                     tool.started = true;
                     tool.x0 = ev._x;
                     tool.y0 = ev._y;
-                }
-                if (ev.button == 2) {
-                    tool.perenos = true
-                }
-
             };
-
+            //отрисовка линии за курсором
             this.mousemove = function (ev) {
-                if (!tool.started) {
-                    if (!tool.perenos) { return; }
-                    else {
-
-                    }
-                    return;
-                }
-
+                if (!tool.started) return;
                 contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                 mdx = tool.x0;
                 mdy = tool.y0;
+                context.closePath();
                 contextdraw.beginPath();
+                contextdraw.strokeStyle = 'grey';   
                 contextdraw.moveTo(tool.x0, tool.y0);
                 contextdraw.lineTo(ev._x, ev._y);
                 contextdraw.stroke(); contextdraw.closePath();
@@ -237,70 +220,63 @@ if (window.addEventListener) {
 
             };
 
-            this.mouseup = function (ev) {
+            this.mouseup = function (ev)
+            {
+                //прекращение отрисовки и сохранение
                 if (tool.started) {
                     tool.mousemove(ev);
                     //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
                     tool.started = false;
-                    img_update();
+                    //img_update();
                 }
-                if (tool.perenos) {
-                    tool.perenos = false;
-                }
+                //отправка пост запроса на добавление
                 $('#imageTemp').mouseup
                 {
                     new function () {
-                        //$.get(,)
-                        //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
-                        let n = document.getElementById("dtool").options.selectedIndex;
-                        alert();
-                        if (n == 0) {
-                            $.ajax({
-                                url: '/Points/Line',
-                                type: "POST",
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                data: JSON.stringify({
-                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
-                                    id: id.innerHTML
-                                }),
-                                complete: function () {
-                                    alert('Load was performed.');
-                                }
-                            });
-                        }
-                    }
 
+                        $.ajax({
+                            url: '/Points/Line',
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                                id: id.innerHTML
+                            }),
+                            complete: function () {
+                            }
+                        });
+
+                    }
                 }
+                //setTimeout(, 10000);
+                    updatedraw()
             };
         };
-
+        //прямоугольник
         tools.rect = function () {
             var tool = this;
             this.started = false;
-
+            //нажатие лкм
             this.mousedown = function (ev) {
                 tool.started = true;
                 tool.x0 = ev._x;
                 tool.y0 = ev._y;
             };
-
+            //отрисовка прямоугольника за курсором
             this.mousemove = function (ev) {
-                if (!tool.started) {
-                    return;
-                }
-
+                if (!tool.started) return;
+                //значения
                 var x = Math.min(ev._x, tool.x0),
                     y = Math.min(ev._y, tool.y0),
                     w = Math.abs(ev._x - tool.x0),
                     h = Math.abs(ev._y - tool.y0);
 
+                if (!w || !h) return;
+                //отрисовка прямоугольника
                 contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-
-                if (!w || !h) {
-                    return;
-                }
                 contextdraw.beginPath();
+                contextdraw.strokeStyle = 'grey';
                 contextdraw.arc(x, y, 5, 0, Math.PI * 2, true);
                 contextdraw.stroke();
                 contextdraw.closePath();
@@ -322,44 +298,36 @@ if (window.addEventListener) {
                     tool.mousemove(ev);
                     //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
                     tool.started = false;
-                    img_update();
                     mdx = tool.x0;
                     mdy = tool.y0;
+                    //отпарвка пост запроса на добавление прямоугольника
                     $('#imageTemp').mouseup
                     {
                         new function () {
-                            //$.get(,)
-                            //var pointt = { firstx: ev._x, firsty: ev._y, secondx: ev._x, secondy: ev._y }
-                            let n = document.getElementById("dtool").options.selectedIndex;
-                            
-                                if (n == 1)
-                                    $.ajax({
-                                        url: '/Points/AddRectangle',
-                                        type: "POST",
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        data: JSON.stringify({
-                                            firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - ev._y,
-                                            thirdx: mdx - cx, thirdy: cy - mdy, fourthx: ev._x - cx, fourthy: cy - mdy,
-                                            level: lvl.options[lvl.selectedIndex].text,
-                                            id: id.innerHTML
-                                        }),
-                                        success: function () {
-
-                                        }
-                                    });
-                            
-
+                            $.ajax({
+                                url: '/Points/AddRectangle',
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - ev._y,
+                                    thirdx: mdx - cx, thirdy: cy - mdy, fourthx: ev._x - cx, fourthy: cy - mdy,
+                                    level: lvl.options[lvl.selectedIndex].text,
+                                    id: id.innerHTML
+                                }),
+                                success: function () { }
+                            });
 
                         }
 
                     }
                 }
+                updatedraw
 
             };
 
         };
-
+        //информация о комнате
         tools.info = function () {
             var tool = this;
             this.started = false;
@@ -373,7 +341,8 @@ if (window.addEventListener) {
                     let x = document.getElementById("Floorlevel").innerHTML;
                     let id = document.getElementById("BuildingId").innerHTML;
                     let url = "https://localhost:44336/api/Rooms/Room?level=" + x + '&&id=' + id + '&&x=' + (ev._x - cx) + '&&y=' + (cy - ev._y);
-                    console.log(url);
+                    //console.log(url);
+                    //метод поиска комнаты
                     async function GetRooms() {
                         let response = await fetch(url);
                         console.log(response);
@@ -382,7 +351,7 @@ if (window.addEventListener) {
                         staticpaper = document.getElementById("imageView");
                         context = staticpaper.getContext('2d');
                         //cx = staticpaper.width / 2;
-                        //cy = staticpaper.height / 2;
+                        //если найдена такая комната, то запоминаем ее и выводим для редактирования
                         if (room.RoomId != 0) {
                             context.closePath();
                             context.beginPath();
@@ -400,6 +369,7 @@ if (window.addEventListener) {
                             selectedx = ev._x - cx;
                             selectedy = cy-ev._y;
                         }
+                        //иначе оставляем поля пустыми
                         else
                         {
                             document.getElementById("FloorId").value = null;
@@ -418,20 +388,17 @@ if (window.addEventListener) {
 
                 }
             };
-
-           
-          
-
         };
+        //перенос изображения
         tools.moveimg = function () {
             var tool = this;
             tool.started = false;
-            tool.perenos = false;
 
             this.mousedown = function (ev) {
                 tool.x0 = ev._x;
                 tool.y0 = ev._y;
                 tool.started = true;
+                //Если перенос, то выбираем точку
                 if (ctrl) {
                     for (var k = 0; k < points.length; k++)
                         for (var i = -5; i < 6; i++)
@@ -445,12 +412,11 @@ if (window.addEventListener) {
                                     }
                                 }
                             }
-                    if (selectedpoint != null) {
-
-                    }
                 }
                 else {
+                    //если удалить, то выбираем точку
                     if (shift) {
+                        //выбрана  ли хоть одна точка
                     let perem = false;
                     for (var k = 0; k < points.length; k++)
                         for (var i = -5; i < 6; i++)
@@ -463,6 +429,7 @@ if (window.addEventListener) {
                                     }
                                 }
                             }
+                        //если да, то присваиваем ей координаты
                     if (perem)
                     {
                         delx = ev._x - cx;
@@ -481,17 +448,14 @@ if (window.addEventListener) {
 
             this.mousemove = function (ev) {
                 if (tool.started) {
+                    //если двигаем все точки
                     if (!ctrl) {
-
+                        //измереяем разницу в переносе
                         cx += ev._x - tool.x0;
                         cy += ev._y - tool.y0;
+                        //очищаем временный канвас
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-
-                        //contextdraw.drawImage(staticpaper, ev._x - tool.x0, ev._y - tool.y0);
-                        //context.clearRect(0, 0, canvas.width, canvas.height);
-                        //context.drawImage(canvas, 0, 0);
-                        //contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-
+                        // и на нем рисуем временные точки
                         floor.forEach(function (item, i, floor) {
                             if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
                             else contextdraw.strokeStyle = 'black';
@@ -518,15 +482,19 @@ if (window.addEventListener) {
                                 contextdraw.stroke();
                             }
                         });
+                        //координаты для следующего раза
                         tool.x0 = ev._x;
                         tool.y0 = ev._y;
+                        //рисуем центр на канве и делаем перенос
                         contextdraw.beginPath();
-                        contextdraw.strokeStyle = 'orange';
+                        contextdraw.strokeStyle = 'navy';
                         contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                         contextdraw.stroke();
                         context.clearRect(0, 0, canvas.width, canvas.height);
                         context.drawImage(canvas, 0, 0);
+                        //и затираем временный
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                        //если есть комната или точка на удаление,то их тоже отображаем
                         if (room != null)
                         {
                             context.closePath();
@@ -545,10 +513,13 @@ if (window.addEventListener) {
                             context.closePath();
                         }
                     }
+                    //если двигаем только одну точку
                     else
                     {
+                        //изменяем ее координаты
                         points[number].X = ev.layerX - cx;
                         points[number].Y = cy - ev.layerY;
+                        //и грани которые связаны
                         floor.forEach(function (item, i, floor) {
                             if (item.PointFrom.Id == selectedid) {
                                 item.PointFrom.X = points[number].X;
@@ -559,61 +530,66 @@ if (window.addEventListener) {
                                 item.PointTo.Y = points[number].Y;
                             }
                         });
-                            contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-
-                            floor.forEach(function (item, i, floor) {
-                                if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
-                                else contextdraw.strokeStyle = 'black';
-                                contextdraw.beginPath();
-                                let xx = item.PointFrom.X + cx;
-                                let yy = cy - item.PointFrom.Y;
-                                let xxx = item.PointTo.X + cx;
-                                let yyy = cy - item.PointTo.Y;
-                                contextdraw.moveTo(xx, yy);
-                                contextdraw.lineTo(xxx, yyy);
-                                contextdraw.stroke();
-
-                            });
-                            points.forEach(function (item, i, points) {
-                                contextdraw.beginPath();
-                                if (item.IsWaypoint) {
-                                    contextdraw.strokeStyle = 'orange';
-                                    contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
-                                    contextdraw.stroke();
-                                }
-                                else {
-                                    contextdraw.strokeStyle = 'black';
-                                    contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
-                                    contextdraw.stroke();
-                                }
-                                if (pointtodel!=null && pointtodel.Id == item.Id) {
-                                    delx = item.X;
-                                    dely = item.Y;
-                                    context.closePath();
-                                    context.beginPath();
-                                    context.strokeStyle = 'red';
-                                    context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
-                                    context.stroke();
-                                    context.closePath();
-                                }
-                            });
-                            tool.x0 = ev._x;
-                            tool.y0 = ev._y;
+                        //очищаем временный канвас
+                        contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                        // и на нем рисуем временные точки+ точку на удаление если есть
+                        floor.forEach(function (item, i, floor) {
+                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
+                            else contextdraw.strokeStyle = 'black';
                             contextdraw.beginPath();
-                            contextdraw.strokeStyle = 'orange';
-                            contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                            let xx = item.PointFrom.X + cx;
+                            let yy = cy - item.PointFrom.Y;
+                            let xxx = item.PointTo.X + cx;
+                            let yyy = cy - item.PointTo.Y;
+                            contextdraw.moveTo(xx, yy);
+                            contextdraw.lineTo(xxx, yyy);
                             contextdraw.stroke();
-                            context.clearRect(0, 0, canvas.width, canvas.height);
-                            context.drawImage(canvas, 0, 0);
-                            contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-                        if (room != null)
-                        {
+
+                        });
+                        points.forEach(function (item, i, points) {
+                            contextdraw.beginPath();
+                            if (item.IsWaypoint)
+                            {
+                                contextdraw.strokeStyle = 'orange';
+                                contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                                contextdraw.stroke();
+                            }
+                            else
+                            {
+                                contextdraw.strokeStyle = 'black';
+                                contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                                contextdraw.stroke();
+                            }
+                            //если переносится точка на удаление, то ее тоже перерисовываем
+                            if (pointtodel != null && pointtodel.Id == item.Id)
+                            {
+                                delx = item.X;
+                                dely = item.Y;
                                 context.closePath();
                                 context.beginPath();
                                 context.strokeStyle = 'red';
-                                context.arc(selectedx + cx, cy - selectedy, 9, 0, Math.PI * 2, true); //центр
+                                context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
                                 context.stroke();
                                 context.closePath();
+                            }
+                        });
+                        //рисуем центр и делаем перенос
+                        contextdraw.beginPath();
+                        contextdraw.strokeStyle = 'navy';
+                        contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                        contextdraw.stroke();
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        context.drawImage(canvas, 0, 0);
+                        contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                        //если есть комната и точка на удаление, то перерисовываем их
+                        if (room != null)
+                        {
+                            context.closePath();
+                            context.beginPath();
+                            context.strokeStyle = 'red';
+                            context.arc(selectedx + cx, cy - selectedy, 9, 0, Math.PI * 2, true); //центр
+                            context.stroke();
+                            context.closePath();
                         }
                         if (pointtodel != null)
                         {
@@ -623,32 +599,14 @@ if (window.addEventListener) {
                             context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
                             context.stroke();
                             context.closePath();
-                        }
-
-                        
-                    }
-                    
+                        }   
+                    }   
                 }
-                //this.mousedown();
-                //mdx = tool.x0;
-                //mdy = tool.y0;
-                //
-                //contextdraw.moveTo(tool.x0, tool.y0);
-                //contextdraw.lineTo(ev._x, ev._y);
-                //contextdraw.stroke(); contextdraw.closePath();
-                //contextdraw.beginPath();
-                //contextdraw.moveTo(tool.x0 + 3, tool.y0);
-                //contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
-                //contextdraw.moveTo(ev._x + 3, ev._y);
-                //contextdraw.arc(ev._x, ev._y, 4, 0, Math.PI * 2, true);
-                //contextdraw.stroke();
-                //contextdraw.closePath();
-
             };
 
             this.mouseup = function (ev) {
                 if (tool.started) {
-                    //contexto.arc(tool.mousemove(ev).x0, tool.mousemove(ev).x0,50, 0, 2 * Math.PI, false)
+                    //пост запрос на передвижение
                     tool.started = false;
                     if (selectedpoint != null) {
                         $.ajax({
@@ -664,6 +622,7 @@ if (window.addEventListener) {
                             }
                         });
                     }
+                    //забываем информацию о том что мы перетаскивали
                     number = null;
                     selectedid = null;
                     selectedpoint = null;
@@ -696,9 +655,7 @@ if (window.addEventListener) {
                 //}
             };
         };
-        //$("imageTemp").mouseup(function () {
-
-        //})
+        //вызов инициализаци
         init();
 
     }, false);
@@ -706,12 +663,15 @@ if (window.addEventListener) {
 
 document.body.querySelector('#spisok').addEventListener('change', event => {
     let x;
+    //выбор этажа
     for (opt of event.target.children) {
         if (opt.selected) {
             selectedx = null;
             selectedy = null;
             delx = null;
             dely = null;
+            pointtodel = null;
+            room = null;
             //let response = await fetch(url);
             //console.log(response);
             //points = await response.json();
@@ -720,72 +680,9 @@ document.body.querySelector('#spisok').addEventListener('change', event => {
             break;
         }
     }
-    let id = document.getElementById("BuildingId").innerHTML;
     x = Number(x.substring(0, x.indexOf(' ')));
-    document.getElementById("FloorId").innerHTML = x;
     document.getElementById("Floorlevel").innerHTML = x;
-    console.log(x);
-    let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
-    console.log(url);
-    async function f() {
-        let response = await fetch(url);
-        console.log(response);
-        floor = await response.json();
-        console.log(floor);
-        staticpaper = document.getElementById("imageView");
-        context = staticpaper.getContext('2d');
-
-        //let cx = staticpaper.width / 2;
-        //let cy = staticpaper.height / 2;
-        //context.clearRect(0, 0, cx*2, cy*2);
-        floor.forEach(function (item, i, floor) {
-            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
-            else context.strokeStyle = 'black';
-            context.beginPath();
-            let xx = item.PointFrom.X + cx;
-            let yy = cy - item.PointFrom.Y;
-            let xxx = item.PointTo.X + cx;
-            let yyy = cy - item.PointTo.Y;
-            context.moveTo(xx, yy);
-            context.lineTo(xxx, yyy);
-            context.stroke();
-
-        }
-        );
-    }
-    f();
-    url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
-    async function func() {
-        let response = await fetch(url);
-        console.log(response);
-        points = await response.json();
-        console.log(points);
-        staticpaper = document.getElementById("imageView");
-        context = staticpaper.getContext('2d');
-        //let cx = staticpaper.width / 2;
-        //let cy = staticpaper.height / 2;
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        points.forEach(function (item, i, points) {
-            context.beginPath();
-            if (item.IsWaypoint) {
-                context.strokeStyle = 'orange';
-                context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
-                context.stroke();
-            }
-            else {
-                context.strokeStyle = 'black';
-                context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
-                context.stroke();
-            }
-
-        }
-        );
-        context.strokeStyle = 'black';
-    }
-
-
-    func();
-
+    updatedraw();
 }, false);
 addEventListener("keydown", function () {
     //console.log(this.event.keyCode);
@@ -821,71 +718,7 @@ addEventListener("keydown", function () {
                 pointtodel = null;
                 delx = null;
                 dely = null;
-                {
-                    let id = document.getElementById("BuildingId").innerHTML;
-                    let x = document.getElementById("FloorId").innerHTML;
-                    console.log(x);
-                    let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
-                    console.log(url);
-                    async function f() {
-                        let response = await fetch(url);
-                        console.log(response);
-                        floor = null;
-                        floor = await response.json();
-                        console.log(floor);
-                        staticpaper = document.getElementById("imageView");
-                        context = staticpaper.getContext('2d');
-                        floor.forEach(function (item, i, floor) {
-                            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
-                            else context.strokeStyle = 'black';
-                            context.beginPath();
-                            let xx = item.PointFrom.X + cx;
-                            let yy = cy - item.PointFrom.Y;
-                            let xxx = item.PointTo.X + cx;
-                            let yyy = cy - item.PointTo.Y;
-                            context.moveTo(xx, yy);
-                            context.lineTo(xxx, yyy);
-                            context.stroke();
-
-                        }
-                        );
-                    }
-                    f();
-                    url = "https://localhost:44336/api/PointMs/FloorPoints?level=" + x + '&&id=' + id;
-                    async function func() {
-                        let response = await fetch(url);
-                        console.log(response);
-                        points = null;
-                        points = await response.json();
-                        console.log(points);
-                        staticpaper = document.getElementById("imageView");
-                        context = staticpaper.getContext('2d');
-
-                        context.clearRect(0, 0, canvas.width, canvas.height);
-                        
-                        points.forEach(function (item, i, points) {
-                            context.beginPath();
-                            if (item.IsWaypoint) {
-                                context.strokeStyle = 'orange';
-                                context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
-                                context.stroke();
-                            }
-                            else {
-                                context.strokeStyle = 'black';
-                                context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
-                                context.stroke();
-                            }
-
-                        }
-                        );
-                        context.strokeStyle = 'black';
-                    }
-
-
-                    func();
-
-                }
-                
+                updatedraw();
             }
             break;
         default:
@@ -913,13 +746,10 @@ function Button() {
             dataType: "json",
             data: JSON.stringify(room),
             complete: function () {
-                alert('Load was performed.');
+                //alert('Load was performed.');
             }
         });
-         alert("ne pusto");
+         //alert("ne pusto");
     }
-    else alert("pusto");
-    //document.getElementById("zona").innerHTML = "Молодец! Ты прошел испытание на смелость! ";
-    //document.getElementById("zona").style.color = 'red';
-   // document.getElementById("zona").style.fontSize = '32px';
+    //else alert("pusto");
 }

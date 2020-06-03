@@ -17,9 +17,9 @@
         public void LoadSampleBuildings()
         {
             db.Buildings.Add(new Building("KSU", buildingid: 1,
-                                          site: "http://hui.com/", timetable: "открыто всегда",
-                                          addrees: "Курская ул блалала",
-                                          description: "sadsadasdsadasdsadasdsadasdsadasdsadasdsadasdasd"));
+                                          site: "https://kursksu.ru/", timetable: "пн-сб 8:00–21:30",
+                                          addrees: "ул. Радищева, 33, Курск",
+                                          description: "Курский государственный университет"));
             db.Buildings.Add(new Building("MGU", buildingid: 2, description: "asdasd"));
             db.Buildings.Add(new Building("GPU", buildingid: 3, description: "s21adsadasdsadasdsadasdsadasdsadasdsadasdsadasdasd"));
             db.SaveChanges();
@@ -187,76 +187,76 @@
         public void LoadSamplePoints()
         {
             #region 4thFloor
-            db.Points.Add(new PointM(0, 0, floorId: 4, pointId: 1));
-            db.Points.Add(new PointM(0, 500, floorId: 4, pointId: 2));
-            db.Points.Add(new PointM(250, 0, floorId: 4, pointId: 3));
-            db.Points.Add(new PointM(250, 210, floorId: 4, pointId: 4));
-            db.Points.Add(new PointM(250, 290, floorId: 4, pointId: 5));
-            db.Points.Add(new PointM(250, 500, floorId: 4, pointId: 6));
-            db.Points.Add(new PointM(400, 0, floorId: 4, pointId: 7));
-            db.Points.Add(new PointM(400, 210, floorId: 4, pointId: 8));
-            db.Points.Add(new PointM(400, 290, floorId: 4, pointId: 9));
-            db.Points.Add(new PointM(400, 500, floorId: 4, pointId: 10));
-            db.Points.Add(new PointM(820, 0, floorId: 4, pointId: 11));
-            db.Points.Add(new PointM(820, 210, floorId: 4, pointId: 12));
-            db.Points.Add(new PointM(820, 290, floorId: 4, pointId: 13));
-            db.Points.Add(new PointM(820, 500, floorId: 4, pointId: 14));
-            db.Points.Add(new PointM(1270, 0, floorId: 4, pointId: 15));
-            db.Points.Add(new PointM(1270, 210, floorId: 4, pointId: 16));
-            db.Points.Add(new PointM(1270, 290, floorId: 4, pointId: 17));
-            db.Points.Add(new PointM(1270, 500, floorId: 4, pointId: 18));
-            db.Points.Add(new PointM(1270, -730, floorId: 4, pointId: 19));
-            db.Points.Add(new PointM(1270, -900, floorId: 4, pointId: 20));
-            db.Points.Add(new PointM(1350, 0, floorId: 4, pointId: 21));
-            db.Points.Add(new PointM(1350, 210, floorId: 4, pointId: 22));
-            db.Points.Add(new PointM(1520, 290, floorId: 4, pointId: 23));
-            db.Points.Add(new PointM(1520, 500, floorId: 4, pointId: 24));
-            db.Points.Add(new PointM(1350, -200, floorId: 4, pointId: 25));
-            db.Points.Add(new PointM(1350, -400, floorId: 4, pointId: 26));
-            db.Points.Add(new PointM(1350, -730, floorId: 4, pointId: 27));
-            db.Points.Add(new PointM(1700, 0, floorId: 4, pointId: 28));
-            db.Points.Add(new PointM(1700, 210, floorId: 4, pointId: 29));
-            db.Points.Add(new PointM(1700, 290, floorId: 4, pointId: 30));
-            db.Points.Add(new PointM(1700, 500, floorId: 4, pointId: 31));
-            db.Points.Add(new PointM(1700, -200, floorId: 4, pointId: 32));
-            db.Points.Add(new PointM(1700, -400, floorId: 4, pointId: 33));
-            db.Points.Add(new PointM(1700, -730, floorId: 4, pointId: 34));
-            db.Points.Add(new PointM(1700, -900, floorId: 4, pointId: 35));
-            db.Points.Add(new PointM(1900, 0, floorId: 4, pointId: 36));
-            db.Points.Add(new PointM(1900, 500, floorId: 4, pointId: 37));
+            db.Points.Add(new PointM(0, 0, floorId: 2, pointId: 1));
+            db.Points.Add(new PointM(0, 500, floorId: 2, pointId: 2));
+            db.Points.Add(new PointM(250, 0, floorId: 2, pointId: 3));
+            db.Points.Add(new PointM(250, 210, floorId: 2, pointId: 4));
+            db.Points.Add(new PointM(250, 290, floorId: 2, pointId: 5));
+            db.Points.Add(new PointM(250, 500, floorId: 2, pointId: 6));
+            db.Points.Add(new PointM(400, 0, floorId: 2, pointId: 7));
+            db.Points.Add(new PointM(400, 210, floorId: 2, pointId: 8));
+            db.Points.Add(new PointM(400, 290, floorId: 2, pointId: 9));
+            db.Points.Add(new PointM(400, 500, floorId: 2, pointId: 10));
+            db.Points.Add(new PointM(820, 0, floorId: 2, pointId: 11));
+            db.Points.Add(new PointM(820, 210, floorId: 2, pointId: 12));
+            db.Points.Add(new PointM(820, 290, floorId: 2, pointId: 13));
+            db.Points.Add(new PointM(820, 500, floorId: 2, pointId: 14));
+            db.Points.Add(new PointM(1270, 0, floorId: 2, pointId: 15));
+            db.Points.Add(new PointM(1270, 210, floorId: 2, pointId: 16));
+            db.Points.Add(new PointM(1270, 290, floorId: 2, pointId: 17));
+            db.Points.Add(new PointM(1270, 500, floorId: 2, pointId: 18));
+            db.Points.Add(new PointM(1270, -730, floorId: 2, pointId: 19));
+            db.Points.Add(new PointM(1270, -900, floorId: 2, pointId: 20));
+            db.Points.Add(new PointM(1350, 0, floorId: 2, pointId: 21));
+            db.Points.Add(new PointM(1350, 210, floorId: 2, pointId: 22));
+            db.Points.Add(new PointM(1520, 290, floorId: 2, pointId: 23));
+            db.Points.Add(new PointM(1520, 500, floorId: 2, pointId: 24));
+            db.Points.Add(new PointM(1350, -200, floorId: 2, pointId: 25));
+            db.Points.Add(new PointM(1350, -400, floorId: 2, pointId: 26));
+            db.Points.Add(new PointM(1350, -730, floorId: 2, pointId: 27));
+            db.Points.Add(new PointM(1700, 0, floorId: 2, pointId: 28));
+            db.Points.Add(new PointM(1700, 210, floorId: 2, pointId: 29));
+            db.Points.Add(new PointM(1700, 290, floorId: 2, pointId: 30));
+            db.Points.Add(new PointM(1700, 500, floorId: 2, pointId: 31));
+            db.Points.Add(new PointM(1700, -200, floorId: 2, pointId: 32));
+            db.Points.Add(new PointM(1700, -400, floorId: 2, pointId: 33));
+            db.Points.Add(new PointM(1700, -730, floorId: 2, pointId: 34));
+            db.Points.Add(new PointM(1700, -900, floorId: 2, pointId: 35));
+            db.Points.Add(new PointM(1900, 0, floorId: 2, pointId: 36));
+            db.Points.Add(new PointM(1900, 500, floorId: 2, pointId: 37));
 
             #endregion
             //db.SaveChanges();
 
             #region 3thFloor
-            db.Points.Add(new PointM(1, 1, floorId: 3, pointId: 38));
-            db.Points.Add(new PointM(0, 500, floorId: 3, pointId: 39));
-            db.Points.Add(new PointM(250, 0, floorId: 3, pointId: 40));
-            db.Points.Add(new PointM(250, 210, floorId: 3, pointId: 41));
-            db.Points.Add(new PointM(250, 290, floorId: 3, pointId: 42));
-            db.Points.Add(new PointM(250, 500, floorId: 3, pointId: 43));
-            db.Points.Add(new PointM(400, 0, floorId: 3, pointId: 44));
-            db.Points.Add(new PointM(400, 210, floorId: 3, pointId: 45));
-            db.Points.Add(new PointM(400, 290, floorId: 3, pointId: 46));
-            db.Points.Add(new PointM(400, 500, floorId: 3, pointId: 47));
-            db.Points.Add(new PointM(820, 0, floorId: 3, pointId: 48));
-            db.Points.Add(new PointM(820, 210, floorId: 3, pointId: 49));
-            db.Points.Add(new PointM(820, 290, floorId: 3, pointId: 50));
-            db.Points.Add(new PointM(820, 500, floorId: 3, pointId: 51));
-            db.Points.Add(new PointM(1270, 0, floorId: 3, pointId: 52));
-            db.Points.Add(new PointM(1270, 210, floorId: 3, pointId: 53));
-            db.Points.Add(new PointM(1270, 290, floorId: 3, pointId: 54));
-            db.Points.Add(new PointM(1270, 500, floorId: 3, pointId: 55));
-            db.Points.Add(new PointM(1350, 0, floorId: 3, pointId: 56));
-            db.Points.Add(new PointM(1350, 210, floorId: 3, pointId: 57));
-            db.Points.Add(new PointM(1520, 290, floorId: 3, pointId: 58));
-            db.Points.Add(new PointM(1520, 500, floorId: 3, pointId: 59));
-            db.Points.Add(new PointM(1700, 0, floorId: 3, pointId: 60));
-            db.Points.Add(new PointM(1700, 210, floorId: 3, pointId: 61));
-            db.Points.Add(new PointM(1700, 290, floorId: 3, pointId: 62));
-            db.Points.Add(new PointM(1700, 500, floorId: 3, pointId: 63));
-            db.Points.Add(new PointM(1900, 0, floorId: 3, pointId: 64));
-            db.Points.Add(new PointM(1900, 500, floorId: 3, pointId: 65));
+            db.Points.Add(new PointM(1, 1, floorId: 1, pointId: 38));
+            db.Points.Add(new PointM(0, 500, floorId: 1, pointId: 39));
+            db.Points.Add(new PointM(250, 0, floorId: 1, pointId: 40));
+            db.Points.Add(new PointM(250, 210, floorId: 1, pointId: 41));
+            db.Points.Add(new PointM(250, 290, floorId: 1, pointId: 42));
+            db.Points.Add(new PointM(250, 500, floorId: 1, pointId: 43));
+            db.Points.Add(new PointM(400, 0, floorId: 1, pointId: 44));
+            db.Points.Add(new PointM(400, 210, floorId: 1, pointId: 45));
+            db.Points.Add(new PointM(400, 290, floorId: 1, pointId: 46));
+            db.Points.Add(new PointM(400, 500, floorId: 1, pointId: 47));
+            db.Points.Add(new PointM(820, 0, floorId: 1, pointId: 48));
+            db.Points.Add(new PointM(820, 210, floorId: 1, pointId: 49));
+            db.Points.Add(new PointM(820, 290, floorId: 1, pointId: 50));
+            db.Points.Add(new PointM(820, 500, floorId: 1, pointId: 51));
+            db.Points.Add(new PointM(1270, 0, floorId: 1, pointId: 52));
+            db.Points.Add(new PointM(1270, 210, floorId: 1, pointId: 53));
+            db.Points.Add(new PointM(1270, 290, floorId: 1, pointId: 54));
+            db.Points.Add(new PointM(1270, 500, floorId: 1, pointId: 55));
+            db.Points.Add(new PointM(1350, 0, floorId: 1, pointId: 56));
+            db.Points.Add(new PointM(1350, 210, floorId: 1, pointId: 57));
+            db.Points.Add(new PointM(1520, 290, floorId: 1, pointId: 58));
+            db.Points.Add(new PointM(1520, 500, floorId: 1, pointId: 59));
+            db.Points.Add(new PointM(1700, 0, floorId: 1, pointId: 60));
+            db.Points.Add(new PointM(1700, 210, floorId: 1, pointId: 61));
+            db.Points.Add(new PointM(1700, 290, floorId: 1, pointId: 62));
+            db.Points.Add(new PointM(1700, 500, floorId: 1, pointId: 63));
+            db.Points.Add(new PointM(1900, 0, floorId: 1, pointId: 64));
+            db.Points.Add(new PointM(1900, 500, floorId: 1, pointId: 65));
             #endregion
             db.SaveChanges();
         }
@@ -323,30 +323,30 @@
             db.Edges.Add(new EdgeM(0, pointFirId: 38, pointSecId: 40, edgeId: 53));
             db.Edges.Add(new EdgeM(0, pointFirId: 38, pointSecId: 39, edgeId: 54));
             db.Edges.Add(new EdgeM(0, pointFirId: 39, pointSecId: 43, edgeId: 56));
-            db.Edges.Add(new EdgeM(0, pointFirId: 40, pointSecId: 41, edgeId: 56));
-            db.Edges.Add(new EdgeM(0, pointFirId: 41, pointSecId: 42, edgeId: 57));
-            db.Edges.Add(new EdgeM(0, pointFirId: 42, pointSecId: 43, edgeId: 58));
-            db.Edges.Add(new EdgeM(0, pointFirId: 43, pointSecId: 47, edgeId: 59));
-            db.Edges.Add(new EdgeM(0, pointFirId: 47, pointSecId: 46, edgeId: 60));
-            db.Edges.Add(new EdgeM(0, pointFirId: 46, pointSecId: 42, edgeId: 61));
-            db.Edges.Add(new EdgeM(0, pointFirId: 41, pointSecId: 45, edgeId: 62));
-            db.Edges.Add(new EdgeM(0, pointFirId: 45, pointSecId: 44, edgeId: 63));
-            db.Edges.Add(new EdgeM(0, pointFirId: 44, pointSecId: 40, edgeId: 64));
-            db.Edges.Add(new EdgeM(0, pointFirId: 44, pointSecId: 38, edgeId: 65));
-            db.Edges.Add(new EdgeM(0, pointFirId: 38, pointSecId: 64, edgeId: 66));
-            db.Edges.Add(new EdgeM(0, pointFirId: 64, pointSecId: 65, edgeId: 67));
-            db.Edges.Add(new EdgeM(0, pointFirId: 65, pointSecId: 39, edgeId: 68));
-            db.Edges.Add(new EdgeM(0, pointFirId: 48, pointSecId: 49, edgeId: 69));
-            db.Edges.Add(new EdgeM(0, pointFirId: 50, pointSecId: 51, edgeId: 70));
-            db.Edges.Add(new EdgeM(0, pointFirId: 52, pointSecId: 53, edgeId: 71));
-            db.Edges.Add(new EdgeM(0, pointFirId: 54, pointSecId: 55, edgeId: 72));
-            db.Edges.Add(new EdgeM(0, pointFirId: 60, pointSecId: 53, edgeId: 73));
-            db.Edges.Add(new EdgeM(0, pointFirId: 53, pointSecId: 57, edgeId: 74));
-            db.Edges.Add(new EdgeM(0, pointFirId: 58, pointSecId: 59, edgeId: 75));
-            db.Edges.Add(new EdgeM(0, pointFirId: 41, pointSecId: 53, edgeId: 76));//
-            db.Edges.Add(new EdgeM(0, pointFirId: 42, pointSecId: 58, edgeId: 77));
-            db.Edges.Add(new EdgeM(0, pointFirId: 62, pointSecId: 58, edgeId: 78));
-            db.Edges.Add(new EdgeM(0, pointFirId: 57, pointSecId: 61, edgeId: 79));
+            db.Edges.Add(new EdgeM(0, pointFirId: 40, pointSecId: 41, edgeId: 57));
+            db.Edges.Add(new EdgeM(0, pointFirId: 41, pointSecId: 42, edgeId: 58));
+            db.Edges.Add(new EdgeM(0, pointFirId: 42, pointSecId: 43, edgeId: 59));
+            db.Edges.Add(new EdgeM(0, pointFirId: 43, pointSecId: 47, edgeId: 60));
+            db.Edges.Add(new EdgeM(0, pointFirId: 47, pointSecId: 46, edgeId: 61));
+            db.Edges.Add(new EdgeM(0, pointFirId: 46, pointSecId: 42, edgeId: 62));
+            db.Edges.Add(new EdgeM(0, pointFirId: 41, pointSecId: 45, edgeId: 63));
+            db.Edges.Add(new EdgeM(0, pointFirId: 45, pointSecId: 44, edgeId: 64));
+            db.Edges.Add(new EdgeM(0, pointFirId: 44, pointSecId: 40, edgeId: 65));
+            db.Edges.Add(new EdgeM(0, pointFirId: 44, pointSecId: 38, edgeId: 66));
+            db.Edges.Add(new EdgeM(0, pointFirId: 38, pointSecId: 64, edgeId: 67));
+            db.Edges.Add(new EdgeM(0, pointFirId: 64, pointSecId: 65, edgeId: 68));
+            db.Edges.Add(new EdgeM(0, pointFirId: 65, pointSecId: 39, edgeId: 69));
+            db.Edges.Add(new EdgeM(0, pointFirId: 48, pointSecId: 49, edgeId: 70));
+            db.Edges.Add(new EdgeM(0, pointFirId: 50, pointSecId: 51, edgeId: 71));
+            db.Edges.Add(new EdgeM(0, pointFirId: 52, pointSecId: 53, edgeId: 72));
+            db.Edges.Add(new EdgeM(0, pointFirId: 54, pointSecId: 55, edgeId: 73));
+            db.Edges.Add(new EdgeM(0, pointFirId: 60, pointSecId: 63, edgeId: 74));
+            db.Edges.Add(new EdgeM(0, pointFirId: 53, pointSecId: 57, edgeId: 75));
+            db.Edges.Add(new EdgeM(0, pointFirId: 58, pointSecId: 59, edgeId: 76));
+            db.Edges.Add(new EdgeM(0, pointFirId: 41, pointSecId: 53, edgeId: 77));//
+            db.Edges.Add(new EdgeM(0, pointFirId: 42, pointSecId: 58, edgeId: 78));
+            db.Edges.Add(new EdgeM(0, pointFirId: 62, pointSecId: 58, edgeId: 79));
+            db.Edges.Add(new EdgeM(0, pointFirId: 57, pointSecId: 61, edgeId: 80));
 
             #endregion
             db.SaveChanges();
@@ -356,83 +356,84 @@
         {
             #region 4thFloor
             // 4 этаж точки комнат
-            db.Points.Add(new PointM(125, 250, pointId: 66, isWaypoint: true, floorId: 4, roomId: 1));
-            db.Points.Add(new PointM(600, 120, pointId: 67, isWaypoint: true, floorId: 4, roomId: 2));
-            db.Points.Add(new PointM(600, 400, pointId: 68, isWaypoint: true, floorId: 4, roomId: 3));
-            db.Points.Add(new PointM(1000, 120, pointId: 69, isWaypoint: true, floorId: 4, roomId: 4));
-            db.Points.Add(new PointM(1000, 400, pointId: 70, isWaypoint: true, floorId: 4, roomId: 5));
-            db.Points.Add(new PointM(1500, -800, pointId: 71, isWaypoint: true, floorId: 4, roomId: 6));
-            db.Points.Add(new PointM(1520, -500, pointId: 72, isWaypoint: true, floorId: 4, roomId: 7));
-            db.Points.Add(new PointM(1520, -300, pointId: 73, isWaypoint: true, floorId: 4, roomId: 8));
-            db.Points.Add(new PointM(1520, -100, pointId: 74, isWaypoint: true, floorId: 4, roomId: 9));
-            db.Points.Add(new PointM(1800, 300, pointId: 75, isWaypoint: true, floorId: 4, roomId: 10));
-            db.Points.Add(new PointM(1350, 400, pointId: 76, isWaypoint: true, floorId: 4, roomId: 11));
+            db.Points.Add(new PointM(125, 250, pointId: 66, isWaypoint: true, floorId: 2, roomId: 1));
+            db.Points.Add(new PointM(600, 120, pointId: 67, isWaypoint: true, floorId: 2, roomId: 2));
+            db.Points.Add(new PointM(600, 400, pointId: 68, isWaypoint: true, floorId: 2, roomId: 3));
+            db.Points.Add(new PointM(1000, 120, pointId: 69, isWaypoint: true, floorId: 2, roomId: 4));
+            db.Points.Add(new PointM(1000, 400, pointId: 70, isWaypoint: true, floorId: 2, roomId: 5));
+            db.Points.Add(new PointM(1500, -800, pointId: 71, isWaypoint: true, floorId: 2, roomId: 6));
+            db.Points.Add(new PointM(1520, -500, pointId: 72, isWaypoint: true, floorId: 2, roomId: 7));
+            db.Points.Add(new PointM(1520, -300, pointId: 73, isWaypoint: true, floorId: 2, roomId: 8));
+            db.Points.Add(new PointM(1520, -100, pointId: 74, isWaypoint: true, floorId: 2, roomId: 9));
+            db.Points.Add(new PointM(1800, 300, pointId: 75, isWaypoint: true, floorId: 2, roomId: 10));
+            db.Points.Add(new PointM(1350, 400, pointId: 76, isWaypoint: true, floorId: 2, roomId: 11));
             // 4 этаж точки связи                         
-            db.Points.Add(new PointM(600, 250, pointId: 77, isWaypoint: true, floorId: 4));
-            db.Points.Add(new PointM(900, 250, pointId: 78, isWaypoint: true, floorId: 4));
-            db.Points.Add(new PointM(1300, 250, pointId: 79, isWaypoint: true, floorId: 4));
-            db.Points.Add(new PointM(1600, 250, pointId: 80, isWaypoint: true, floorId: 4));
-            db.Points.Add(new PointM(1300, 120, pointId: 81, isWaypoint: true, floorId: 4));
-            db.Points.Add(new PointM(1300, -300, pointId: 82, isWaypoint: true, floorId: 4));
-            db.Points.Add(new PointM(1300, -500, pointId: 83, isWaypoint: true, floorId: 4));
-            db.Points.Add(new PointM(1520, 100, pointId: 84, isWaypoint: true, floorId: 4));
+            db.Points.Add(new PointM(600, 250, pointId: 77, isWaypoint: true, floorId: 2));
+            db.Points.Add(new PointM(900, 250, pointId: 78, isWaypoint: true, floorId: 2));
+            db.Points.Add(new PointM(1300, 250, pointId: 79, isWaypoint: true, floorId: 2));//////
+            db.Points.Add(new PointM(1600, 250, pointId: 80, isWaypoint: true, floorId: 2));//////
+            db.Points.Add(new PointM(1300, 120, pointId: 81, isWaypoint: true, floorId: 2));
+            db.Points.Add(new PointM(1300, -300, pointId: 82, isWaypoint: true, floorId: 2));
+            db.Points.Add(new PointM(1300, -500, pointId: 83, isWaypoint: true, floorId: 2));
+            db.Points.Add(new PointM(1520, 100, pointId: 84, isWaypoint: true, floorId: 2));
 
             //db.SaveChanges();
             #endregion
 
             #region 3thFloor
             // 3 этаж токи комнат
-            db.Points.Add(new PointM(125, 250, pointId: 85, isWaypoint: true, floorId: 3, roomId: 12));
-            db.Points.Add(new PointM(600, 120, pointId: 86, isWaypoint: true, floorId: 3, roomId: 13));
-            db.Points.Add(new PointM(600, 400, pointId: 87, isWaypoint: true, floorId: 3, roomId: 14));
-            db.Points.Add(new PointM(1000, 120, pointId: 88, isWaypoint: true, floorId: 3, roomId: 15));
+            db.Points.Add(new PointM(125, 250, pointId: 85, isWaypoint: true, floorId: 1, roomId: 12));
+            db.Points.Add(new PointM(600, 120, pointId: 86, isWaypoint: true, floorId: 1, roomId: 13));
+            db.Points.Add(new PointM(600, 400, pointId: 87, isWaypoint: true, floorId: 1, roomId: 14));
+            db.Points.Add(new PointM(1000, 120, pointId: 88, isWaypoint: true, floorId: 1, roomId: 15));
             // 3 этаж точки связи             
-            db.Points.Add(new PointM(600, 250, pointId: 89, isWaypoint: true, floorId: 3));
-            db.Points.Add(new PointM(900, 250, pointId: 90, isWaypoint: true, floorId: 3));
-            db.Points.Add(new PointM(1300, 250, pointId: 91, isWaypoint: true, floorId: 3));
-            db.Points.Add(new PointM(1600, 250, pointId: 92, isWaypoint: true, floorId: 3));
-            db.Points.Add(new PointM(1300, 120, pointId: 93, isWaypoint: true, floorId: 3));
-            db.Points.Add(new PointM(1520, 100, pointId: 94, isWaypoint: true, floorId: 3));
+            db.Points.Add(new PointM(600, 250, pointId: 89, isWaypoint: true, floorId: 1));
+            db.Points.Add(new PointM(900, 250, pointId: 90, isWaypoint: true, floorId: 1));
+            db.Points.Add(new PointM(1300, 250, pointId: 91, isWaypoint: true, floorId: 1));
+            db.Points.Add(new PointM(1600, 250, pointId: 92, isWaypoint: true, floorId: 1));
+            db.Points.Add(new PointM(1300, 120, pointId: 93, isWaypoint: true, floorId: 1));
+            db.Points.Add(new PointM(1520, 100, pointId: 94, isWaypoint: true, floorId: 1));
             //db.SaveChanges();
             #endregion
 
             #region 4thFloorEdge
             // 4 этаж связи комнат
-            db.Edges.Add(new EdgeM(10, pointFirId: 66, pointSecId: 77, edgeId: 80));
-            db.Edges.Add(new EdgeM(10, pointFirId: 77, pointSecId: 67, edgeId: 81));
-            db.Edges.Add(new EdgeM(10, pointFirId: 77, pointSecId: 68, edgeId: 82));
-            db.Edges.Add(new EdgeM(10, pointFirId: 77, pointSecId: 78, edgeId: 83));
-            db.Edges.Add(new EdgeM(10, pointFirId: 78, pointSecId: 69, edgeId: 84));
-            db.Edges.Add(new EdgeM(10, pointFirId: 78, pointSecId: 70, edgeId: 85));
-            db.Edges.Add(new EdgeM(10, pointFirId: 78, pointSecId: 79, edgeId: 86));
-            db.Edges.Add(new EdgeM(10, pointFirId: 79, pointSecId: 76, edgeId: 87));
-            db.Edges.Add(new EdgeM(10, pointFirId: 79, pointSecId: 78, edgeId: 88));
-            db.Edges.Add(new EdgeM(10, pointFirId: 80, pointSecId: 75, edgeId: 89));
-            db.Edges.Add(new EdgeM(10, pointFirId: 79, pointSecId: 81, edgeId: 90));
-            db.Edges.Add(new EdgeM(10, pointFirId: 81, pointSecId: 84, edgeId: 91));
-            db.Edges.Add(new EdgeM(10, pointFirId: 81, pointSecId: 82, edgeId: 92));
-            db.Edges.Add(new EdgeM(10, pointFirId: 82, pointSecId: 71, edgeId: 93));
-            db.Edges.Add(new EdgeM(10, pointFirId: 82, pointSecId: 74, edgeId: 94));
-            db.Edges.Add(new EdgeM(10, pointFirId: 82, pointSecId: 83, edgeId: 95));
-            db.Edges.Add(new EdgeM(10, pointFirId: 83, pointSecId: 72, edgeId: 96));
-            db.Edges.Add(new EdgeM(10, pointFirId: 83, pointSecId: 71, edgeId: 97));
+            db.Edges.Add(new EdgeM(10, pointFirId: 66, pointSecId: 77, edgeId: 81));
+            db.Edges.Add(new EdgeM(10, pointFirId: 77, pointSecId: 67, edgeId: 82));
+            db.Edges.Add(new EdgeM(10, pointFirId: 77, pointSecId: 68, edgeId: 83));
+            db.Edges.Add(new EdgeM(10, pointFirId: 77, pointSecId: 78, edgeId: 84));
+            db.Edges.Add(new EdgeM(10, pointFirId: 78, pointSecId: 69, edgeId: 85));
+            db.Edges.Add(new EdgeM(10, pointFirId: 78, pointSecId: 70, edgeId: 86));
+            db.Edges.Add(new EdgeM(10, pointFirId: 78, pointSecId: 79, edgeId: 87));
+            db.Edges.Add(new EdgeM(10, pointFirId: 79, pointSecId: 76, edgeId: 88));
+            db.Edges.Add(new EdgeM(10, pointFirId: 79, pointSecId: 80, edgeId: 89));
+            db.Edges.Add(new EdgeM(10, pointFirId: 80, pointSecId: 75, edgeId: 90));
+            db.Edges.Add(new EdgeM(10, pointFirId: 79, pointSecId: 81, edgeId: 91));
+            db.Edges.Add(new EdgeM(10, pointFirId: 81, pointSecId: 84, edgeId: 92));
+            db.Edges.Add(new EdgeM(10, pointFirId: 81, pointSecId: 82, edgeId: 93));
+            db.Edges.Add(new EdgeM(10, pointFirId: 82, pointSecId: 73, edgeId: 94));
+            db.Edges.Add(new EdgeM(10, pointFirId: 82, pointSecId: 74, edgeId: 95));
+            db.Edges.Add(new EdgeM(10, pointFirId: 82, pointSecId: 83, edgeId: 96));
+            db.Edges.Add(new EdgeM(10, pointFirId: 83, pointSecId: 72, edgeId: 97));
+            db.Edges.Add(new EdgeM(10, pointFirId: 83, pointSecId: 71, edgeId: 98));
 
             //db.SaveChanges();
             #endregion
 
             #region 3thFloorEdge
             // 3 этаж связи комнат 
-            db.Edges.Add(new EdgeM(10, pointFirId: 85, pointSecId: 89, edgeId: 98));
-            db.Edges.Add(new EdgeM(10, pointFirId: 89, pointSecId: 86, edgeId: 98));
-            db.Edges.Add(new EdgeM(10, pointFirId: 89, pointSecId: 87, edgeId: 100));
-            db.Edges.Add(new EdgeM(10, pointFirId: 89, pointSecId: 90, edgeId: 101));
-            db.Edges.Add(new EdgeM(10, pointFirId: 90, pointSecId: 88, edgeId: 102));
-            db.Edges.Add(new EdgeM(10, pointFirId: 90, pointSecId: 91, edgeId: 103));
-            db.Edges.Add(new EdgeM(10, pointFirId: 91, pointSecId: 93, edgeId: 104));
-            db.Edges.Add(new EdgeM(10, pointFirId: 93, pointSecId: 94, edgeId: 105));
-            db.Edges.Add(new EdgeM(10, pointFirId: 91, pointSecId: 92, edgeId: 106));
+            db.Edges.Add(new EdgeM(10, pointFirId: 85, pointSecId: 89, edgeId: 99));
+            db.Edges.Add(new EdgeM(10, pointFirId: 89, pointSecId: 86, edgeId: 100));
+            db.Edges.Add(new EdgeM(10, pointFirId: 89, pointSecId: 87, edgeId: 101));
+            db.Edges.Add(new EdgeM(10, pointFirId: 89, pointSecId: 90, edgeId: 102));
+            db.Edges.Add(new EdgeM(10, pointFirId: 90, pointSecId: 88, edgeId: 103));
+            db.Edges.Add(new EdgeM(10, pointFirId: 90, pointSecId: 91, edgeId: 104));
+            db.Edges.Add(new EdgeM(10, pointFirId: 91, pointSecId: 93, edgeId: 105));
+            db.Edges.Add(new EdgeM(10, pointFirId: 93, pointSecId: 94, edgeId: 106));
+            db.Edges.Add(new EdgeM(10, pointFirId: 91, pointSecId: 92, edgeId: 107));
 
-            db.Edges.Add(new EdgeM(10, pointFirId: 94, pointSecId: 84, edgeId: 107)); // elevator
+            db.Edges.Add(new EdgeM(10, pointFirId: 94, pointSecId: 84, edgeId: 108)); // elevator end
+            db.Edges.Add(new EdgeM(10, pointFirId: 57, pointSecId: 56, edgeId: 109));
 
             //db.SaveChanges();
             #endregion
@@ -453,14 +454,14 @@
         protected override void Seed(newdip.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
-            //LoadSampleBuildings();
-            //LoadSampleFloors();
-            //LoadSamplePoints();
-            //LoadSampleEdges();
-            //LoadSampleRooms();
-            //LoadSampleWays();
-            //LoadSampleWorkers();
-            //LoadSampleNotes();
+            LoadSampleBuildings();
+            LoadSampleFloors();
+            LoadSamplePoints();
+            LoadSampleEdges();
+            LoadSampleRooms();
+            LoadSampleWays();
+            LoadSampleWorkers();
+            LoadSampleNotes();
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
         }

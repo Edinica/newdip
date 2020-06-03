@@ -197,17 +197,18 @@ namespace newdip.Controllers
         }
         public void Operation(string x1, string y1,string x2,string y2, Floor floor) 
         {
-            PointM point = new PointM();
+            
+            PointM point = Similar(Convert.ToInt32(x1), Convert.ToInt32(y1), floor);
             EdgeM edge = new EdgeM();
             //bool isexist = false;
             int X1 = Convert.ToInt32(x1);
             int Y1 = Convert.ToInt32(y1);
             int X2 = Convert.ToInt32(x2);
             int Y2 = Convert.ToInt32(y2);
-            point = Similar(Convert.ToInt32(x1), Convert.ToInt32(y1), floor);
             ///первая вершина
-            if (point.Id==0)
-            {
+            if (point == null||point.Id==0)
+            {  
+                point = new PointM();
                 point.X = X1;
                 point.Y = Y1;
                 point.IsWaypoint = false;
@@ -237,7 +238,7 @@ namespace newdip.Controllers
             }
             else 
             {
-                point2 = db.Points.FirstOrDefault(x => x.X == X2 && x.Y == Y2 && x.FloorId == floor.FloorId);
+                //point2 = db.Points.FirstOrDefault(x => x.X == X2 && x.Y == Y2 && x.FloorId == floor.FloorId);
                 edge.PointToId = point2.Id;
             }
             edge.Weight = Math.Sqrt(Math.Pow(point2.X - point.X, 2) +

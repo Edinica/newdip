@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>newdip</RootNamespace>
     <AssemblyName>newdip</AssemblyName>
-	<IgnoreDeployManagedRuntimeVersion>True</IgnoreDeployManagedRuntimeVersion>
+    <IgnoreDeployManagedRuntimeVersion>True</IgnoreDeployManagedRuntimeVersion>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -345,9 +345,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202005231458122_initial.cs" />
-    <Compile Include="Migrations\202005231458122_initial.Designer.cs">
-      <DependentUpon>202005231458122_initial.cs</DependentUpon>
+    <Compile Include="Migrations\202006031516000_level.cs" />
+    <Compile Include="Migrations\202006031516000_level.Designer.cs">
+      <DependentUpon>202006031516000_level.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -468,8 +468,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005231458122_initial.resx">
-      <DependentUpon>202005231458122_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006031516000_level.resx">
+      <DependentUpon>202006031516000_level.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

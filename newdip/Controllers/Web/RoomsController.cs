@@ -77,8 +77,8 @@ namespace newdip.Controllers.Web
         [Route("api/Rooms/Room")]
         public IHttpActionResult Room(int level,int id,int x, int y)
         {
-            List<Room> rooms = db.Floors.Include(obj=>obj.Rooms).Where(obj => obj.Level == level && obj.BuildingId == id).FirstOrDefault().Rooms.ToList();
-            List<PointM> points = db.Floors.Where(obj => obj.Level == level && obj.BuildingId == id).Include(obj => obj.Points).FirstOrDefault().Points.ToList();//этаж просмотр
+            List<Room> rooms = db.Floors.Include(obj=>obj.Rooms).Where(obj => obj.Level == level && obj.BuildingId == id).FirstOrDefault().Rooms.ToList();//список комнат этажа
+            List<PointM> points = db.Floors.Where(obj => obj.Level == level && obj.BuildingId == id).Include(obj => obj.Points).FirstOrDefault().Points.ToList();//список точек этажа
             ///создание и добавление первой точки
             Room result = new Room();
             foreach (var element in points)
@@ -86,7 +86,7 @@ namespace newdip.Controllers.Web
                 for (int i = -2; i < 3; i++)
                     for (int j = -2; j < 3; j++)
                     {
-                        if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку на этаже
+                        if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку комнаты на этаже
                         {
                             //var room = db.Rooms.Include(obj => obj.Points).ToList();
                             foreach (var vroom in rooms) //ищем комнату
@@ -98,8 +98,7 @@ namespace newdip.Controllers.Web
                                     {
                                         result = new Room(vroom.Name, vroom.Description, vroom.Timetable, vroom.Phone, vroom.Site);
                                         result.RoomId=vroom.RoomId;
-                                        result.FloorId = vroom.FloorId;
-                                        //result.Name = "NAme";
+                                        result.FloorId = vroom.FloorId; //возвращаем комнату
                                     }
                                 
                             }
@@ -108,7 +107,7 @@ namespace newdip.Controllers.Web
                     }
             }
             
-            return Ok(result);
+            return Ok(result);//либо пустоту
         }
 
         // PUT: api/Rooms/5

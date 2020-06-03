@@ -49,9 +49,9 @@ namespace newdip.Controllers.Web
             {
                 if (elem.FloorId == floor.FloorId)
                 {
-                    var edge = new EdgeM();
                     for (int i = 0; i < elem.EdgesOut.Count(); i++)
                     {
+                        var edge = new EdgeM();
                         edge.PointFrom = new PointM();
                         edge.PointFrom.X = elem.X;
                         edge.PointFrom.Y = elem.Y;
