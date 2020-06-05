@@ -44,6 +44,28 @@
     }
     getpoints();
 }
+function axis()
+{
+    contextdraw.closePath();
+    contextdraw.beginPath();
+    contextdraw.moveTo(cx, cy);//оси
+    contextdraw.lineTo(cx, cy - 150);
+    contextdraw.lineTo(cx - 5, cy - 140);
+    contextdraw.lineTo(cx, cy - 150);
+    contextdraw.lineTo(cx + 5, cy - 140);
+    contextdraw.lineTo(cx, cy - 150);
+    contextdraw.lineTo(cx, cy);
+    contextdraw.lineTo(cx + 150, cy);
+    contextdraw.lineTo(cx + 140, cy - 5);
+    contextdraw.lineTo(cx + 150, cy);
+    contextdraw.lineTo(cx + 140, cy + 5);
+    contextdraw.lineTo(cx + 150, cy);
+    contextdraw.lineTo(cx, cy);
+    contextdraw.fillText("Y", cx + 5, cy - 140);
+    contextdraw.fillText("X", cx + 135, cy - 5);
+    contextdraw.stroke();
+    contextdraw.closePath();
+}
 /*function draw()
 {
     //очистка канвы
@@ -95,7 +117,8 @@ var points, floor; var cx, cy;
 var selectedx, selectedy;
 var selectedpoint;
 var selectedid, number, pointtodel;//выбранная точка, ее номер в списке, точка на удаление
-var delx, dely;
+var delx, dely;//координаты точки удаления
+var clinex,cliney;
 let ctrl = false;
 let shift = false;
 var room;
@@ -125,12 +148,15 @@ if (window.addEventListener) {
                 context = staticpaper.getContext('2d');
                 //--
                 contextdraw.beginPath();
-                contextdraw.strokeStyle = 'orange';
+                contextdraw.strokeStyle = 'green';
                 cx = canvas.width / 2;
                 cy = canvas.height / 2;
-                contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                clinex = cx;
+                cliney = cy;
+                axis();
+                // contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                 //contextdraw.arc(cx, cy, 400, 0, Math.PI * 2, true); //центр
-                contextdraw.stroke();
+                //contextdraw.stroke();
                 //context.drawImage(canvas, 10, 10);
                 //contextdraw.drawImage(canvas, -10, -10);
                 //contextdraw.closePath();
@@ -356,7 +382,7 @@ if (window.addEventListener) {
                             context.closePath();
                             context.beginPath();
                             context.strokeStyle = 'red';
-                            context.arc(ev._x, ev._y, 9, 0, Math.PI * 2, true); //центр
+                            context.arc(ev._x, ev._y, 9, 0, Math.PI * 2, true); 
                             context.stroke();
                             context.closePath();
                             document.getElementById("FloorId").value = room.FloorId;
@@ -437,7 +463,7 @@ if (window.addEventListener) {
                         context.closePath();
                         context.beginPath();
                         context.strokeStyle = 'red';
-                        context.arc(ev._x, ev._y, 9, 0, Math.PI * 2, true); //центр
+                        context.arc(ev._x, ev._y, 9, 0, Math.PI * 2, true); 
                         context.stroke();
                         context.closePath();
                         
@@ -453,6 +479,8 @@ if (window.addEventListener) {
                         //измереяем разницу в переносе
                         cx += ev._x - tool.x0;
                         cy += ev._y - tool.y0;
+                        clinex += -ev._x + tool.x0;
+                        cliney += -ev._y + tool.y0;
                         //очищаем временный канвас
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                         // и на нем рисуем временные точки
@@ -473,12 +501,12 @@ if (window.addEventListener) {
                             contextdraw.beginPath();
                             if (item.IsWaypoint) {
                                 contextdraw.strokeStyle = 'orange';
-                                contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
+                                contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); 
                                 contextdraw.stroke();
                             }
                             else {
                                 contextdraw.strokeStyle = 'black';
-                                contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
+                                contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); 
                                 contextdraw.stroke();
                             }
                         });
@@ -490,6 +518,7 @@ if (window.addEventListener) {
                         contextdraw.strokeStyle = 'navy';
                         contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                         contextdraw.stroke();
+                        axis();
                         context.clearRect(0, 0, canvas.width, canvas.height);
                         context.drawImage(canvas, 0, 0);
                         //и затираем временный

@@ -58,6 +58,16 @@ namespace newdip.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeLogin
+    {
+        [Required]
+        [Display(Name = "Текущий логин")]
+        public string OldLogin { get; set; }
+
+        [Required]
+        [Display(Name = "Новый логин")]
+        public string NewLogin { get; set; }
+    }
     public class AddPhoneNumberViewModel
     {
         [Required]
@@ -82,5 +92,9 @@ namespace newdip.Models
     {
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+    }
+    public class UserEditer
+    {
+
     }
 }

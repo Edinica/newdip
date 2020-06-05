@@ -41,7 +41,7 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Site)
+            <a href="@Html.DisplayFor(modelItem => item.Site)">@Html.DisplayFor(modelItem => item.Site)</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TimeTable)

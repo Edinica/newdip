@@ -48,7 +48,6 @@ namespace newdip.Models
 
     public class LoginViewModel
     {
-        [Required]
         [Display(Name = "Адрес электронной почты")]
         [EmailAddress]
         public string Email { get; set; }
@@ -60,10 +59,16 @@ namespace newdip.Models
 
         [Display(Name = "Запомнить меня")]
         public bool RememberMe { get; set; }
+        [Display(Name = "Имя пользователя")]
+        public string Username { get; set; }
     }
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Адрес электронной почты")]

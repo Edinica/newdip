@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using newdip.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +14,13 @@ namespace newdip.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View();
+			IList<string> roles = new List<string> { "Роль не определена" };
+			ApplicationUserManager userManager = HttpContext.GetOwinContext()
+													.GetUserManager<ApplicationUserManager>();
+			ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+			if (user != null)
+				roles = userManager.GetRoles(user.Id);
+			return View(roles);
 		}
 
 		public ActionResult About()
@@ -25,7 +34,9 @@ namespace newdip.Controllers
 		{
 			ViewBag.Message = "Your contact page.";
 
-			return View();
+			ApplicationDbContext db = new ApplicationDbContext();
+
+			return View(db.Users.ToList());
 		}
 	}
 }

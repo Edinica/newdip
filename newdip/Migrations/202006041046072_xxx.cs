@@ -3,7 +3,7 @@ namespace newdip.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class level : DbMigration
+    public partial class xxx : DbMigration
     {
         public override void Up()
         {

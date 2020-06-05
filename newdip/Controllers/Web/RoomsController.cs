@@ -83,8 +83,8 @@ namespace newdip.Controllers.Web
             Room result = new Room();
             foreach (var element in points)
             {
-                for (int i = -2; i < 3; i++)
-                    for (int j = -2; j < 3; j++)
+                for (int i = -5; i < 6; i++)
+                    for (int j = -5; j < 6; j++)
                     {
                         if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку комнаты на этаже
                         {

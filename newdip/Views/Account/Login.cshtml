@@ -4,32 +4,34 @@
     ViewBag.Title = "Выполнить вход";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2 style="text-align:center">@ViewBag.Title</h2>
 <div class="row">
-    <div class="col-md-8">
+    <div style="text-align:center">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>Используйте для входа локальную учетную запись.</h4>
+                <h4 style="text-align:center">Используйте для входа локальную учетную запись.</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                <div style="align-self:center">
+                    @Html.LabelFor(m => m.Username, new { @class = " control-label" })
+                    <div style="align-content:center">
+                        @Html.TextBoxFor(m => m.Username)
+                        <p>
+                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group" style="text-align:center">
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                    <div style="align-content:center">
+                        @Html.PasswordFor(m => m.Password)
+                        <p>
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div style="text-align:center">
                         <div class="checkbox">
                             @Html.CheckBoxFor(m => m.RememberMe)
                             @Html.LabelFor(m => m.RememberMe)
@@ -37,17 +39,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div style="text-align:center">
                         <input type="submit" value="Выполнить вход" class="btn btn-default" />
                     </div>
                 </div>
-                <p>
+                <p style="text-align:center">
                     @Html.ActionLink("Регистрация нового пользователя", "Register")
                 </p>
-                @* Включите, когда будет включено подтверждение учетной записи для функции сброса пароля
-                    <p>
-                        @Html.ActionLink("Забыли пароль?", "ForgotPassword")
-                    </p>*@
+                //Включите, когда будет включено подтверждение учетной записи для функции сброса пароля
+                <p>
+                    @Html.ActionLink("Забыли пароль?", "ForgotPassword")
+                </p>
             }
         </section>
     </div>

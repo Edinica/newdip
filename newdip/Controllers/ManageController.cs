@@ -244,6 +244,53 @@ namespace newdip.Controllers
             return View(model);
         }
 
+        public ActionResult ChangeLogin()
+        {
+            return View();
+        }
+
+        public bool Uniq(string name)
+        {
+            var context = new ApplicationDbContext();
+            foreach (var elem in context.Users)
+            {
+                if (name.ToLower() == elem.UserName.ToLower()) return false;
+            }
+            return true;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeLogin(ChangeLogin model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            //var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            //if (result.Succeeded)
+            //{
+            var context = new ApplicationDbContext();
+            var person = context.Users.FirstOrDefault(x => x.UserName.ToLower() == model.OldLogin.ToLower());
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null && person.Id == user.Id && Uniq(model.NewLogin))
+            {
+
+                person.UserName = model.NewLogin;
+                context.SaveChanges();
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                return RedirectToAction("Index", new { Message = ManageMessageId.LoginChangeSuccess });
+            }
+            else
+            {
+                return View(model);
+            }
+
+            //}
+            //AddErrors(result);
+
+            return View(model);
+        }
+
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
@@ -381,6 +428,7 @@ namespace newdip.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
+            LoginChangeSuccess,
             Error
         }
 

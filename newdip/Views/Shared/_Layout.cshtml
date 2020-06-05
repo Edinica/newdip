@@ -27,11 +27,6 @@
                     {
                         <li>@Html.ActionLink("Информация", "About", "Home")</li>
                         <li>@Html.ActionLink("Связаться", "Contact", "Home")</li>
-                        <li>@Html.ActionLink("Этажи", "Index", "Floors")</li>
-                    }
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li>@Html.ActionLink("Редактор карт", "MapRedactor", "MapRedactor")</li>
                     }
 
                 </ul>

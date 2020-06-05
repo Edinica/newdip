@@ -331,6 +331,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PointsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
+    <Compile Include="Controllers\UserEditerController.cs" />
     <Compile Include="Controllers\Web\BuildingsController.cs" />
     <Compile Include="Controllers\Web\ClientsController.cs" />
     <Compile Include="Controllers\Web\EdgeMsController.cs" />
@@ -345,9 +346,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202006031516000_level.cs" />
-    <Compile Include="Migrations\202006031516000_level.Designer.cs">
-      <DependentUpon>202006031516000_level.cs</DependentUpon>
+    <Compile Include="Migrations\202006041046072_xxx.cs" />
+    <Compile Include="Migrations\202006041046072_xxx.Designer.cs">
+      <DependentUpon>202006041046072_xxx.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -449,6 +450,13 @@
     <Content Include="Views\Rooms\Details.cshtml" />
     <Content Include="Views\Rooms\Edit.cshtml" />
     <Content Include="Views\Rooms\Index.cshtml" />
+    <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Buildings\NF.cshtml" />
+    <Content Include="Views\Manage\ChangeLogin.cshtml" />
+    <Content Include="Views\UserEditer\Index.cshtml" />
+    <Content Include="Views\UserEditer\Details.cshtml" />
+    <Content Include="Views\UserEditer\Delete.cshtml" />
+    <Content Include="Views\UserEditer\MakeAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -468,8 +476,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202006031516000_level.resx">
-      <DependentUpon>202006031516000_level.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006041046072_xxx.resx">
+      <DependentUpon>202006041046072_xxx.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

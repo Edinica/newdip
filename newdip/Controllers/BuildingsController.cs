@@ -15,21 +15,23 @@ namespace newdip.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Buildings
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.Buildings.ToList());
         }
 
         [ChildActionOnly]
-        public PartialViewResult RenderList(int Id,int level) 
+        public PartialViewResult RenderList(int Id, int level)
         {
             var floor = db.Floors.Include(x => x.Points).FirstOrDefault(x => x.Level == level && x.BuildingId == Id);
             var points = floor.Points.ToList();
-            return PartialView("PartialListPoints",points);
+            return PartialView("PartialListPoints", points);
 
         }
 
         // GET: Buildings/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -55,6 +57,7 @@ namespace newdip.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "BuildingId,Name,Addrees,Description,Site,TimeTable")] Building building)
         {
             if (ModelState.IsValid)
@@ -68,6 +71,7 @@ namespace newdip.Controllers
         }
 
         // GET: Buildings/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,11 +86,17 @@ namespace newdip.Controllers
             return View(building);
         }
 
+        [Authorize]
+        public ActionResult NF()
+        {
+            return View();
+        }
         // POST: Buildings/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "BuildingId,Name,Addrees,Description,Site,TimeTable")] Building building)
         {
             if (ModelState.IsValid)
@@ -117,7 +127,7 @@ namespace newdip.Controllers
                 );
             
         }
-
+        [Authorize]
         public ActionResult AddLevel(int? id)//Метод для добавления этажа к зданию
         {
             if (id == null)
@@ -135,17 +145,15 @@ namespace newdip.Controllers
                 return HttpNotFound();
             }
             //building.Floors = db.Floors.Where(x=>x.BuildingId==id).Include(x => x.Points);
-            return RedirectToAction("Plan", new {id=id });
+            //return RedirectToAction("Plan", new {id=id });
             return RedirectToAction("Index");
-            return View(
-                building
-                );
+            //return View(
+            //    building
+            //    );
 
         }
-
-
-
         // GET: Buildings/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -163,6 +171,7 @@ namespace newdip.Controllers
         // POST: Buildings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             Building building = db.Buildings.Find(id);

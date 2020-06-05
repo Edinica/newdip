@@ -1,17 +1,49 @@
-﻿@{
-    ViewBag.Title = "Contact";
+﻿@model IEnumerable<newdip.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Связь с разработчиками";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2 style="text-align:center">@ViewBag.Title</h2>
+<h3 style="text-align:center">
+    Для получения прав администратора, свяжитесь с одним из администраторов
+    <br>
+    Кроме того, вы можете связаться с одним из разработчиков
+</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Электронная почта</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                if (item.Roles.Count == 2)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td><a href="mailto:@item.Email">@item.Email</a></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <h3 style="text-align:center">Связь с разработчиками</h3>
+            <div class="col-md-6">
+                <h2>ФИО1</h2>
+                <p>
+                    <strong>Web Developer:</strong>   <a href="mailto:paselyanin@yandex.ru">paselyanin@yandex.ru</a><br />
+                </p>
+                @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+            </div>
+            <div class="col-md-6">
+                <h2>ФИО2</h2>
+                <p><strong>Mobile App Developer:</strong> <a href="mailto:maximbu@gamil.com">maximbu@gamil.com</a></p>
+                @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>*@
+            </div>
+        </div>
+    </div>
+</div>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
