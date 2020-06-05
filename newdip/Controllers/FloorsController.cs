@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using newdip.Models;
 
@@ -46,7 +47,7 @@ namespace newdip.Controllers
         // POST: Floors/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FloorId,Level,BuildingId")] Floor floor)
         {
@@ -113,7 +114,7 @@ namespace newdip.Controllers
         // POST: Floors/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "FloorId,Level,BuildingId")] Floor floor)
         {
@@ -151,7 +152,7 @@ namespace newdip.Controllers
         }
 
         // POST: Floors/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [System.Web.Http.HttpPost, System.Web.Http.ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -168,6 +169,88 @@ namespace newdip.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public void CopyFloor([FromBody] Floor floor)
+        {
+            var floors = db.Floors.Where(x => x.BuildingId == floor.BuildingId).ToList();//list
+            Floor etazh = db.Floors.Include(x=>x.Points).Include(x=>x.Rooms).FirstOrDefault(x => x.BuildingId == floor.BuildingId && x.Level == floor.Level);//one
+            List<PointM> points = db.Points.Include(x=>x.EdgesIn).Include(x => x.EdgesOut).Where(x => x.FloorId == etazh.FloorId).ToList();
+            List<Room> rooms = db.Rooms.Include(obj => obj.Points).Where(obj => obj.FloorId == etazh.FloorId).ToList();
+            List<PointM> newpoints = new List<PointM>();
+            List<EdgeM> newedges = new List<EdgeM>();
+            List<Room> newrooms = new List<Room>();
+            Floor newfloor = new Floor(floors.Last().Level+1,etazh.BuildingId);
+            db.Floors.Add(newfloor);
+            db.SaveChanges();
+            floors = db.Floors.Where(x => x.BuildingId == floor.BuildingId).ToList();//list
+            foreach (var obj in points) 
+            {
+                PointM point = new PointM();
+                point.X = obj.X;
+                point.Y = obj.Y;
+                point.IsWaypoint = obj.IsWaypoint;
+                point.FloorId = newfloor.FloorId;
+                newpoints.Add(point);
+                db.Points.Add(point);
+                db.SaveChanges();
+
+            }
+            for (int i=0;i<points.Count;i++) 
+            {
+                foreach (var param in points[i].EdgesOut)
+                {
+                    EdgeM edge = new EdgeM();
+                    edge.PointFromId = newpoints[i].Id;
+                    edge.Weight = param.Weight;
+                    edge.PointToId = newpoints[points.IndexOf(param.PointTo)].Id;
+                    newedges.Add(edge);
+                    db.Edges.Add(edge);
+                    db.SaveChanges();
+                }            
+            }
+            foreach (var obj in rooms)
+            {
+                Room room = new Room();
+                room.FloorId = newfloor.FloorId;
+                newrooms.Add(room);
+                db.Rooms.Add(room);
+                db.SaveChanges();
+
+            }
+            if(rooms.Count!=0)
+            for (int i=0;i<points.Count;i++)
+            {
+                if (points[i].RoomId != null)
+                {
+
+                    newpoints[i].RoomId = newrooms[rooms.IndexOf(rooms.First(x => x.RoomId == points[i].RoomId))].RoomId;
+                }
+            }
+
+            ////////////////////////////////////////////////////foreach(var obj in points)
+            ////////////////////////////////////////////////////{
+            ////////////////////////////////////////////////////List<EdgeM>edges= db.Edges.Where(x=>x.PointFrom.Id=)
+            ////////////////////////////////////////////////////}
+            //var perem = db.Points.Where(x => x.FloorId == newfloor.FloorId);
+            int sss = 0;
+            //if (floor.secondx != null)
+            //{
+            //    int id = Convert.ToInt32(floor.id);
+            //    int level = Etazh(floor.level);
+            //    EdgeM edge = new EdgeM();
+            //    Floor floor1 = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault();//этаж просмотр
+            //    Operation(floor.secondx, floor.secondy, floor.firstx, floor.firsty, floor1);
+            //    var list = db.Edges.ToList();
+            //}
+            //Point newp = new Point();
+            //newp.X = Convert.ToInt32(po.firstx);
+            //newp.Y = Convert.ToInt32(po.firsty);
+            //newp.PointId = pointslist.Count() + 1;
+            ////var obj = po;
+            //db.Points.Add(newp);
+            //db.SaveChanges();
         }
     }
 }

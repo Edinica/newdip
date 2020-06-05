@@ -5,8 +5,8 @@
     let url = "https://localhost:44336/api/Floors/Edges?level=" + x + '&&id=' + id;
     async function getedges() {
         let response = await fetch(url);
-        floor = await response.json();
-        floor.forEach(function (item, i, floor) {
+        edges = await response.json();
+        edges.forEach(function (item, i, edges) {
             if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
             else context.strokeStyle = 'black';
             context.beginPath();
@@ -66,58 +66,13 @@ function axis()
     contextdraw.stroke();
     contextdraw.closePath();
 }
-/*function draw()
-{
-    //очистка канвы
-    context.clearRect(0, 0, canvas.width, canvas.height);
-        ///вывод граней
-    floor.forEach(function (item, i, floor)
-    {
-            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
-            else context.strokeStyle = 'black';
-            context.beginPath();
-            let xx = item.PointFrom.X + cx;
-            let yy = cy - item.PointFrom.Y;
-            let xxx = item.PointTo.X + cx;
-            let yyy = cy - item.PointTo.Y;
-            context.moveTo(xx, yy);
-            context.lineTo(xxx, yyy);
-            context.stroke();
-    });
-    points.forEach(function (item, i, points) {
-        context.beginPath();
-        if (item.IsWaypoint) {
-            context.strokeStyle = 'orange';
-            context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
-            context.stroke();
-        }
-        else {
-            context.strokeStyle = 'black';
-            context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
-            context.stroke();
-        }
-        //если есть точка на удаление то ее тоже рисуем
-        if (pointtodel != null && pointtodel.Id == item.Id) {
-            delx = item.X;
-            dely = item.Y;
-            context.closePath();
-            context.beginPath();
-            context.strokeStyle = 'red';
-            context.arc(delx + cx, cy - dely, 9, 0, Math.PI * 2, true); //центр
-            context.stroke();
-            context.closePath();
-        }
 
-    });
-    
-    context.strokeStyle = 'black';   
-} //есть очистка*/
-
-var points, floor; var cx, cy;
+var points, edges; var cx, cy;
 var selectedx, selectedy;
 var selectedpoint;
 var selectedid, number, pointtodel;//выбранная точка, ее номер в списке, точка на удаление
 var delx, dely;//координаты точки удаления
+var floor;
 var clinex,cliney;
 let ctrl = false;
 let shift = false;
@@ -128,7 +83,7 @@ var staticpaper; var context;//view
 if (window.addEventListener) {
     window.addEventListener('load', function () {
         var tool;
-        var tool_default = 'line';
+        var tool_default = 'moveimg';
         
         var mdx, mdy;
         var centerx, centery;//показывает центр
@@ -217,33 +172,55 @@ if (window.addEventListener) {
             var tool = this;
             tool.started = false;
             tool.perenos = false;
+            let beg;
             //нажатие лкм
             this.mousedown = function (ev)
             {
-                    tool.started = true;
+                tool.started = true;
+                beg = shift;
                     tool.x0 = ev._x;
                     tool.y0 = ev._y;
             };
             //отрисовка линии за курсором
             this.mousemove = function (ev) {
                 if (!tool.started) return;
-                contextdraw.clearRect(0, 0, canvas.width, canvas.height);
-                mdx = tool.x0;
-                mdy = tool.y0;
-                context.closePath();
-                contextdraw.beginPath();
-                contextdraw.strokeStyle = 'grey';   
-                contextdraw.moveTo(tool.x0, tool.y0);
-                contextdraw.lineTo(ev._x, ev._y);
-                contextdraw.stroke(); contextdraw.closePath();
-                contextdraw.beginPath();
-                contextdraw.moveTo(tool.x0 + 3, tool.y0);
-                contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
-                contextdraw.moveTo(ev._x + 3, ev._y);
-                contextdraw.arc(ev._x, ev._y, 4, 0, Math.PI * 2, true);
-                contextdraw.stroke();
-                contextdraw.closePath();
-
+                if (!shift) {
+                    contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                    mdx = tool.x0;
+                    mdy = tool.y0;
+                    context.closePath();
+                    contextdraw.beginPath();
+                    contextdraw.strokeStyle = 'black';
+                    contextdraw.moveTo(tool.x0, tool.y0);
+                    contextdraw.lineTo(ev._x, ev._y);
+                    contextdraw.stroke(); contextdraw.closePath();
+                    contextdraw.beginPath();
+                    contextdraw.moveTo(tool.x0 + 3, tool.y0);
+                    contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
+                    contextdraw.moveTo(ev._x + 3, ev._y);
+                    contextdraw.arc(ev._x, ev._y, 4, 0, Math.PI * 2, true);
+                    contextdraw.stroke();
+                    contextdraw.closePath();
+                }
+                else
+                {
+                    contextdraw.clearRect(0, 0, canvas.width, canvas.height);
+                    mdx = tool.x0;
+                    mdy = tool.y0;
+                    context.closePath();
+                    contextdraw.beginPath();
+                    contextdraw.strokeStyle = 'green';
+                    contextdraw.moveTo(tool.x0, tool.y0);
+                    contextdraw.lineTo(ev._x, ev._y);
+                    contextdraw.stroke(); contextdraw.closePath();
+                    contextdraw.beginPath();
+                    contextdraw.moveTo(tool.x0 + 3, tool.y0);
+                    contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
+                    contextdraw.moveTo(ev._x + 3, ev._y);
+                    contextdraw.arc(ev._x, ev._y, 4, 0, Math.PI * 2, true);
+                    contextdraw.stroke();
+                    contextdraw.closePath();
+                }
             };
 
             this.mouseup = function (ev)
@@ -256,23 +233,47 @@ if (window.addEventListener) {
                     //img_update();
                 }
                 //отправка пост запроса на добавление
-                $('#imageTemp').mouseup
+                if (beg && beg == shift) {
+                    $('#imageTemp').mouseup
+                    {
+                        new function () {
+
+                            $.ajax({
+                                url: '/Points/Line',
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                                    id: id.innerHTML, IsWaypoint:true
+                                }),
+                                complete: function () {
+                                }
+                            });
+
+                        }
+                    }
+                }
+                else
                 {
-                    new function () {
+                    $('#imageTemp').mouseup
+                    {
+                        new function () {
 
-                        $.ajax({
-                            url: '/Points/Line',
-                            type: "POST",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            data: JSON.stringify({
-                                firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
-                                id: id.innerHTML
+                            $.ajax({
+                                url: '/Points/Line',
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    firstx: ev._x - cx, firsty: cy - ev._y, secondx: mdx - cx, secondy: cy - mdy, level: lvl.options[lvl.selectedIndex].text,
+                                    id: id.innerHTML, IsWaypoint:false
                             }),
-                            complete: function () {
-                            }
-                        });
+                                complete: function () {
+                                }
+                            });
 
+                        }
                     }
                 }
                 //setTimeout(, 10000);
@@ -484,7 +485,7 @@ if (window.addEventListener) {
                         //очищаем временный канвас
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                         // и на нем рисуем временные точки
-                        floor.forEach(function (item, i, floor) {
+                        edges.forEach(function (item, i, edges) {
                             if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
                             else contextdraw.strokeStyle = 'black';
                             contextdraw.beginPath();
@@ -549,7 +550,7 @@ if (window.addEventListener) {
                         points[number].X = ev.layerX - cx;
                         points[number].Y = cy - ev.layerY;
                         //и грани которые связаны
-                        floor.forEach(function (item, i, floor) {
+                        edges.forEach(function (item, i, edges) {
                             if (item.PointFrom.Id == selectedid) {
                                 item.PointFrom.X = points[number].X;
                                 item.PointFrom.Y = points[number].Y;
@@ -562,7 +563,7 @@ if (window.addEventListener) {
                         //очищаем временный канвас
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                         // и на нем рисуем временные точки+ точку на удаление если есть
-                        floor.forEach(function (item, i, floor) {
+                        edges.forEach(function (item, i, edges) {
                             if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
                             else contextdraw.strokeStyle = 'black';
                             contextdraw.beginPath();
@@ -779,6 +780,28 @@ function Button() {
             }
         });
          //alert("ne pusto");
+    }
+    //else alert("pusto");
+}
+function Copy() {
+    if (document.getElementById("Floorlevel").innerHTML != null) {
+        //room.FloorId = document.getElementById("FloorId").value
+        //floor.level = document.getElementById("Floorlevel").value;
+        //floor.BuildingId = document.getElementById("BuildingId").value
+        $.ajax({
+            url: '/Floors/CopyFloor',
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                Level: x,
+                BuildingId: id  
+            }),
+            complete: function () {
+                window.location.reload();
+            }
+        });
+        //alert("ne pusto");
     }
     //else alert("pusto");
 }

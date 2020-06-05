@@ -33,5 +33,21 @@ namespace newdip.Models
 
 			this.BuildingId = buildingid;
 		}
+
+		public Floor(int level, int? buildingId):this()
+		{
+			Level = level;
+			BuildingId = buildingId;
+		}
+
+		public Floor(int level,Floor floor)
+		{
+
+			Level = level;
+			BuildingId = floor.BuildingId;
+			Building = floor.Building;
+			Points = floor.Points;
+			Rooms = floor.Rooms;
+		}
 	}
 }

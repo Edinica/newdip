@@ -31,6 +31,7 @@ namespace newdip.Controllers
             public string secondy { get; set; }
             public string level { get; set; }
             public string id { get; set; }
+            public bool isWaypoint { get; set; }
         }
 
         public class Rectangle
@@ -46,19 +47,36 @@ namespace newdip.Controllers
             public string level { get; set; }
             public string id { get; set; }
         }
-        public PointM Similar(int x, int y,Floor floor)
+        public PointM Similar(int x, int y,Floor floor, bool isway)
         {
-            var points = db.Points.Where(xx=>xx.FloorId==floor.FloorId).ToList();
-            foreach (var element in points)
+            if (!isway)
             {
-                for (int i = -5; i < 6; i++)
-                    for (int j = -5; j < 6; j++)
-                    {
-                        if (element.X + i == x && element.Y + j == y) return element;
-                    }
-            }
+                var points = db.Points.Where(xx => xx.FloorId == floor.FloorId).ToList();
+                foreach (var element in points)
+                {
+                    for (int i = -5; i < 6; i++)
+                        for (int j = -5; j < 6; j++)
+                        {
+                            if (element.X + i == x && element.Y + j == y) return element;
+                        }
+                }
 
-            return null;
+                return null;
+            }
+            else 
+            {
+                var points = db.Points.Where(xx => xx.FloorId == floor.FloorId).ToList();
+                foreach (var element in points)
+                {
+                    for (int i = -5; i < 6; i++)
+                        for (int j = -5; j < 6; j++)
+                        {
+                            if (element.X + i == x && element.Y + j == y && element.IsWaypoint) return element;
+                        }
+                }
+
+                return null;
+            }
         }
         public int Etazh(string income)
         {
@@ -184,7 +202,7 @@ namespace newdip.Controllers
                 int level = Etazh(po.level);
                 EdgeM edge = new EdgeM();
                 Floor floor1 = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault();//этаж просмотр
-                Operation(po.secondx, po.secondy, po.firstx, po.firsty, floor1);
+                Operation(po.secondx, po.secondy, po.firstx, po.firsty, floor1, po.isWaypoint);
                 var list = db.Edges.ToList();
             }
             //Point newp = new Point();
@@ -195,56 +213,109 @@ namespace newdip.Controllers
             //db.Points.Add(newp);
             //db.SaveChanges();
         }
-        public void Operation(string x1, string y1,string x2,string y2, Floor floor) 
+        public void Operation(string x1, string y1,string x2,string y2, Floor floor, bool isway) 
         {
-            
-            PointM point = Similar(Convert.ToInt32(x1), Convert.ToInt32(y1), floor);
-            EdgeM edge = new EdgeM();
-            //bool isexist = false;
-            int X1 = Convert.ToInt32(x1);
-            int Y1 = Convert.ToInt32(y1);
-            int X2 = Convert.ToInt32(x2);
-            int Y2 = Convert.ToInt32(y2);
-            ///первая вершина
-            if (point == null||point.Id==0)
-            {  
-                point = new PointM();
-                point.X = X1;
-                point.Y = Y1;
-                point.IsWaypoint = false;
-                point.FloorId = floor.FloorId;
-                db.Points.Add(point);
+
+            if (!isway)
+            {
+                PointM point = Similar(Convert.ToInt32(x1), Convert.ToInt32(y1), floor, isway);
+                EdgeM edge = new EdgeM();
+                //bool isexist = false;
+                int X1 = Convert.ToInt32(x1);
+                int Y1 = Convert.ToInt32(y1);
+                int X2 = Convert.ToInt32(x2);
+                int Y2 = Convert.ToInt32(y2);
+                ///первая вершина
+                if (point == null || point.Id == 0)
+                {
+                    point = new PointM();
+                    point.X = X1;
+                    point.Y = Y1;
+                    point.IsWaypoint = false;
+                    point.FloorId = floor.FloorId;
+                    db.Points.Add(point);
+                    db.SaveChanges();
+                    edge.PointFromId = db.Points.ToList().Last().Id;
+                }
+                else
+                {
+                    //point = db.Points.FirstOrDefault(x => x.X == X1 && x.Y == Y1 && x.FloorId == floor.FloorId);
+                    edge.PointFromId = point.Id;
+                }
+                ///2 вершина
+                PointM point2 = Similar(Convert.ToInt32(x2), Convert.ToInt32(y2), floor,isway);
+                if (point2 == null)
+                {
+                    point2 = new PointM();
+                    point2.X = Convert.ToInt32(x2);
+                    point2.Y = Convert.ToInt32(y2);
+                    point2.IsWaypoint = false;
+                    point2.FloorId = floor.FloorId;
+                    db.Points.Add(point2);
+                    db.SaveChanges();
+                    ///сохранение ребра
+                    edge.PointToId = db.Points.ToList().Last().Id;//Id первой вершины
+                }
+                else
+                {
+                    //point2 = db.Points.FirstOrDefault(x => x.X == X2 && x.Y == Y2 && x.FloorId == floor.FloorId);
+                    edge.PointToId = point2.Id;
+                }
+                edge.Weight = Math.Sqrt(Math.Pow(point2.X - point.X, 2) +
+                    Math.Pow(point2.Y - point.Y, 2)) / 75.9;
+                db.Edges.Add(edge);
                 db.SaveChanges();
-                edge.PointFromId = db.Points.ToList().Last().Id;
             }
             else 
             {
-                //point = db.Points.FirstOrDefault(x => x.X == X1 && x.Y == Y1 && x.FloorId == floor.FloorId);
-                edge.PointFromId = point.Id;
-            }
-            ///2 вершина
-            PointM point2 = Similar(Convert.ToInt32(x2), Convert.ToInt32(y2),floor);
-            if (point2==null)
-            {
-                point2 = new PointM();
-                point2.X = Convert.ToInt32(x2);
-                point2.Y = Convert.ToInt32(y2);
-                point2.IsWaypoint = false;
-                point2.FloorId = floor.FloorId;
-                db.Points.Add(point2);
+                PointM point = Similar(Convert.ToInt32(x1), Convert.ToInt32(y1), floor,isway);
+                EdgeM edge = new EdgeM();
+                //bool isexist = false;
+                int X1 = Convert.ToInt32(x1);
+                int Y1 = Convert.ToInt32(y1);
+                int X2 = Convert.ToInt32(x2);
+                int Y2 = Convert.ToInt32(y2);
+                ///первая вершина
+                if (point == null || point.Id == 0)
+                {
+                    point = new PointM();
+                    point.X = X1;
+                    point.Y = Y1;
+                    point.IsWaypoint = true;
+                    point.FloorId = floor.FloorId;
+                    db.Points.Add(point);
+                    db.SaveChanges();
+                    edge.PointFromId = db.Points.ToList().Last().Id;
+                }
+                else
+                {
+                    //point = db.Points.FirstOrDefault(x => x.X == X1 && x.Y == Y1 && x.FloorId == floor.FloorId);
+                    edge.PointFromId = point.Id;
+                }
+                ///2 вершина
+                PointM point2 = Similar(Convert.ToInt32(x2), Convert.ToInt32(y2), floor,isway);
+                if (point2 == null)
+                {
+                    point2 = new PointM();
+                    point2.X = Convert.ToInt32(x2);
+                    point2.Y = Convert.ToInt32(y2);
+                    point2.IsWaypoint = true;
+                    point2.FloorId = floor.FloorId;
+                    db.Points.Add(point2);
+                    db.SaveChanges();
+                    ///сохранение ребра
+                    edge.PointToId = db.Points.ToList().Last().Id;//Id первой вершины
+                }
+                else
+                {
+                    //point2 = db.Points.FirstOrDefault(x => x.X == X2 && x.Y == Y2 && x.FloorId == floor.FloorId);
+                    edge.PointToId = point2.Id;
+                }
+                edge.Weight = Math.Sqrt(Math.Pow(point2.X - point.X, 2) +
+                    Math.Pow(point2.Y - point.Y, 2)) / 75.9;
+                db.Edges.Add(edge);
                 db.SaveChanges();
-                ///сохранение ребра
-                edge.PointToId = db.Points.ToList().Last().Id;//Id первой вершины
             }
-            else 
-            {
-                //point2 = db.Points.FirstOrDefault(x => x.X == X2 && x.Y == Y2 && x.FloorId == floor.FloorId);
-                edge.PointToId = point2.Id;
-            }
-            edge.Weight = Math.Sqrt(Math.Pow(point2.X - point.X, 2) +
-                Math.Pow(point2.Y - point.Y, 2)) / 75.9;
-            db.Edges.Add(edge);
-            db.SaveChanges();
 
         }
         [Microsoft.AspNetCore.Mvc.HttpPost]
@@ -257,10 +328,10 @@ namespace newdip.Controllers
             int level = Etazh(po.level);
             //Edge edge = new Edge();
             Floor floor1 = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).Include(x=>x.Rooms).FirstOrDefault();//этаж просмотр
-            Operation(po.firstx, po.firsty, po.secondx, po.secondy, floor1);
-            Operation(po.secondx, po.secondy, po.thirdx, po.thirdy, floor1);
-            Operation(po.thirdx, po.thirdy, po.fourthx, po.fourthy, floor1);
-            Operation(po.fourthx, po.fourthy, po.firstx, po.firsty, floor1);
+            Operation(po.firstx, po.firsty, po.secondx, po.secondy, floor1,false);
+            Operation(po.secondx, po.secondy, po.thirdx, po.thirdy, floor1,false);
+            Operation(po.thirdx, po.thirdy, po.fourthx, po.fourthy, floor1,false);
+            Operation(po.fourthx, po.fourthy, po.firstx, po.firsty, floor1,false);
             Room room = new Room();
 
             int px1 = Convert.ToInt32(po.firstx);
@@ -273,14 +344,14 @@ namespace newdip.Controllers
             int py4 = Convert.ToInt32(po.fourthy);
             db.Rooms.Add(room);
             db.SaveChanges();
-            PointM point = db.Points.FirstOrDefault(x => x.X == px1 && x.Y == py1 && x.FloorId == floor1.FloorId);
-            PointM point2 = db.Points.FirstOrDefault(x => x.X == px2 && x.Y == py2 && x.FloorId == floor1.FloorId);
-            PointM point3 = db.Points.FirstOrDefault(x => x.X == px3 && x.Y == py3 && x.FloorId == floor1.FloorId);
-            PointM point4 = db.Points.FirstOrDefault(x => x.X == px4 && x.Y == py4 && x.FloorId == floor1.FloorId);
-            point.RoomId = db.Rooms.ToList().Last().RoomId;
-            point2.RoomId = db.Rooms.ToList().Last().RoomId;
-            point3.RoomId = db.Rooms.ToList().Last().RoomId;
-            point4.RoomId = db.Rooms.ToList().Last().RoomId;
+           //PointM point = db.Points.FirstOrDefault(x => x.X == px1 && x.Y == py1 && x.FloorId == floor1.FloorId);
+           //PointM point2 = db.Points.FirstOrDefault(x => x.X == px2 && x.Y == py2 && x.FloorId == floor1.FloorId);
+           //PointM point3 = db.Points.FirstOrDefault(x => x.X == px3 && x.Y == py3 && x.FloorId == floor1.FloorId);
+           //PointM point4 = db.Points.FirstOrDefault(x => x.X == px4 && x.Y == py4 && x.FloorId == floor1.FloorId);
+            //point.RoomId = db.Rooms.ToList().Last().RoomId;
+            //point2.RoomId = db.Rooms.ToList().Last().RoomId;
+            //point3.RoomId = db.Rooms.ToList().Last().RoomId;
+            //point4.RoomId = db.Rooms.ToList().Last().RoomId;
             //room.Points.Add(point);
             //room.Points.Add(point2);
             //room.Points.Add(point3);
