@@ -4,6 +4,17 @@ namespace newdip.Models
 {
 	public class Worker 
 	{
+		public Worker()
+		{
+		}
+
+		public Worker(string firstName, string secondName, string lastName)
+		{
+			FirstName = firstName;
+			SecondName = secondName;
+			LastName = lastName;
+		}
+
 		[Key]
 		public int Id { get; set; }
 		public string FirstName { get; set; }

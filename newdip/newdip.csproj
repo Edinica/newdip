@@ -377,6 +377,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ClassDiagram1.cd" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -430,11 +432,6 @@
     <Content Include="Views\Buildings\Details.cshtml" />
     <Content Include="Views\Buildings\Edit.cshtml" />
     <Content Include="Views\Buildings\Index.cshtml" />
-    <Content Include="Views\Workers\Create.cshtml" />
-    <Content Include="Views\Workers\Delete.cshtml" />
-    <Content Include="Views\Workers\Details.cshtml" />
-    <Content Include="Views\Workers\Edit.cshtml" />
-    <Content Include="Views\Workers\Index.cshtml" />
     <Content Include="Views\Buildings\Plan.cshtml" />
     <Content Include="Views\Floors\Create.cshtml" />
     <Content Include="Views\Floors\Delete.cshtml" />
@@ -457,6 +454,11 @@
     <Content Include="Views\UserEditer\Details.cshtml" />
     <Content Include="Views\UserEditer\Delete.cshtml" />
     <Content Include="Views\UserEditer\MakeAdmin.cshtml" />
+    <Content Include="Views\Workers\Create.cshtml" />
+    <Content Include="Views\Workers\Delete.cshtml" />
+    <Content Include="Views\Workers\Details.cshtml" />
+    <Content Include="Views\Workers\Edit.cshtml" />
+    <Content Include="Views\Workers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

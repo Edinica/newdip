@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="newdip.Controllers.Web.BuildingsController">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAASAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Web\BuildingsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.ClientsController">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAUACAQAAAAgAAAAAAAAAAAAAAAAAAAgABAAAA=</HashCode>
+      <FileName>Controllers\Web\ClientsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.EdgeMsController">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAQAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Web\EdgeMsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.FavoriteRoomsController">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiACAQAAACABAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Web\FavoriteRoomsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.FloorsController">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAACAYAAAAAAAAAAAAAAAiAAAAAAAAQAIAAAA=</HashCode>
+      <FileName>Controllers\Web\FloorsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.NotesController">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAACAACCQAAAAAAAgAAAEEAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Web\NotesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.RoomsController">
+    <Position X="9.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABECAQAIAAABCAAAAAAAAAAAAAAAAACAAAAEA=</HashCode>
+      <FileName>Controllers\Web\RoomsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.WorkersController">
+    <Position X="5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAQAACAQAAAAAgAAAAAAAAAAAAAAAIABAAAAIAA=</HashCode>
+      <FileName>Controllers\Web\WorkersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.AccountController">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="newdip.Controllers.AccountController.ChallengeResult" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\AccountController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAABAChACAQAAAAAAFgEgAABAABMKIAAAMRAAQgAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.BuildingsController">
+    <Position X="12.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARACCAAAAABAAAAAGAAEADAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\BuildingsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.ClientsController">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ClientsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.FloorsController">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEAGAAEAAAoAAAA=</HashCode>
+      <FileName>Controllers\FloorsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.HomeController">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEACAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.PointsController">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="newdip.Controllers.PointsController.P" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\PointsController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="newdip.Controllers.PointsController.Segment" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\PointsController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="newdip.Controllers.PointsController.Rectangle" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\PointsController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAIAQAACAABAAAAAACAAAAAAAAAEAAABBAAA=</HashCode>
+      <FileName>Controllers\PointsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.RoomsController">
+    <Position X="8" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\RoomsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.WorkersController">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\WorkersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Geo.Controllers.UserEditerController">
+    <Position X="2" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAARAACAAAAAAAAAAAEAAAAQAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\UserEditerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Controllers.Web.PointMsController">
+    <Position X="3.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAQAAAAAAIAAAAAAACAAAAABAAAEAAAAAg=</HashCode>
+      <FileName>Controllers\Web\PointMsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

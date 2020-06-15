@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="newdip.Models.Building" Collapsed="true">
+    <Position X="2.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAggAgAAAAAAAQAAABAAAACAAAAAAEAAAA=</HashCode>
+      <FileName>Models\Building.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.Client">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAAAAAAAAAAAAAAARAAAAAAAACAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.EdgeM">
+    <Position X="4.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABCQIAAAAAAAAAAAAAAAAAAACAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\EdgeM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.FavoriteRoom">
+    <Position X="2.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAABAAAAgAAAAAQAAAAAAAAAAAQAAAAAAAQ=</HashCode>
+      <FileName>Models\FavoriteRoom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.Floor">
+    <Position X="6.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAgAAAAAAAAAACAAAAAAABAAAAAAGAAAA=</HashCode>
+      <FileName>Models\Floor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.ApplicationUser">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.ApplicationDbContext">
+    <Position X="2.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAggBAAAAAAgAgAACAAAAACEQAAAEAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.SetPasswordViewModel">
+    <Position X="6.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.ChangePasswordViewModel">
+    <Position X="2.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.ChangeLogin">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.Note">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABACAAAAAAAAgBAAAAAAACAAAAAhQAAACBAAAAQ=</HashCode>
+      <FileName>Models\Note.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.PointM">
+    <Position X="6.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAACAAAAAAgAABAAAAAAAAAAAAAAAEAAACCAYAA=</HashCode>
+      <FileName>Models\PointM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.Room">
+    <Position X="8.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAACAAAggAgAAAAAAAQAAAAAAAAEAAAgIACAAAA=</HashCode>
+      <FileName>Models\Room.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="newdip.Models.Worker">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEgGACABgAAAABAAAAAAAAAAAAAAAAAAIAAAAAg=</HashCode>
+      <FileName>Models\Worker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

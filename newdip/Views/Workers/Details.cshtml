@@ -10,11 +10,9 @@
     <h4>Worker</h4>
     <hr />
     <dl class="dl-horizontal">
-        @if (Model.Room != null)
-        {<dt>
+        <dt>
             @Html.DisplayNameFor(model => model.Room.Name)
         </dt>
-        }
 
         <dd>
             @Html.DisplayFor(model => model.Room.Name)
@@ -66,6 +64,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Site)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site)
         </dd>
 
         <dt>

@@ -99,6 +99,11 @@ namespace newdip.Controllers.Web
                                         result = new Room(vroom.Name, vroom.Description, vroom.Timetable, vroom.Phone, vroom.Site);
                                         result.RoomId=vroom.RoomId;
                                         result.FloorId = vroom.FloorId; //возвращаем комнату
+                                        List<Worker> workers = db.Workers.Where(xx => xx.RoomId == result.RoomId).ToList();
+                                        for (int w = 0; w < workers.Count(); w++) 
+                                        {
+                                        result.Workers.Add(new Worker(workers[w].FirstName, workers[w].SecondName, workers[w].LastName));
+                                        }    
                                     }
                                 
                             }

@@ -73,6 +73,7 @@ var selectedpoint;
 var selectedid, number, pointtodel;//выбранная точка, ее номер в списке, точка на удаление
 var delx, dely;//координаты точки удаления
 var floor;
+let workers;
 var clinex,cliney;
 let ctrl = false;
 let shift = false;
@@ -375,6 +376,7 @@ if (window.addEventListener) {
                         console.log(response);
                         room = await response.json();
                         console.log(room);
+                        let loadworkers = document.getElementById("workers");                        
                         staticpaper = document.getElementById("imageView");
                         context = staticpaper.getContext('2d');
                         //cx = staticpaper.width / 2;
@@ -393,8 +395,18 @@ if (window.addEventListener) {
                             document.getElementById("Timetable").value = room.Timetable;
                             document.getElementById("Phone").value = room.Phone;
                             document.getElementById("Mail").value = room.Site;
+                            workers = room.Workers;
                             selectedx = ev._x - cx;
-                            selectedy = cy-ev._y;
+                            selectedy = cy - ev._y;
+                            if (workers.length != 0)
+                            {
+                                for (var i = 0; i < workers.length; i++) {
+                                    loadworkers.append(new Option(workers[i].FirstName + ' ' + workers[i].SecondName.substring(0, 1) + ".",
+                                        workers[i].FirstName + workers[i].SecondName.substring(0, 1) + "."));
+                                }
+                            }
+                            
+                           
                         }
                         //иначе оставляем поля пустыми
                         else
@@ -408,10 +420,12 @@ if (window.addEventListener) {
                             document.getElementById("Mail").value = null;
                             selectedx = null;
                             selectedy = null;
+                            loadworkers.innerText = null
                         }
                         
                     };
                     GetRooms();
+
 
                 }
             };
@@ -648,7 +662,7 @@ if (window.addEventListener) {
                                 selectedpoint
                             ),
                             complete: function () {
-                                alert('Load was performed.');
+                               // alert('Load was performed.');
                             }
                         });
                     }
