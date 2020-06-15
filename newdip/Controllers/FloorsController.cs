@@ -228,29 +228,46 @@ namespace newdip.Controllers
                     newpoints[i].RoomId = newrooms[rooms.IndexOf(rooms.First(x => x.RoomId == points[i].RoomId))].RoomId;
                 }
             }
+        }
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public void ClearFloor([FromBody] Floor floor)
+        {
+            Floor etazh = db.Floors.Include(x => x.Points).Include(x => x.Rooms).FirstOrDefault(x => x.BuildingId == floor.BuildingId && x.Level == floor.Level);//one
+            List<PointM> points = db.Points.Include(x => x.EdgesIn).Include(x => x.EdgesOut).Where(x => x.FloorId == etazh.FloorId).ToList();
+            List<Room> rooms = db.Rooms.Include(obj => obj.Points).Include(x=>x.Workers).Include(x=>x.Notes).Where(obj => obj.FloorId == etazh.FloorId).ToList();
 
-            ////////////////////////////////////////////////////foreach(var obj in points)
-            ////////////////////////////////////////////////////{
-            ////////////////////////////////////////////////////List<EdgeM>edges= db.Edges.Where(x=>x.PointFrom.Id=)
-            ////////////////////////////////////////////////////}
-            //var perem = db.Points.Where(x => x.FloorId == newfloor.FloorId);
-            int sss = 0;
-            //if (floor.secondx != null)
-            //{
-            //    int id = Convert.ToInt32(floor.id);
-            //    int level = Etazh(floor.level);
-            //    EdgeM edge = new EdgeM();
-            //    Floor floor1 = db.Floors.Where(x => x.Level == level && x.BuildingId == id).Include(x => x.Points).FirstOrDefault();//этаж просмотр
-            //    Operation(floor.secondx, floor.secondy, floor.firstx, floor.firsty, floor1);
-            //    var list = db.Edges.ToList();
-            //}
-            //Point newp = new Point();
-            //newp.X = Convert.ToInt32(po.firstx);
-            //newp.Y = Convert.ToInt32(po.firsty);
-            //newp.PointId = pointslist.Count() + 1;
-            ////var obj = po;
-            //db.Points.Add(newp);
+
+            foreach (var element in etazh.Rooms) 
+            {
+                element.Workers.Clear();
+                //element.Notes.Clear();
+                //element.Points.Clear();
+            }
             //db.SaveChanges();
+            
+            for (int i=0;i<points.Count;i++)
+            {
+                for (int j=0;j<points[i].EdgesIn.Count();j++) 
+                {
+                    db.Edges.Remove(points[i].EdgesIn[j]);
+                }
+                for (int j = 0; j < points[i].EdgesOut.Count(); j++)
+                {
+                    db.Edges.Remove(points[i].EdgesOut[j]);
+                }
+                db.Points.Remove(points[i]);
+            }//-edges&&points
+            db.SaveChanges();
+
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                for (int j = 0; j < rooms[i].Notes.Count(); j++)
+                {
+                    db.Notes.Remove(rooms[i].Notes[j]);
+                }
+                db.Rooms.Remove(rooms[i]);
+            }//-notes&&rooms
+            db.SaveChanges();
         }
     }
 }

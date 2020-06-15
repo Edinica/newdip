@@ -51,7 +51,7 @@ namespace newdip.Controllers
         {
             if (!isway)
             {
-                var points = db.Points.Where(xx => xx.FloorId == floor.FloorId).ToList();
+                var points = db.Points.Where(xx => xx.FloorId == floor.FloorId&&!xx.IsWaypoint).ToList();
                 foreach (var element in points)
                 {
                     for (int i = -5; i < 6; i++)
@@ -65,7 +65,7 @@ namespace newdip.Controllers
             }
             else 
             {
-                var points = db.Points.Where(xx => xx.FloorId == floor.FloorId).ToList();
+                var points = db.Points.Where(xx => xx.FloorId == floor.FloorId&&xx.IsWaypoint).ToList();
                 foreach (var element in points)
                 {
                     for (int i = -5; i < 6; i++)
@@ -82,7 +82,7 @@ namespace newdip.Controllers
         {
             return Convert.ToInt32(income.Substring(0, income.Length - 5));
         }
-
+        
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public Room Room([FromBody] P point)
         {
@@ -145,6 +145,95 @@ namespace newdip.Controllers
                     return result;
            
         }
+
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public void Stair([FromBody] P point)
+        {
+            int id = Convert.ToInt32(point.id);
+            int level = Etazh(point.level);
+            var floor = db.Floors.FirstOrDefault(x => x.BuildingId == id && x.Level == level);
+            var upfloor = db.Floors.FirstOrDefault(x => x.BuildingId == id && x.Level == level+1);
+            var downfloor = db.Floors.FirstOrDefault(x => x.BuildingId == id && x.Level == level-1);
+            List<PointM> points = db.Points.Where(x => x.FloorId == floor.FloorId && x.IsWaypoint).ToList();
+            List<PointM> uppoints = db.Points.Where(x => x.FloorId == upfloor.FloorId && x.IsWaypoint).ToList();
+            List<PointM> downpoints = db.Points.Where(x => x.FloorId == downfloor.FloorId && x.IsWaypoint).ToList();
+            PointM newpoint = null;
+            PointM uppoint = null;
+            PointM downpoint = null;
+            ///создание и добавление первой точки
+            newpoint=Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), floor, true);
+            if (newpoint == null) 
+            {
+                newpoint = new PointM();
+                newpoint.X = Convert.ToInt32(point.firstx);
+                newpoint.Y = Convert.ToInt32(point.firsty);
+                newpoint.IsWaypoint = true;
+                newpoint.FloorId = floor.FloorId;
+                db.Points.Add(newpoint);
+                db.SaveChanges();
+                newpoint = db.Points.ToList().Last();
+            }
+            if (upfloor != null)
+            { uppoint = Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), upfloor, true);
+                if (uppoint == null)
+                {
+                    uppoint = new PointM();
+                    uppoint.X = Convert.ToInt32(point.firstx);
+                    uppoint.Y = Convert.ToInt32(point.firsty);
+                    uppoint.IsWaypoint = true;
+                    uppoint.FloorId = upfloor.FloorId;
+                    db.Points.Add(uppoint);
+                    db.SaveChanges();
+                    uppoint = db.Points.ToList().Last();
+                } 
+            }
+            if (downfloor != null)
+            {
+                downpoint = Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), downfloor, true);
+                if (downpoint == null)
+                {
+                    downpoint = new PointM();
+                    downpoint.X = Convert.ToInt32(point.firstx);
+                    downpoint.Y = Convert.ToInt32(point.firsty);
+                    downpoint.IsWaypoint = true;
+                    downpoint.FloorId = downfloor.FloorId;
+                    db.Points.Add(downpoint);
+                    db.SaveChanges();
+                    downpoint = db.Points.ToList().Last();
+                }
+            }
+            EdgeM Upedge = null;
+            Upedge = db.Edges.FirstOrDefault(
+                (xx => xx.PointFromId == newpoint.Id && xx.PointToId == uppoint.Id)
+                );
+            if (Upedge == null)
+            {
+                Upedge = db.Edges.FirstOrDefault(xx => xx.PointToId == uppoint.Id && xx.PointFromId == newpoint.Id);
+            }
+            if (Upedge == null)
+            {
+                Upedge = new EdgeM(13, newpoint.Id, uppoint.Id);
+                db.Edges.Add(Upedge);
+                db.SaveChanges();
+            }
+            EdgeM Downedge = null;
+            Downedge = db.Edges.FirstOrDefault(
+                (xx => xx.PointFromId == newpoint.Id && xx.PointToId == downpoint.Id)
+                );
+            if (Downedge == null)
+            {
+                Downedge = db.Edges.FirstOrDefault(xx => xx.PointToId == downpoint.Id && xx.PointFromId == newpoint.Id);
+            }
+            if (Downedge == null)
+            {
+                Downedge = new EdgeM(13, newpoint.Id, downpoint.Id);
+                db.Edges.Add(Downedge);
+                db.SaveChanges();
+            }
+
+
+        }
+
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public PointM Move([FromBody] PointM point)
         {
@@ -263,8 +352,18 @@ namespace newdip.Controllers
                 }
                 edge.Weight = Math.Sqrt(Math.Pow(point2.X - point.X, 2) +
                     Math.Pow(point2.Y - point.Y, 2)) / 75.9;
+                var exedge = db.Edges.FirstOrDefault(
+                    (xx => xx.PointFromId == point.Id && xx.PointToId == point2.Id)
+                    );
+                if (exedge==null) 
+                {
+                    exedge = db.Edges.FirstOrDefault(xx => xx.PointToId == point.Id && xx.PointFromId == point2.Id);
+                }
+                if (exedge == null)
+                {
                 db.Edges.Add(edge);
                 db.SaveChanges();
+                }
             }
             else 
             {

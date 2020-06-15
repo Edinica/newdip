@@ -7,7 +7,7 @@
         let response = await fetch(url);
         edges = await response.json();
         edges.forEach(function (item, i, edges) {
-            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'green';
+            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'navy';
             else context.strokeStyle = 'black';
             context.beginPath();
             let xx = item.PointFrom.X + cx;
@@ -210,7 +210,7 @@ if (window.addEventListener) {
                     mdy = tool.y0;
                     context.closePath();
                     contextdraw.beginPath();
-                    contextdraw.strokeStyle = 'green';
+                    contextdraw.strokeStyle = 'navy';
                     contextdraw.moveTo(tool.x0, tool.y0);
                     contextdraw.lineTo(ev._x, ev._y);
                     contextdraw.stroke(); contextdraw.closePath();
@@ -500,7 +500,7 @@ if (window.addEventListener) {
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                         // и на нем рисуем временные точки
                         edges.forEach(function (item, i, edges) {
-                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
+                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'navy';
                             else contextdraw.strokeStyle = 'black';
                             contextdraw.beginPath();
                             let xx = item.PointFrom.X + cx;
@@ -530,7 +530,7 @@ if (window.addEventListener) {
                         tool.y0 = ev._y;
                         //рисуем центр на канве и делаем перенос
                         contextdraw.beginPath();
-                        contextdraw.strokeStyle = 'navy';
+                        contextdraw.strokeStyle = 'orange';
                         contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                         contextdraw.stroke();
                         axis();
@@ -578,7 +578,7 @@ if (window.addEventListener) {
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                         // и на нем рисуем временные точки+ точку на удаление если есть
                         edges.forEach(function (item, i, edges) {
-                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'green';
+                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'navy';
                             else contextdraw.strokeStyle = 'black';
                             contextdraw.beginPath();
                             let xx = item.PointFrom.X + cx;
@@ -619,7 +619,7 @@ if (window.addEventListener) {
                         });
                         //рисуем центр и делаем перенос
                         contextdraw.beginPath();
-                        contextdraw.strokeStyle = 'navy';
+                        contextdraw.strokeStyle = 'orange';
                         contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                         contextdraw.stroke();
                         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -697,6 +697,35 @@ if (window.addEventListener) {
                 //    }
 
                 //}
+            };
+        };
+        tools.stair = function () {
+            var tool = this;
+            this.started = false;
+
+            this.mousedown = function (ev) {
+                tool.started = true;
+                tool.x0 = ev._x;
+                tool.y0 = ev._y;
+                $('#imageTemp').mouseup
+                {
+                    new function () {
+
+                        $.ajax({
+                            url: '/Points/Stair',
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                firstx: ev._x - cx, firsty: cy - ev._y,  level: lvl.options[lvl.selectedIndex].text,
+                                id: id.innerHTML, IsWaypoint: true
+                            }),
+                            complete: function () {
+                            }
+                        });
+
+                    }
+                }
             };
         };
         //вызов инициализаци
@@ -818,4 +847,35 @@ function Copy() {
         //alert("ne pusto");
     }
     //else alert("pusto");
+}
+function Clear() {
+    if (document.getElementById("Floorlevel").innerHTML != "") {
+    var ready = confirm("Вы точно хотите очистить этаж?");
+        //room.FloorId = document.getElementById("FloorId").value
+        //floor.level = document.getElementById("Floorlevel").value;
+        //floor.BuildingId = document.getElementById("BuildingId").value
+        if (ready) {
+            $.ajax({
+                url: '/Floors/ClearFloor',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    Level: x,
+                    BuildingId: id
+                }),
+                complete: function () {
+                }
+            });
+        }
+        //alert("ne pusto");
+    }
+    //else alert("pusto");
+}
+function Back() {
+    cx = 400;
+    cy = 275;
+    updatedraw();
+    axis();
+
 }

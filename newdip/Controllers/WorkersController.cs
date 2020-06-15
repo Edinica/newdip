@@ -39,7 +39,7 @@ namespace newdip.Controllers
         // GET: Workers/Create
         public ActionResult Create()
         {
-            ViewBag.RoomId = new SelectList(db.Rooms, "Id", "Name");
+            ViewBag.RoomId = new SelectList(db.Rooms, "RoomId", "Name");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace newdip.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,SecondName,LastName,Status,Details,Email,Phone,RoomId")] Worker worker)
+        public ActionResult Create([Bind(Include = "RoomId,FirstName,SecondName,LastName,Status,Details,Email,Phone,RoomId")] Worker worker)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace newdip.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RoomId = new SelectList(db.Rooms, "Id", "Name", worker.RoomId);
+            ViewBag.RoomId = new SelectList(db.Rooms, "RoomId", "Name", worker.RoomId);
             return View(worker);
         }
 
@@ -73,7 +73,7 @@ namespace newdip.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RoomId = new SelectList(db.Rooms, "Id", "Name", worker.RoomId);
+            ViewBag.RoomId = new SelectList(db.Rooms, "RoomId", "Name", worker.RoomId);
             return View(worker);
         }
 
@@ -86,11 +86,12 @@ namespace newdip.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var updateworker = db.Workers.Where(xx => xx.Site == worker.Site && xx.Id == worker.Id);
                 db.Entry(worker).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RoomId = new SelectList(db.Rooms, "Id", "Name", worker.RoomId);
+            ViewBag.RoomId = new SelectList(db.Rooms, "RoomId", "Name", worker.RoomId);
             return View(worker);
         }
 
