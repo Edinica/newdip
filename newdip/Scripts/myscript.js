@@ -93,6 +93,7 @@ if (window.addEventListener) {
         function init() {
             id = document.getElementById("BuildingId");
             lvl = document.getElementById("spisok");
+            
             //
             canvas = document.getElementById("imageTemp");
             staticpaper = document.getElementById("imageView");
@@ -104,11 +105,14 @@ if (window.addEventListener) {
                 context = staticpaper.getContext('2d');
                 //--
                 contextdraw.beginPath();
-                contextdraw.strokeStyle = 'green';
+                contextdraw.strokeStyle = 'orange';
                 cx = canvas.width / 2;
                 cy = canvas.height / 2;
                 clinex = cx;
                 cliney = cy;
+                //spisok.value = '1';
+                document.getElementById("Floorlevel").innerHTML = 1;
+                updatedraw();
                 axis();
                 // contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                 //contextdraw.arc(cx, cy, 400, 0, Math.PI * 2, true); //центр
@@ -196,6 +200,9 @@ if (window.addEventListener) {
                     contextdraw.lineTo(ev._x, ev._y);
                     contextdraw.stroke(); contextdraw.closePath();
                     contextdraw.beginPath();
+                    let result = (Math.sqrt(Math.pow(tool.x0 - ev._x, 2) +
+                        Math.pow(tool.y0 - ev._y, 2)) / 75.9).toFixed(3);
+                    contextdraw.strokeText(result, ev._x + 5, ev._y -5);
                     contextdraw.moveTo(tool.x0 + 3, tool.y0);
                     contextdraw.arc(tool.x0, tool.y0, 4, 0, Math.PI * 2, true); // Внешняя окружность
                     contextdraw.moveTo(ev._x + 3, ev._y);
@@ -776,22 +783,25 @@ addEventListener("keydown", function () {
         case 46:
             if (pointtodel) {
                 console.log("DEL");
-                $.ajax({
-                    url: '/Points/Del',
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(
-                        pointtodel
-                    ),
-                    complete: function () {
-                        alert('Load was performed.');
-                    }
-                });
-                pointtodel = null;
-                delx = null;
-                dely = null;
-                updatedraw();
+                var ready = confirm("Вы точно хотите очистить этаж?");
+                if (ready) {
+                    $.ajax({
+                        url: '/Points/Del',
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(
+                            pointtodel
+                        ),
+                        complete: function () {
+                            alert('Load was performed.');
+                        }
+                    });
+                    pointtodel = null;
+                    delx = null;
+                    dely = null;
+                    updatedraw();
+                }
             }
             break;
         default:

@@ -57,9 +57,18 @@
             <select size="33" style="width:90px; height:412px;" id="spisok">
                 @foreach (var element in Model.Floors)
                 {
-                    <option title="@Model.Name">
+                    if (element.Level != 1)
+                    {
+                    <option title="@element.Level">
                         @element.Level Этаж
                     </option>
+                    }
+                    else 
+                    {
+            <option title="@element.Level" selected>
+                @element.Level Этаж
+            </option>
+                    }
                 }
             </select>
             <button id="Copy" style="width:90px; padding:0px 0px 0px 0px; margin-bottom:10px;"

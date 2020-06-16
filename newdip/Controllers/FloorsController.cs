@@ -38,16 +38,17 @@ namespace newdip.Controllers
         }
 
         // GET: Floors/Create
-        public ActionResult Create(int id)
+        public ActionResult Create(int? id)
         {
             ViewBag.BuildingId = db.Buildings.FirstOrDefault(x=>x.BuildingId==id).BuildingId;
+            ViewBag.Name = db.Buildings.FirstOrDefault(x => x.BuildingId == id).Name;
             return View();
         }
 
         // POST: Floors/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [System.Web.Http.HttpPost]
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FloorId,Level,BuildingId")] Floor floor)
         {

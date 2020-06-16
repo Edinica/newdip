@@ -6,26 +6,19 @@
 
 <h2>Index</h2>
 
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Floor.FloorId)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Timetable)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.Site)
         </th>
@@ -34,9 +27,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Floor.FloorId)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -44,16 +35,10 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Timetable)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Site)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RoomId }) |
+           @* @Html.ActionLink("Edit", "Edit", new { id=item.RoomId }) |*@
             @Html.ActionLink("Details", "Details", new { id=item.RoomId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.RoomId })
         </td>

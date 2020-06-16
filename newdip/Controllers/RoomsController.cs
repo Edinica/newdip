@@ -115,7 +115,25 @@ namespace newdip.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var point = db.Points.FirstOrDefault(x => x.RoomId == id);
+            List<EdgeM> edges = db.Edges.Where(x => x.PointFromId == point.Id || x.PointToId == point.Id).ToList();
+            //int id = Convert.ToInt32(point.Id);
+            for (int i = 0; i < edges.Count; i++)
+            {
+                db.Edges.Remove(edges[i]);
+                db.SaveChanges();
+            }
+            PointM moved = db.Points.Where(xx => xx.Id == point.Id).FirstOrDefault();//этаж просмотр
+            ///создание и добавление первой точки
+            db.Points.Remove(moved);
+            db.SaveChanges();
             Room room = db.Rooms.Find(id);
+            room.Workers = null;
+            for (int i = 0; i < room.Notes.Count();i++) 
+            {
+                db.Notes.Remove(room.Notes[i]);
+            }
+            db.SaveChanges();
             db.Rooms.Remove(room);
             db.SaveChanges();
             return RedirectToAction("Index");
