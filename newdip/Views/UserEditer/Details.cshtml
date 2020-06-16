@@ -1,41 +1,33 @@
 ﻿@model newdip.Models.ApplicationUser
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подробнее";
 }
 
-<h2>Details</h2>
+    <body class="container body-content">
+        <div>
+            <h4 style="text-align:center">Пользователь</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Имя пользоватея:
+                </dt>
 
-<div>
-    <h4>Floor</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Roles)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt>
+                    Почта пользователя:
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Roles)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index","UserEditer")
-</p>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Удалить", "Delete", new { id = Model.Id }) |
+            @Html.ActionLink("К списку пользователей", "Index", "UserEditer")
+        </p>
+        </body>

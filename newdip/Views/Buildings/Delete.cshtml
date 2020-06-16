@@ -1,64 +1,65 @@
 ﻿@model newdip.Models.Building
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление";
 }
 
-<h2>Delete</h2>
+<body class="container body-content">
+    <h3 style="text-align:center">Вы уверены что хотите удалить выбранное здание</h3>
+    <div>
+        <h4>Здание</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Имя здания
+            </dt>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Building</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dt>
+                Адрес
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Addrees)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Addrees)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Addrees)
-        </dd>
+            <dt>
+                Описание
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                Почта
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Site)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Site)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Site)
-        </dd>
+            <dt>
+                Расписание
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeTable)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TimeTable)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeTable)
-        </dd>
+        </dl>
+        
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
-</div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-default" /> |
+                @Html.ActionLink("К списку зданий", "Index")
+            </div>
+        }
+    </div>
+    </body>

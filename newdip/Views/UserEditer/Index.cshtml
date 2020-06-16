@@ -1,52 +1,54 @@
 ﻿@model IEnumerable<newdip.Models.ApplicationUser>
 @{
-    ViewBag.Title = "Связь с разработчиками";
+    ViewBag.Title = "Предоставление прав администрирования";
 }
 <h2 style="text-align:center">@ViewBag.Title</h2>
-<h3 style="text-align:center">Для получения прав администратора, свяжитесь с одним из администраторов</h3>
-
-<table class="table">
-    <tr>
-        <th>Имя пользователя</th>
-        <th>Контактный телефон</th>
-        <th>Отчество</th>
-    </tr>
-    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-    @foreach (var item in Model)
-    {
-        if (item.Roles.Count() != 2)
+<h3 style="text-align:center">Снизу отображен список обычных пользователей.<br>
+    Вы можете предоставить права администрирования одному или нескольким лицам</h3>
+<body class="container body-content">
+    <table class="table">
+        <tr>
+            <th>Имя пользователя</th>
+            <th>Почта для связи с пользовтелем</th>
+            <th>Список действией над учетной записью</th>
+        </tr>
+        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+        @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Email</td>
-                <td>@item.PhoneNumber</td>
-                <td><a href="mailto:@item.Email">@item.Email</a></td>
-                <td>
-                    @Html.ActionLink("Make Admin", "MakeAdmin", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                </td>
-            </tr>
+            if (item.Roles.Count() != 2)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td><a href="mailto:@item.Email">@item.Email</a></td>
+                    <td>
+                        @Html.ActionLink("Предоставить права", "MakeAdmin", new { id = item.Id }) |
+                        @Html.ActionLink("Подробно", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Удалить", "Delete", new { id = item.Id }) 
+                    </td>
+                </tr>
+            }
         }
-    }
-</table>
-<br><!--
-        
-<div class="row">
-    <h3 style="text-align:center">Связь с разработчиками</h3>
-    <div class="col-md-6">
-        <h2>ФИО1</h2>
-        <p>
-            <strong>Web Developer:</strong>   <a href="mailto:paselyanin@yandex.ru">paselyanin@yandex.ru</a><br />
-        </p>
-        @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+    </table>
+    <br>
+    </body>
+    <!--
+
+    <div class="row">
+        <h3 style="text-align:center">Связь с разработчиками</h3>
+        <div class="col-md-6">
+            <h2>ФИО1</h2>
+            <p>
+                <strong>Web Developer:</strong>   <a href="mailto:paselyanin@yandex.ru">paselyanin@yandex.ru</a><br />
+            </p>
+            @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+        </div>
+        <div class="col-md-6">
+            <h2>ФИО2</h2>
+            <p><strong>Mobile App Developer:</strong> <a href="mailto:maximbu@gamil.com">maximbu@gamil.com</a></p>
+            @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>*@
+        </div>
     </div>
-    <div class="col-md-6">
-        <h2>ФИО2</h2>
-        <p><strong>Mobile App Developer:</strong> <a href="mailto:maximbu@gamil.com">maximbu@gamil.com</a></p>
-        @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>*@
-    </div>
-</div>
-    -->
+        -->
 
 

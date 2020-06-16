@@ -1,49 +1,50 @@
 ﻿@model IEnumerable<newdip.Models.ApplicationUser>
 @{
-    ViewBag.Title = "Связь с разработчиками";
+    ViewBag.Title = "Связь с персоналом";
 }
-<h2 style="text-align:center">@ViewBag.Title</h2>
-<h3 style="text-align:center">
-    Для получения прав администратора, свяжитесь с одним из администраторов
-    <br>
-    Кроме того, вы можете связаться с одним из разработчиков
-</h3>
+    <body class="container body-content">
+        <h2 style="text-align:center">@ViewBag.Title</h2>
+        <h3 style="text-align:center">
+            Для получения прав администратора, свяжитесь с одним из администраторов
+            <br>
+            Кроме того, вы можете связаться с одним из разработчиков
+        </h3>
 
-<div class="row">
-    <div class="col-md-6">
-        <table class="table">
-            <tr>
-                <th>Имя пользователя</th>
-                <th>Электронная почта</th>
-            </tr>
-            @foreach (var item in Model)
-            {
-                if (item.Roles.Count == 2)
-                {
-                    <tr>
-                        <td>@item.UserName</td>
-                        <td><a href="mailto:@item.Email">@item.Email</a></td>
-                    </tr>
-                }
-            }
-        </table>
-    </div>
-    <div class="col-md-6">
+
         <div class="row">
-            <h3 style="text-align:center">Связь с разработчиками</h3>
             <div class="col-md-6">
-                <h2>ФИО1</h2>
-                <p>
-                    <strong>Web Developer:</strong>   <a href="mailto:paselyanin@yandex.ru">paselyanin@yandex.ru</a><br />
-                </p>
-                @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+                <table class="table">
+                    <tr>
+                        <th>Имя пользователя</th>
+                        <th>Электронная почта</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                       
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td><a href="mailto:@item.Email">@item.Email</a></td>
+                            </tr>
+                        
+                    }
+                </table>
             </div>
             <div class="col-md-6">
-                <h2>ФИО2</h2>
-                <p><strong>Mobile App Developer:</strong> <a href="mailto:maximbu@gamil.com">maximbu@gamil.com</a></p>
-                @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>*@
+                <div class="row">
+                    <h3 style="text-align:center">Связь с разработчиками</h3>
+                    <div class="col-md-6">
+                        <h2>Павлов Павел</h2>
+                        <p>
+                            <strong>Web Developer:</strong>   <a href="mailto:paselyanin@yandex.ru">paselyanin@yandex.ru</a><br />
+                        </p>
+                        @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Буканов Максим</h2>
+                        <p><strong>Mobile App Developer:</strong> <a href="mailto:maximbu@gmail.com">maximbu@gmail.com</a></p>
+                        @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>*@
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
+        </body>

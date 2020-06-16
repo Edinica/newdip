@@ -1,73 +1,72 @@
 ﻿@model newdip.Models.Building
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подробно";
 }
+    <body class="container body-content">
+        <div>
+            <h4 style="text-align:center">Здание</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Имя здания
+                </dt>
 
-<h2>Details</h2>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
 
-<div>
-    <h4>Building</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                <dt>
+                    Адрес
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Addrees)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Addrees)
-        </dt>
+                <dt>
+                    Описание
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Addrees)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                <dt>
+                    Почта
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Site)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Site)
-        </dt>
+                <dt>
+                    Расписание
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Site)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.TimeTable)
+                </dd>
+                <dt style="margin-right:20px;">
+                    Список этажей
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeTable)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeTable)
-        </dd>
-        <dt style="margin-right:20px;">
-            @Html.DisplayNameFor(model => model.Floors)
-        </dt>
+                @foreach (var element in Model.Floors)
+                {
 
-        
-        @foreach (var element in Model.Floors)
-        {
-            
-        
-                
-                <td>
-                     @Html.DisplayFor(modelItem => element.Level)
-                </td>
-        }
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit building", "Edit", new { id = Model.BuildingId }) |
-    @Html.ActionLink("Add Floor to building", "Create","Floors", new { id = Model.BuildingId }, null) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => element.Level)
+                    </td>
+                }
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Изменить информацию о здании", "Edit", new { id = Model.BuildingId }) |
+            @Html.ActionLink("Добавить этаж", "Create", "Floors", new { id = Model.BuildingId }, null) |
+            @Html.ActionLink("К списку зданий", "Index")
+        </p>
+        </body>

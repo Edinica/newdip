@@ -1,10 +1,14 @@
 ﻿@{
-    ViewBag.Title = "Добро пожаловать!";
+    ViewBag.Title = "Добро пожаловать";
 }
 <body class="container body-content">
     <div class="jumbotron">
-        <h1 style="text-align:center">ГеоИнформационная Система</h1>
-        <p class="lead">описание ГИС</p>
+        <h1 style="text-align:center">Геоинформационная Система</h1>
+        <p class="lead">
+            Геоинформационная система - разработка 2 студентов Курского Государственного университета, созданная для облегчения 
+            ориентирования в сложой архитектуре современных зданий.
+
+        </p>
         <p style="text-align:end"><a href='@Url.Action("About", "Home")' class="btn btn-primary btn-lg">Узнать больше о ГИС и ее возможностях &raquo;</a></p>
         @*@Html.ActionLink("Информация", "About", "Home")*@
     </div>
@@ -14,22 +18,23 @@
             Отличительные особенности системы
         </h1>
         <div class="col-md-4">
-            <h2>Описание первой фичи</h2>
+            <h2>Простота и элегантность</h2>
             <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
+               Простой и удобный интерфейс, позволяющий создавать планы для зданий различной сложности. Помимо 
+                этого, приложение поддерживает возможность редактирования информаци не только о зданиях, но и о помещениях этого здания, людей, которые там работают и т.д.
             </p>
             @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
         </div>
         <div class="col-md-4">
-            <h2>Описание второй фичи</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <h2>Доступность</h2>
+            <p>Все планы находятся в шаговой доступности - Ваш телефон. Вся информация о здании быстро обновляется на Вашем устройстве, поэтому у вас подрукой будут всегда актуальные данные</p>
             @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>*@
         </div>
         <div class="col-md-4">
-            <h2>Описание третьей фичи</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <h2>Защищенность</h2>
+            <p>Благодаря разделению на различне ученые записи, Вы можете быть спокойны за то, что данные которые вы ввели в приложения не будут искажены.
+            Разработкой планов занимаются люди с определенным уровнем доступа
+            </p>
             @*<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>*@
         </div>
     </div>

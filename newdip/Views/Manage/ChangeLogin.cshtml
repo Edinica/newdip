@@ -3,35 +3,37 @@
     ViewBag.Title = "Сменить логин";
 }
 
-<h2>@ViewBag.Title</h2>
-@if (Model != null && Model.NewLogin != "" && Model.OldLogin != "")
-{
-    <div style="text-align:center">Данный логин уже занят. Попробуйте еще раз!</div>
-}
-@using (Html.BeginForm("ChangeLogin", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Форма изменения логина</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.OldLogin, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.OldLogin, new { @class = "form-control" })
+<h2 style="text-align:center">@ViewBag.Title</h2>
+<body class="container body-content">
+    @if (Model != null && Model.NewLogin != "" && Model.OldLogin != "")
+    {
+        <div style="text-align:center">Данный логин уже занят. Попробуйте еще раз!</div>
+    }
+    @using (Html.BeginForm("ChangeLogin", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Форма изменения логина</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.OldLogin, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.OldLogin, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.NewLogin, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.NewLogin, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.NewLogin, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.NewLogin, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Изменить пароль" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Изменить пароль" class="btn btn-default" />
+            </div>
         </div>
-    </div>
-}
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    }
+    </body>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

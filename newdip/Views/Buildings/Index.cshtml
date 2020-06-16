@@ -3,56 +3,62 @@
 @{
     ViewBag.Title = "Index";
 }
+    <body class="container body-content">
+        <h2 style="text-align:center">Список зданий</h2>
+            <p>
+                @Html.ActionLink("Создать новое здание", "Create")
+            </p>
+            <table class="table">
+                <tr>
+                    <th>
+                        Название
+                    </th>
+                    <th>
+                        Адрес
+                    </th>
+                    <th>
+                        Описание
+                    </th>
+                    <th>
+                        Почта
+                    </th>
+                    <th>
+                        Расписание
+                    </th>
+                    <th>Список действий</th>
+                </tr>
 
-<h2>Index</h2>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Addrees)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            <a href="@Html.DisplayFor(modelItem => item.Site)">@Html.DisplayFor(modelItem => item.Site)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeTable)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Удалить", "Delete", new { id = item.BuildingId }) 
+                            @if (User.IsInRole("Admin")) 
+                            {
+                                @Html.ActionLink("Изменить", "Edit", new { id = item.BuildingId }) 
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Addrees)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Site)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeTable)
-        </th>
-        <th></th>
-    </tr>
+                                @Html.ActionLink("Подробно", "Details", new { id = item.BuildingId }) 
+                            
+                                @Html.ActionLink("План здания", "Plan", new { id = item.BuildingId })
+                            }
+                        </td>
+                    </tr>
+                }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Addrees)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            <a href="@Html.DisplayFor(modelItem => item.Site)">@Html.DisplayFor(modelItem => item.Site)</a>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeTable)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.BuildingId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.BuildingId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.BuildingId }) |
-            @Html.ActionLink("Plan", "Plan", new { id = item.BuildingId })
-        </td>
-    </tr>
-}
-
-</table>
+            </table>
+            </body>

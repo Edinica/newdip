@@ -32,11 +32,10 @@ namespace newdip.Controllers
 
 		public ActionResult Contact()
 		{
-			ViewBag.Message = "Your contact page.";
 
 			ApplicationDbContext db = new ApplicationDbContext();
 
-			return View(db.Users.ToList());
+			return View(db.Users.Where(xx => xx.Roles.Count == 2).ToList());
 		}
 	}
 }

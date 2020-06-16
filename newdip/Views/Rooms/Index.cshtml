@@ -3,46 +3,48 @@
 @{
     ViewBag.Title = "Index";
 }
+<body class="container body-content">
+    <h2 style="text-align:center">Список помещений</h2>
 
-<h2>Index</h2>
+    @*<p>
+            @Html.ActionLink("Create New", "Create")
+        </p>*@
+    <table class="table">
+        <tr>
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-<table class="table">
-    <tr>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.Site)
-        </th>
-        <th></th>
-    </tr>
+            <th>
+                Имя помещения
+            </th>
+            <th>
+                Описание
+            </th>
 
-@foreach (var item in Model) {
-    <tr>
+            <th>
+                Почта
+            </th>
+            <th></th>
+        </tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Site)
-        </td>
-        <td>
-           @* @Html.ActionLink("Edit", "Edit", new { id=item.RoomId }) |*@
-            @Html.ActionLink("Details", "Details", new { id=item.RoomId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RoomId })
-        </td>
-    </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
 
-</table>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Site)
+                </td>
+                <td>
+                    @* @Html.ActionLink("Edit", "Edit", new { id=item.RoomId }) |*@
+                    @Html.ActionLink("Подробно", "Details", new { id = item.RoomId }) 
+                    @if (User.IsInRole("Admin")) {@Html.ActionLink("Удалить", "Delete", new { id = item.RoomId })}
+                </td>
+            </tr>
+        }
+
+    </table>
+    </body>

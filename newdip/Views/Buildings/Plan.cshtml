@@ -33,13 +33,13 @@
     <div style="padding-left:15px;">
 
         <label>
-            Drawing tool:
+            Инструменты:
             <select id="dtool">
-                <option value="moveimg">Move</option>
-                <option value="line">Line</option>
-                <option value="rect">Rectangle</option>
-                <option value="info">RoomInfo</option>
-                <option value="stair">Stair</option>
+                <option value="moveimg">Перендвинуть</option>
+                <option value="line">Линия/маршрут</option>
+                <option value="rect">Прямоугольник</option>
+                <option value="info">Информация</option>
+                <option value="stair">Лестница</option>
             </select>
         </label>
         <button id="Copy" style="width:130px; padding:0px 0px 0px 0px;"
@@ -97,7 +97,7 @@
         <div id="third" class="col-lg-3">
             <div id="room" style="border:1px solid #000; margin-left:30px; height:552px; top:4px; ">
                 <div class="form-horizontal">
-                    <h4 style="text-align:center;">Room</h4>
+                    <h4 style="text-align:center;">Помещение</h4>
                     <hr />
                     @*@Html.HiddenFor(model => model.RoomId)*@
 
@@ -173,7 +173,7 @@
 
                     <div class="form-group" style="text-align:center">
                         <div class="col-md-12">
-                            <input type="submit" value="Save" id="Change" style="height:24px; padding:0px 12px 0px 12px" class="btn btn-default"
+                            <input type="submit" value="Обновить" id="Change" style="height:24px; padding:0px 12px 0px 12px" class="btn btn-default"
                                    onclick="Button()" />
                         </div>
                     </div>

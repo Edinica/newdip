@@ -1,34 +1,35 @@
 ﻿@model newdip.Models.IndexViewModel
 @{
-    ViewBag.Title = "Управление";
+    ViewBag.Title = "Управление учетной записью";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2 style="text-align:center">@ViewBag.Title</h2>
+<body class="container body-content">
+    <p class="text-success">@ViewBag.StatusMessage</p>
+    <div>
+        <h4>Изменение параметров учетной записи</h4>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Изменение параметров учетной записи</h4>
+        <dl class="dl-horizontal">
+            <dt>Пароль:</dt>
+            <dd>
+                [
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Смена пароля", "ChangePassword")
+                }
+                else
+                {
+                    @Html.ActionLink("Создать", "SetPassword")
+                }
+                ]
+            </dd>
+            <dt>Имя пользователя:</dt>
+            <dd>
+                [
+                @Html.ActionLink("Смена логина", "ChangeLogin")
+                ]
+            </dd>
 
-    <dl class="dl-horizontal">
-        <dt>Пароль:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Смена пароля", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Создать", "SetPassword")
-            }
-            ]
-        </dd>
-        <dt>Имя пользователя:</dt>
-        <dd>
-            [
-            @Html.ActionLink("Смена логина", "ChangeLogin")
-            ]
-        </dd>
-
-    </dl>
-</div>
+        </dl>
+    </div>
+    </body>

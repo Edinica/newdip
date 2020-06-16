@@ -1,64 +1,65 @@
 ﻿@model newdip.Models.Room
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление";
 }
+<body class="container body-content">
 
-<h2>Delete</h2>
+    <h3 style="text-align:center">Вы уверены что хотите удалить это помещение</h3>
+    <div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Room</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Имя помещения
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+               Описание
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Timetable)
-        </dt>
+            <dt>
+                Расписание
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Timetable)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Timetable)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
+            <dt>
+                Телефон
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Site)
-        </dt>
+            <dt>
+                Почта
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Site)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Site)
+            </dd>
 
-    </dl>
+        </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
-</div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-default" /> |
+                @Html.ActionLink("К списку помещений", "Index")
+            </div>
+        }
+    </div>
+    </body>
