@@ -1,88 +1,81 @@
 ﻿@model newdip.Models.Worker
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удалить";
 }
+<body class="container body-content">
 
-<h2>Delete</h2>
+    <h3 style="text-align:center">Вы уверены что хотите удалить выбранного работника?</h3>
+    <div>
+        <h4>Работник</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Фамилия
+            </dt>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Worker</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Room.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Room.Name)
-        </dd>
+            <dt>
+                Имя
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SecondName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            <dt>
+               Отчество
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SecondName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SecondName)
-        </dd>
+            <dt>
+                Должность
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dt>
+                Дополнительная информация
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Details)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+            <dt>
+               Почта
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Details)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Details)
-        </dd>
+            <dt>
+               Телефон
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+        </dl>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
-</div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-default" /> |
+                @Html.ActionLink("К списку работников", "Index")
+            </div>
+        }
+    </div>
+    </body>

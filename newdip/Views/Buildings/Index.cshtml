@@ -5,9 +5,9 @@
 }
     <body class="container body-content">
         <h2 style="text-align:center">Список зданий</h2>
-            <p>
-                @Html.ActionLink("Создать новое здание", "Create")
-            </p>
+        <p>
+            @if (User.IsInRole("Admin")) {@Html.ActionLink("Создать новое здание", "Create")}
+        </p>
             <table class="table">
                 <tr>
                     <th>
@@ -47,13 +47,14 @@
                             @Html.DisplayFor(modelItem => item.TimeTable)
                         </td>
                         <td>
-                            @Html.ActionLink("Удалить", "Delete", new { id = item.BuildingId }) 
-                            @if (User.IsInRole("Admin")) 
+                            @Html.ActionLink("Удалить", "Delete", new { id = item.BuildingId })
+                            @if (User.IsInRole("Admin"))
                             {
-                                @Html.ActionLink("Изменить", "Edit", new { id = item.BuildingId }) 
+                                @Html.ActionLink("Изменить", "Edit", new { id = item.BuildingId })}
 
-                                @Html.ActionLink("Подробно", "Details", new { id = item.BuildingId }) 
-                            
+                            @if (User.IsInRole("Admin")){@Html.ActionLink("Подробно", "Details", new { id = item.BuildingId })
+                            }
+                            @if (User.IsInRole("Admin")) { 
                                 @Html.ActionLink("План здания", "Plan", new { id = item.BuildingId })
                             }
                         </td>

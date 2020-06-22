@@ -30,35 +30,6 @@ namespace newdip.Controllers.Web
             //, int x, int y
             )
         {
-            //EdgeM edge = new EdgeM();
-            //List<PointM> points = db.Floors.Where(obj => obj.Level == level && obj.BuildingId == id).Include(obj => obj.Points).FirstOrDefault().Points.ToList();//этаж просмотр
-            /////создание и добавление первой точки
-            //Room result = new Room();
-            //foreach (var element in points)
-            //{
-            //    for (int i = -2; i < 3; i++)
-            //        for (int j = -2; j < 3; j++)
-            //        {
-            //            if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку на этаже
-            //            {
-            //                var room = db.Rooms.Include(obj => obj.Points).ToList();
-            //                foreach (var vroom in room) //ищем комнату
-            //                {
-            //                    for (int k = 0; k < vroom.Points.Count; k++)
-            //                    {
-            //                        if (vroom.Points[k].IsWaypoint &&
-            //                            vroom.Points[k].X == element.X &&
-            //                            vroom.Points[k].Y == element.Y)
-            //                        {
-            //                            result = new Room(vroom.Name, vroom.Description, vroom.Timetable, vroom.Phone, vroom.Site);
-            //                            result.Name = "NAme";
-            //                        }
-            //                    }
-            //                }
-
-            //            }
-            //        }
-            //}
             List<Floor> Floor = db.Floors.Where(xx => xx.BuildingId == id).ToList();
             List<Room> rooms = new List<Room>();
             //получаем все комнаты этажей
