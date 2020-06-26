@@ -60,13 +60,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => element.Level)
                     </td>
+                    <td>
+                        @if (User.IsInRole("Admin")){@Html.ActionLink("Удалить этаж", "Delete","Floors", new { id = element.BuildingId, level=element.Level}, null) }
+                    </td>
                 }
 
             </dl>
         </div>
         <p>
-            @Html.ActionLink("Изменить информацию о здании", "Edit", new { id = Model.BuildingId }) |
-            @Html.ActionLink("Добавить этаж", "Create", "Floors", new { id = Model.BuildingId }, null) |
-            @Html.ActionLink("К списку зданий", "Index")
+            @if (User.IsInRole("Admin"))
+            {@Html.ActionLink("Изменить информацию о здании", "Edit", new { id = Model.BuildingId })}
+            @if (User.IsInRole("Admin"))
+            {@Html.ActionLink("Добавить этаж", "Create", "Floors", new { id = Model.BuildingId }, null) }
+@Html.ActionLink("К списку зданий", "Index")
         </p>
         </body>

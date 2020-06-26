@@ -7,16 +7,27 @@
         let response = await fetch(url);
         edges = await response.json();
         edges.forEach(function (item, i, edges) {
-            if (item.PointFrom.IsWaypoint) context.strokeStyle = 'navy';
-            else context.strokeStyle = 'black';
+            if (item.PointFrom.IsWaypoint) { context.strokeStyle = 'blue'; context.lineWidth = 3; }
+            else { context.strokeStyle = 'black'; context.lineWidth = 1; }
             context.beginPath();
             let xx = item.PointFrom.X + cx;
             let yy = cy - item.PointFrom.Y;
             let xxx = item.PointTo.X + cx;
             let yyy = cy - item.PointTo.Y;
-            context.moveTo(xx, yy);
-            context.lineTo(xxx, yyy);
-            context.stroke();
+            if (xx != xxx || yy != yyy) {
+                context.moveTo(xx, yy);
+                context.lineTo(xxx, yyy);
+                context.stroke();
+            }
+            else
+            {
+                context.moveTo(xx-10, yy-10);
+                context.lineTo(xx+10, yy - 10);
+                context.lineTo(xx+10, yy+10);
+                context.lineTo(xx - 10, yy+10);
+                context.lineTo(xx-10, yy-10);
+                context.stroke();
+            }
         }
         );
     }
@@ -29,17 +40,20 @@
         points.forEach(function (item, i, points) {
             context.beginPath();
             if (item.IsWaypoint) {
+                context.lineWidth = 3;
                 context.strokeStyle = 'orange';
                 context.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
                 context.stroke();
             }
             else {
+                context.lineWidth = 1;
                 context.strokeStyle = 'black';
                 context.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
                 context.stroke();
             }
 
         });
+        contextdraw.lineWidth = 1;
         context.strokeStyle = 'black';
     }
     getpoints();
@@ -105,15 +119,17 @@ if (window.addEventListener) {
                 context = staticpaper.getContext('2d');
                 //--
                 contextdraw.beginPath();
+                contextdraw.lineWidth = 3;
                 contextdraw.strokeStyle = 'orange';
                 cx = canvas.width / 2;
                 cy = canvas.height / 2;
+                contextdraw.lineWidth = 3;
                 clinex = cx;
                 cliney = cy;
                 //spisok.value = '1';
                 document.getElementById("Floorlevel").innerHTML = 1;
                 updatedraw();
-                axis();
+                //axis();
                 // contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
                 //contextdraw.arc(cx, cy, 400, 0, Math.PI * 2, true); //центр
                 //contextdraw.stroke();
@@ -217,7 +233,7 @@ if (window.addEventListener) {
                     mdy = tool.y0;
                     context.closePath();
                     contextdraw.beginPath();
-                    contextdraw.strokeStyle = 'navy';
+                    contextdraw.strokeStyle = 'blue';
                     contextdraw.moveTo(tool.x0, tool.y0);
                     contextdraw.lineTo(ev._x, ev._y);
                     contextdraw.stroke(); contextdraw.closePath();
@@ -285,7 +301,8 @@ if (window.addEventListener) {
                     }
                 }
                 //setTimeout(, 10000);
-                    updatedraw()
+                updatedraw();
+                contextdraw.clearRect(0, 0, canvas.width, canvas.height);
             };
         };
         //прямоугольник
@@ -311,7 +328,7 @@ if (window.addEventListener) {
                 //отрисовка прямоугольника
                 contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                 contextdraw.beginPath();
-                contextdraw.strokeStyle = 'grey';
+                contextdraw.strokeStyle = 'black';
                 contextdraw.arc(x, y, 5, 0, Math.PI * 2, true);
                 contextdraw.stroke();
                 contextdraw.closePath();
@@ -357,7 +374,9 @@ if (window.addEventListener) {
 
                     }
                 }
-                updatedraw
+                updatedraw();
+
+                contextdraw.clearRect(0, 0, canvas.width, canvas.height);
 
             };
 
@@ -452,7 +471,8 @@ if (window.addEventListener) {
                         for (var i = -5; i < 6; i++)
                             for (var j = -5; j < 6; j++) {
                                 if (points[k].X === tool.x0 - cx + i && points[k].Y === cy - tool.y0 + j) {
-                                    if (!points[k].IsWaypoint) {
+                                    //if (!points[k].IsWaypoint)
+                                    {
                                         selectedid = points[k].Id;
                                         number = k;
                                         selectedpoint = points[k];
@@ -470,7 +490,8 @@ if (window.addEventListener) {
                         for (var i = -5; i < 6; i++)
                             for (var j = -5; j < 6; j++) {
                                 if (points[k].X === tool.x0 - cx + i && points[k].Y === cy - tool.y0 + j) {
-                                    if (!points[k].IsWaypoint) {
+                                    //if (!points[k].IsWaypoint)
+                                    {
                                         pointtodel = points[k];
                                         perem = true;
                                         break;
@@ -507,40 +528,56 @@ if (window.addEventListener) {
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                         // и на нем рисуем временные точки
                         edges.forEach(function (item, i, edges) {
-                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'navy';
-                            else contextdraw.strokeStyle = 'black';
+                            if (item.PointFrom.IsWaypoint) { contextdraw.strokeStyle = 'blue'; contextdraw.lineWidth = 3; }
+                            else { contextdraw.strokeStyle = 'black'; contextdraw.lineWidth = 1; }
                             contextdraw.beginPath();
                             let xx = item.PointFrom.X + cx;
                             let yy = cy - item.PointFrom.Y;
                             let xxx = item.PointTo.X + cx;
                             let yyy = cy - item.PointTo.Y;
-                            contextdraw.moveTo(xx, yy);
-                            contextdraw.lineTo(xxx, yyy);
-                            contextdraw.stroke();
+                            if (xx != xxx || yy != yyy) {
+                                contextdraw.moveTo(xx, yy);
+                                contextdraw.lineTo(xxx, yyy);
+                                contextdraw.stroke();
+                            }
+                            else {
+                                contextdraw.moveTo(xx - 10, yy - 10);
+                                contextdraw.lineTo(xx + 10, yy - 10);
+                                contextdraw.lineTo(xx + 10, yy + 10);
+                                contextdraw.lineTo(xx - 10, yy + 10);
+                                contextdraw.lineTo(xx - 10, yy - 10);
+                                contextdraw.stroke();
+                            }
+                            contextdraw.lineWidth = 1;
 
                         });
                         points.forEach(function (item, i, points) {
                             contextdraw.beginPath();
                             if (item.IsWaypoint) {
+                                contextdraw.lineWidth = 3;
                                 contextdraw.strokeStyle = 'orange';
                                 contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); 
                                 contextdraw.stroke();
                             }
                             else {
+                                contextdraw.lineWidth = 1;
                                 contextdraw.strokeStyle = 'black';
                                 contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); 
                                 contextdraw.stroke();
                             }
                         });
+                        contextdraw.lineWidth = 1;
                         //координаты для следующего раза
                         tool.x0 = ev._x;
                         tool.y0 = ev._y;
                         //рисуем центр на канве и делаем перенос
-                        contextdraw.beginPath();
-                        contextdraw.strokeStyle = 'orange';
-                        contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
-                        contextdraw.stroke();
-                        axis();
+                     //   contextdraw.beginPath();
+                     //   contextdraw.lineWidth = 3;
+                     //   contextdraw.strokeStyle = 'white';
+                     //   contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                     //   contextdraw.stroke();
+                     //   contextdraw.lineWidth = 1;
+                        //axis();
                         context.clearRect(0, 0, canvas.width, canvas.height);
                         context.drawImage(canvas, 0, 0);
                         //и затираем временный
@@ -585,7 +622,7 @@ if (window.addEventListener) {
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
                         // и на нем рисуем временные точки+ точку на удаление если есть
                         edges.forEach(function (item, i, edges) {
-                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'navy';
+                            if (item.PointFrom.IsWaypoint) contextdraw.strokeStyle = 'blue';
                             else contextdraw.strokeStyle = 'black';
                             contextdraw.beginPath();
                             let xx = item.PointFrom.X + cx;
@@ -601,16 +638,19 @@ if (window.addEventListener) {
                             contextdraw.beginPath();
                             if (item.IsWaypoint)
                             {
+                                contextdraw.lineWidth = 3;
                                 contextdraw.strokeStyle = 'orange';
                                 contextdraw.arc(item.X + cx, cy - item.Y, 3, 0, Math.PI * 2, true); //центр
                                 contextdraw.stroke();
                             }
                             else
                             {
+                                contextdraw.lineWidth = 1;
                                 contextdraw.strokeStyle = 'black';
                                 contextdraw.arc(item.X + cx, cy - item.Y, 5, 0, Math.PI * 2, true); //центр
                                 contextdraw.stroke();
                             }
+                            contextdraw.lineWidth = 1;
                             //если переносится точка на удаление, то ее тоже перерисовываем
                             if (pointtodel != null && pointtodel.Id == item.Id)
                             {
@@ -625,10 +665,12 @@ if (window.addEventListener) {
                             }
                         });
                         //рисуем центр и делаем перенос
-                        contextdraw.beginPath();
-                        contextdraw.strokeStyle = 'orange';
-                        contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
-                        contextdraw.stroke();
+                        //contextdraw.beginPath();
+                        //contextdraw.lineWidth = 3;
+                        //contextdraw.strokeStyle = 'orange';
+                        //contextdraw.arc(cx, cy, 2, 0, Math.PI * 2, true); //центр
+                        //contextdraw.stroke();
+                        contextdraw.lineWidth = 1;
                         context.clearRect(0, 0, canvas.width, canvas.height);
                         context.drawImage(canvas, 0, 0);
                         contextdraw.clearRect(0, 0, canvas.width, canvas.height);
@@ -783,7 +825,7 @@ addEventListener("keydown", function () {
         case 46:
             if (pointtodel) {
                 console.log("DEL");
-                var ready = confirm("Вы точно хотите очистить этаж?");
+                var ready = confirm("Вы точно хотите удалить эту точку?");
                 if (ready) {
                     $.ajax({
                         url: '/Points/Del',
@@ -794,7 +836,7 @@ addEventListener("keydown", function () {
                             pointtodel
                         ),
                         complete: function () {
-                            alert('Load was performed.');
+                            //alert('Load was performed.');
                         }
                     });
                     pointtodel = null;
@@ -886,6 +928,6 @@ function Back() {
     cx = 400;
     cy = 275;
     updatedraw();
-    axis();
+    //axis();
 
 }

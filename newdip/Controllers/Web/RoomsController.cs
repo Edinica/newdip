@@ -48,8 +48,9 @@ namespace newdip.Controllers.Web
         [Route("api/Rooms/Room")]
         public IHttpActionResult Room(int level,int id,int x, int y)
         {
-            List<Room> rooms = db.Floors.Include(obj=>obj.Rooms).Where(obj => obj.Level == level && obj.BuildingId == id).FirstOrDefault().Rooms.ToList();//список комнат этажа
+            List<Room> rooms = db.Floors.Include(obj=>obj.Rooms).Include(obj=>obj.Points).Where(obj => obj.Level == level && obj.BuildingId == id).FirstOrDefault().Rooms.ToList();//список комнат этажа
             List<PointM> points = db.Floors.Where(obj => obj.Level == level && obj.BuildingId == id).Include(obj => obj.Points).FirstOrDefault().Points.ToList();//список точек этажа
+            bool isexist = false; int? fid = points[0].FloorId;
             ///создание и добавление первой точки
             Room result = new Room();
             foreach (var element in points)
@@ -59,9 +60,11 @@ namespace newdip.Controllers.Web
                     {
                         if (element.IsWaypoint && element.X == x + i && element.Y == y + j) //если нашли такую точку комнаты на этаже
                         {
+                            isexist = true;
                             //var room = db.Rooms.Include(obj => obj.Points).ToList();
                             foreach (var vroom in rooms) //ищем комнату
                             {
+                                fid = vroom.FloorId;
                                 
                                     if (vroom.Points[0].IsWaypoint &&
                                         vroom.Points[0].X == element.X &&
@@ -77,13 +80,28 @@ namespace newdip.Controllers.Web
                                         }    
                                     }
                                 
+
                             }
+                            if (result.FloorId == null)
+                                {
+                                    result = new Room();
+                                    if (fid != null)
+                                        result.FloorId = fid;
+                                    db.Rooms.Add(result);
+                                db.SaveChanges();
+                                    result = db.Rooms.ToList().Last();
+                                
+                                    //element.Room = result;
+                                //element.RoomId = result.RoomId;
+                                result.Points.Add(element);
+                                db.SaveChanges(); //   return Ok(result);
+                                }
 
                         }
                     }
             }
             
-            return Ok(result);//либо пустоту
+            return Ok(result);
         }
 
         // PUT: api/Rooms/5

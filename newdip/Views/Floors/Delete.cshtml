@@ -1,40 +1,58 @@
 ﻿@model newdip.Models.Floor
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление";
 }
 
-<h2>Delete</h2>
+<body class="container body-content">
+    <h3 style="text-align:center">Вы уверены что хотите удалить выбранный этаж?</h3>
+    <div>
+        <h4>Этаж</h4>
+        <hr />
+        <dl class="dl-horizontal">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Floor</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Building.Name)
-        </dt>
+            <dt>
+                Уровень этажа
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Building.Name)
-        </dd>
+            <dd id="level">
+                @Html.DisplayFor(model => model.Level)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Level)
-        </dt>
+            <dd id="id" >
+                @ViewBag.BuID
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Level)
-        </dd>
+        </dl>
 
-    </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+            <div class="form-actions no-color">
+                <input type="button" value="Удалить" class="btn btn-default" OnClick="del();"/> |
+                @Html.ActionLink("К списку зданий", "Index","Buildings")
+            </div>
+    </div>
+    </body>
+<script language="javascript">
+    function del() {
+        $.ajax({
+            url: '/Floors/DeleteConfirmed',
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+
+                id: document.getElementById("id").innerHTML,
+                level: document.getElementById("level").innerHTML
+                //     }),
+                //     success: [function ( msg ) { // функции обратного вызова, которые вызываются если AJAX запрос выполнится успешно (если несколько функций, то необходимо помещать их в массив)
+                //  window.location.href = "/Buildings/Index"; // добавляем текстовую информацию и данные возвращенные с сервера
+                //}
+            })
+            ,
+            success: function () {
+                             window.location.href = "/Buildings/Index";  
+                            }
+        })
     }
-</div>
+</script>

@@ -131,26 +131,24 @@ namespace newdip.Controllers
             var upfloor = db.Floors.FirstOrDefault(x => x.BuildingId == id && x.Level == level+1);
             var downfloor = db.Floors.FirstOrDefault(x => x.BuildingId == id && x.Level == level-1);
             List<PointM> points = db.Points.Where(x => x.FloorId == floor.FloorId && x.IsWaypoint).ToList();
-            List<PointM> uppoints = db.Points.Where(x => x.FloorId == upfloor.FloorId && x.IsWaypoint).ToList();
-            List<PointM> downpoints = db.Points.Where(x => x.FloorId == downfloor.FloorId && x.IsWaypoint).ToList();
-            PointM newpoint = null;
-            PointM uppoint = null;
-            PointM downpoint = null;
-            ///создание и добавление первой точки
-            newpoint=Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), floor, true);
-            if (newpoint == null) 
+            PointM newpoint=Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), floor, true);
+                if (newpoint == null) 
+                {
+                    newpoint = new PointM();
+                    newpoint.X = Convert.ToInt32(point.firstx);
+                    newpoint.Y = Convert.ToInt32(point.firsty);
+                    newpoint.IsWaypoint = true;
+                    newpoint.FloorId = floor.FloorId;
+                    db.Points.Add(newpoint);
+                    db.SaveChanges();
+                    newpoint = db.Points.ToList().Last();
+                }
+            
+            if(upfloor!=null)
             {
-                newpoint = new PointM();
-                newpoint.X = Convert.ToInt32(point.firstx);
-                newpoint.Y = Convert.ToInt32(point.firsty);
-                newpoint.IsWaypoint = true;
-                newpoint.FloorId = floor.FloorId;
-                db.Points.Add(newpoint);
-                db.SaveChanges();
-                newpoint = db.Points.ToList().Last();
-            }
-            if (upfloor != null)
-            { uppoint = Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), upfloor, true);
+                List<PointM> uppoints = db.Points.Where(x => x.FloorId == upfloor.FloorId && x.IsWaypoint).ToList();//////
+                PointM uppoint = null;
+                uppoint = Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), upfloor, true);
                 if (uppoint == null)
                 {
                     uppoint = new PointM();
@@ -162,52 +160,64 @@ namespace newdip.Controllers
                     db.SaveChanges();
                     uppoint = db.Points.ToList().Last();
                 } 
-            }
-            if (downfloor != null)
-            {
-                downpoint = Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), downfloor, true);
-                if (downpoint == null)
+            
+                EdgeM Upedge = null;
+                Upedge = db.Edges.FirstOrDefault
+                (xx => xx.PointFromId == newpoint.Id && xx.PointToId == uppoint.Id);
+                if (Upedge == null)
                 {
-                    downpoint = new PointM();
-                    downpoint.X = Convert.ToInt32(point.firstx);
-                    downpoint.Y = Convert.ToInt32(point.firsty);
-                    downpoint.IsWaypoint = true;
-                    downpoint.FloorId = downfloor.FloorId;
-                    db.Points.Add(downpoint);
+                    Upedge = db.Edges.FirstOrDefault(xx => xx.PointToId == uppoint.Id && xx.PointFromId == newpoint.Id);
+                }
+                if (Upedge == null)
+                {
+                    Upedge = new EdgeM(13, newpoint.Id, uppoint.Id);
+                    db.Edges.Add(Upedge);
                     db.SaveChanges();
-                    downpoint = db.Points.ToList().Last();
+                    Upedge = new EdgeM(13, uppoint.Id, newpoint.Id);
+                    db.Edges.Add(Upedge);
+                    db.SaveChanges();
                 }
             }
-            EdgeM Upedge = null;
-            Upedge = db.Edges.FirstOrDefault(
-                (xx => xx.PointFromId == newpoint.Id && xx.PointToId == uppoint.Id)
-                );
-            if (Upedge == null)
-            {
-                Upedge = db.Edges.FirstOrDefault(xx => xx.PointToId == uppoint.Id && xx.PointFromId == newpoint.Id);
-            }
-            if (Upedge == null)
-            {
-                Upedge = new EdgeM(13, newpoint.Id, uppoint.Id);
-                db.Edges.Add(Upedge);
-                db.SaveChanges();
-            }
-            EdgeM Downedge = null;
-            Downedge = db.Edges.FirstOrDefault(
-                (xx => xx.PointFromId == newpoint.Id && xx.PointToId == downpoint.Id)
-                );
-            if (Downedge == null)
-            {
-                Downedge = db.Edges.FirstOrDefault(xx => xx.PointToId == downpoint.Id && xx.PointFromId == newpoint.Id);
-            }
-            if (Downedge == null)
-            {
-                Downedge = new EdgeM(13, newpoint.Id, downpoint.Id);
-                db.Edges.Add(Downedge);
-                db.SaveChanges();
-            }
+            if (downfloor != null) 
+            { 
+                List<PointM> downpoints = db.Points.Where(x => x.FloorId == downfloor.FloorId && x.IsWaypoint).ToList();
+                PointM downpoint = null;
+                ///создание и добавление первой точки
+
+                if (downfloor != null)
+                {
+                    downpoint = Similar(Convert.ToInt32(point.firstx), Convert.ToInt32(point.firsty), downfloor, true);
+                    if (downpoint == null)
+                    {
+                        downpoint = new PointM();
+                        downpoint.X = Convert.ToInt32(point.firstx);
+                        downpoint.Y = Convert.ToInt32(point.firsty);
+                        downpoint.IsWaypoint = true;
+                        downpoint.FloorId = downfloor.FloorId;
+                        db.Points.Add(downpoint);
+                        db.SaveChanges();
+                        downpoint = db.Points.ToList().Last();
+                    }
+                }
+                EdgeM Downedge = null;
+                Downedge = db.Edges.FirstOrDefault(
+                xx => xx.PointFromId == newpoint.Id && xx.PointToId == downpoint.Id);
+                if (Downedge == null)
+                {
+                    Downedge = db.Edges.FirstOrDefault(xx => xx.PointToId == downpoint.Id && xx.PointFromId == newpoint.Id);
+                }
+                if (Downedge == null)
+                {
+                    Downedge = new EdgeM(13, newpoint.Id, downpoint.Id);
+                    db.Edges.Add(Downedge);
+                    db.SaveChanges();
+                    Downedge = new EdgeM(13, downpoint.Id, newpoint.Id);
+                    db.Edges.Add(Downedge);
+                    db.SaveChanges();
+                }
 
 
+            }
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPost]

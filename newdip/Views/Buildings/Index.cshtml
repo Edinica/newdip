@@ -47,12 +47,13 @@
                             @Html.DisplayFor(modelItem => item.TimeTable)
                         </td>
                         <td>
-                            @Html.ActionLink("Удалить", "Delete", new { id = item.BuildingId })
+                                @Html.ActionLink("Подробно", "Details", new { id = item.BuildingId })
                             @if (User.IsInRole("Admin"))
                             {
                                 @Html.ActionLink("Изменить", "Edit", new { id = item.BuildingId })}
 
-                            @if (User.IsInRole("Admin")){@Html.ActionLink("Подробно", "Details", new { id = item.BuildingId })
+                            @if (User.IsInRole("Admin")){
+                            @Html.ActionLink("Удалить", "Delete", new { id = item.BuildingId })
                             }
                             @if (User.IsInRole("Admin")) { 
                                 @Html.ActionLink("План здания", "Plan", new { id = item.BuildingId })

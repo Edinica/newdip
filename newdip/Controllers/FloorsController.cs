@@ -15,6 +15,12 @@ namespace newdip.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public class elem
+        {
+            public int id { get; set; }
+            public int level { get; set; }
+        }
+
         // GET: Floors
         public ActionResult Index()
         {
@@ -73,7 +79,7 @@ namespace newdip.Controllers
                     newfloor.Level = floor.Level;
                     db.Floors.Add(newfloor);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Buildings");
                 }
                 if (!isexist && !alone)
                 {
@@ -82,7 +88,7 @@ namespace newdip.Controllers
                     newfloor.Level = floor.Level;
                     db.Floors.Add(newfloor);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Buildings");
                 }
                 else
                 {
@@ -130,17 +136,18 @@ namespace newdip.Controllers
         }
 
         // GET: Floors/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id,int? level)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Floor floor = db.Floors.Find(id);
+            Floor floor = db.Floors.Where(xx=>xx.BuildingId==id&&xx.Level==level).FirstOrDefault();
             if (floor == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.BuID = floor.BuildingId;
             return View(floor);
         }
         public ActionResult WrongFloor()
@@ -153,14 +160,48 @@ namespace newdip.Controllers
         }
 
         // POST: Floors/Delete/5
-        [System.Web.Http.HttpPost, System.Web.Http.ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [System.Web.Http.HttpPost, System.Web.Http.ActionName("DeleteConfirmed")]
+        public ActionResult DeleteConfirmed([FromBody]elem floor)
         {
-            Floor floor = db.Floors.Find(id);
-            db.Floors.Remove(floor);
+            Floor etazh = db.Floors.Include(x => x.Points).Include(x => x.Rooms).FirstOrDefault(x => x.BuildingId == floor.id && x.Level == floor.level);//one
+            List<PointM> points = db.Points.Include(x => x.EdgesIn).Include(x => x.EdgesOut).Where(x => x.FloorId == etazh.FloorId).ToList();
+            List<Room> rooms = db.Rooms.Include(obj => obj.Points).Include(x => x.Workers).Include(x => x.Notes).Where(obj => obj.FloorId == etazh.FloorId).ToList();
+
+
+            foreach (var element in etazh.Rooms)
+            {
+                element.Workers.Clear();
+                //element.Notes.Clear();
+                //element.Points.Clear();
+            }
+            //db.SaveChanges();
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                for (int j = 0; j < points[i].EdgesIn.Count(); j++)
+                {
+                    db.Edges.Remove(points[i].EdgesIn[j]);
+                }
+                for (int j = 0; j < points[i].EdgesOut.Count(); j++)
+                {
+                    db.Edges.Remove(points[i].EdgesOut[j]);
+                }
+                db.Points.Remove(points[i]);
+            }//-edges&&points
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                for (int j = 0; j < rooms[i].Notes.Count(); j++)
+                {
+                    db.Notes.Remove(rooms[i].Notes[j]);
+                }
+                db.Rooms.Remove(rooms[i]);
+            }//-notes&&rooms
+            db.SaveChanges();
+            db.Floors.Remove(etazh);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Buildings", null) ;
         }
 
         protected override void Dispose(bool disposing)
@@ -211,24 +252,24 @@ namespace newdip.Controllers
                     db.SaveChanges();
                 }            
             }
-            foreach (var obj in rooms)
-            {
-                Room room = new Room();
-                room.FloorId = newfloor.FloorId;
-                newrooms.Add(room);
-                db.Rooms.Add(room);
-                db.SaveChanges();
+            //foreach (var obj in rooms)
+            //{
+            //    Room room = new Room();
+            //    room.FloorId = newfloor.FloorId;
+            //    newrooms.Add(room);
+            //    db.Rooms.Add(room);
+            //    db.SaveChanges();
 
-            }
-            if(rooms.Count!=0)
-            for (int i=0;i<points.Count;i++)
-            {
-                if (points[i].RoomId != null)
-                {
+            //}
+            //if(rooms.Count!=0)
+            //for (int i=0;i<points.Count;i++)
+            //{
+            //    if (points[i].RoomId != null)
+            //    {
 
-                    newpoints[i].RoomId = newrooms[rooms.IndexOf(rooms.First(x => x.RoomId == points[i].RoomId))].RoomId;
-                }
-            }
+            //        newpoints[i].RoomId = newrooms[rooms.IndexOf(rooms.First(x => x.RoomId == points[i].RoomId))].RoomId;
+            //    }
+            //}
         }
         [Microsoft.AspNetCore.Mvc.HttpPost]
         public void ClearFloor([FromBody] Floor floor)

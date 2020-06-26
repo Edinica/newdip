@@ -70,7 +70,8 @@
             </dl>
         </div>
         <p>
-            @Html.ActionLink("Изменить", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("К списку работников", "Index")
+            @if (User.IsInRole("Admin"))
+            {@Html.ActionLink("Изменить", "Edit", new { id = Model.Id }) }
+@Html.ActionLink("К списку работников", "Index")
         </p>
         </body>
