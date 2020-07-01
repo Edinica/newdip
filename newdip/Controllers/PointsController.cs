@@ -412,6 +412,11 @@ namespace newdip.Controllers
             Operation(po.thirdx, po.thirdy, po.fourthx, po.fourthy, floor1,false);
             Operation(po.fourthx, po.fourthy, po.firstx, po.firsty, floor1,false);
             Room room = new Room();
+            room.Description = "";
+            room.Name = "";
+            room.Timetable = "";
+            room.Phone = "";
+            room.Site = "";
 
             int px1 = Convert.ToInt32(po.firstx);
             int py1 = Convert.ToInt32(po.firsty);

@@ -87,7 +87,12 @@ namespace newdip.Controllers.Web
                                     result = new Room();
                                     if (fid != null)
                                         result.FloorId = fid;
-                                    db.Rooms.Add(result);
+                                result.Description = "";
+                                result.Name = "";
+                                result.Timetable = "";
+                                result.Phone = "";
+                                result.Site = "";
+                                db.Rooms.Add(result);
                                 db.SaveChanges();
                                     result = db.Rooms.ToList().Last();
                                 
